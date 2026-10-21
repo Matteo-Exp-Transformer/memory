@@ -18,6 +18,8 @@ il suo metodo con l'IA, cosa è già fallito. Lingua: italiano, dando del tu a M
 ## Come si scrive
 - Usa la skill `karpathy-llm-wiki` (`.claude/skills/` per Claude, `.agents/skills/` per Codex).
   Le sue tre operazioni: **aggiungi** (ingest), **interroga** (query), **controlla** (lint).
+- A fine chat, «chiudi» (skill `chiudi`): riscrive lo `STATO.md` del progetto (che vive nella repo
+  del progetto, non qui) e aggiunge una nota in `raw/sessioni/`.
 - `raw/` è **immutabile**: mai modificare né cancellare; si aggiungono solo file nuovi.
 - Ogni pagina di `wiki/` ha `Raw` (da dove viene) e `Updated` (data). Numeri, date e citazioni
   devono comparire **alla lettera** nel file raw collegato.
@@ -25,11 +27,15 @@ il suo metodo con l'IA, cosa è già fallito. Lingua: italiano, dando del tu a M
 - Le pagine restano brevi (indicativamente sotto le 150 righe); se crescono, si dividono.
 
 ## Controlli
-- Prima di proporre modifiche: `python3 .claude/skills/karpathy-llm-wiki/scripts/check_evidence.py .`
-  e correggi ciò che segnala.
+- I controlli partono da soli a ogni commit (`.githooks/pre-commit`: `raw/` immutabile,
+  `strumenti/controlla.py` per lunghezza, data e link, poi `check_evidence.py`). Dopo un clone nuovo
+  attivali una volta con `git config core.hooksPath .githooks`. A mano:
+  `python strumenti/controlla.py .` e `python .claude/skills/karpathy-llm-wiki/scripts/check_evidence.py .`.
+  Nota: su questo PC `python3` è l'alias vuoto del Microsoft Store, usa `python`.
 - Matteo rivede ogni modifica: commit con messaggio chiaro, **push solo con il suo OK in chat**.
 - Repo privata: nessun contenuto di qui va copiato in repo pubbliche.
 
 ## Per gli altri progetti
 Nelle altre repo basta una riga nel loro CLAUDE.md / AGENTS.md:
-«Contesto su Matteo e sul suo metodo: repo `memory`, ingresso `wiki/index.md`».
+«Contesto su Matteo e sul suo metodo: repo `memory`, ingresso `wiki/index.md`;
+a fine chat, "chiudi": skill `chiudi` della repo memory; lo stato del lavoro sta in `STATO.md` nella radice».
