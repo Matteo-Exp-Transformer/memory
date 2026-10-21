@@ -1,7 +1,7 @@
 # PrenotaZen / CalendarBackup-v2 (in uso) e BHM (in sviluppo)
 
-> Sources: Io-Claude, 2026-09-25; Io-Claude, 2026-10-12
-> Raw: [07-profilo-completo](../../raw/crescita-professionale/07-profilo-completo.md); [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md)
+> Sources: Io-Claude, 2026-09-25; Io-Claude, 2026-10-12; Matteo, 2026-10-21
+> Raw: [07-profilo-completo](../../raw/crescita-professionale/07-profilo-completo.md); [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [chiarimenti 21/10](../../raw/conversazioni/2026-10-21-chiarimenti-matteo.md)
 > Updated: 2026-10-21
 
 ## Overview
@@ -32,7 +32,7 @@ Fino a quel giorno tutto il corpus diceva l'opposto, in almeno 5 file, nel profi
 
 Verifica assegnata a Matteo (`VER-3`): aprire i due repo e registrare, per ciascuno, l'ultimo deploy in produzione e se esiste un utente reale diverso da lui. Chiude quando i due valori sono scritti nel verbale.
 
-Origine, nelle parole dell'interrogazione: vede il bisogno vivendo dentro l'attività e lo traduce in funzione (il titolare che telefonava al bar per leggere l'agenda diventa il calendario sul telefono). Il Menu QR, però, l'ha chiesto Paolo e non è una sua idea.
+Origine, nelle parole dell'interrogazione: vede il bisogno vivendo dentro l'attività e lo traduce in funzione (il titolare che telefonava al bar per leggere l'agenda diventa il calendario sul telefono). Il Menu QR, però, l'ha chiesto Paolo, il titolare di Al Ritrovo (confermato da Matteo il 2026-10-21), e non è una sua idea. Confermato da Matteo lo stesso giorno: «hccp non è in uso. Lo è prenotazen.»
 
 Se Andrea (Genova) risponde sulla richiesta del 01/09/2026 di valutare il SaaS già fatto, decide se PrenotaZen passa da «in sviluppo» ad artefatto dichiarabile.
 
