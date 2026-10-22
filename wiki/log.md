@@ -163,3 +163,7 @@
 - Disposition: Update; Disputed risolti
 - Raw: raw/conversazioni/2026-10-21-chiarimenti-matteo.md
 - Updated: Chi è Matteo; Libri illustrati KDP; Candidature e ricerca; Trading-Platform e evals; PrenotaZen e BHM
+
+## [2026-10-22] ingest | Criteri di progetto
+- Disposition: New
+- Raw: raw/conversazioni/2026-10-22-criteri-di-progetto.md

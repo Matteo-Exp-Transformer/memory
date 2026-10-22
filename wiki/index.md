@@ -40,6 +40,7 @@ Prima versione della wiki personale di Matteo Cavallaro, compilata il 21/10/2026
 
 | Articolo | Descrizione | Updated |
 |---|---|---|
+| [Criteri di progetto](metodo/criteri-di-progetto.md) | Tre livelli di rischio e 17 criteri: domanda, chi verifica, da quale livello | 2026-10-22 |
 | [Costi e quota](metodo/costi-e-quota.md) | Come si misura il lavoro degli agenti, lotti, quota, letture ufficiali | 2026-10-21 |
 | [Definire un progetto e tenere la memoria](metodo/definizione-progetto-e-memoria.md) | Letture del 21/10/2026, non provate sul campo | 2026-10-21 |
 | [File, cartelle e contesto](metodo/gestione-file-e-contesto.md) | Tre aree di lavoro, regole operative, handoff | 2026-10-21 |
