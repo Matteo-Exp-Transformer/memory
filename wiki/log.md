@@ -177,3 +177,8 @@
 - Disposition: Update
 - Raw: raw/sessioni/2026-10-21-avvio-memoria.md; raw/sessioni/2026-10-22-criteri-di-progetto.md
 - Updated: Definire un progetto e tenere la memoria (scelte di Matteo all'avvio); Criteri di progetto (come sono nati, livelli proposti da Claude); Costi e quota (costi misurati delle sessioni)
+
+## [2026-10-22] ingest | Regola di Matteo: autorizzazioni tutte insieme
+- Disposition: Update
+- Raw: raw/conversazioni/2026-10-22-autorizzazioni-insieme.md; raw/sessioni/2026-10-22-vercel-e-prova-aiuto.md
+- Updated: Lavorare con gli agenti (autorizzazioni chieste in un solo messaggio)

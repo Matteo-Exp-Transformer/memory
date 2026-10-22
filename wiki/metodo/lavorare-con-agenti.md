@@ -1,7 +1,7 @@
 # Lavorare con gli agenti: regole di Matteo
 
 > Sources: Io-Claude, 2026-10-12; Io-Claude, 2026-09-25; Io-Claude, 2026-10-09; Io-Claude, 2026-10-08
-> Raw: [2026-10-22-stato-chiudi-controlli](../../raw/sessioni/2026-10-22-stato-chiudi-controlli.md); [2026-10-22-skill-progetta](../../raw/sessioni/2026-10-22-skill-progetta.md); [2026-10-22-criteri-di-progetto](../../raw/sessioni/2026-10-22-criteri-di-progetto.md); [12-handoff-interrogazione](../../raw/crescita-professionale/12-handoff-interrogazione.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [contesto-progetto](../../raw/crescita-professionale/contesto-progetto.md); [12-10-2026-nuovo-ritmo-lotti](../../raw/mss/12-10-2026-nuovo-ritmo-lotti.md); [09-10-2026-controllo-sistema](../../raw/mss/09-10-2026-controllo-sistema.md); [07-10-2026-tipi-agente](../../raw/mss/07-10-2026-tipi-agente.md)
+> Raw: [2026-10-22-autorizzazioni-insieme](../../raw/conversazioni/2026-10-22-autorizzazioni-insieme.md); [2026-10-22-vercel-e-prova-aiuto](../../raw/sessioni/2026-10-22-vercel-e-prova-aiuto.md); [2026-10-22-stato-chiudi-controlli](../../raw/sessioni/2026-10-22-stato-chiudi-controlli.md); [2026-10-22-skill-progetta](../../raw/sessioni/2026-10-22-skill-progetta.md); [2026-10-22-criteri-di-progetto](../../raw/sessioni/2026-10-22-criteri-di-progetto.md); [12-handoff-interrogazione](../../raw/crescita-professionale/12-handoff-interrogazione.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [contesto-progetto](../../raw/crescita-professionale/contesto-progetto.md); [12-10-2026-nuovo-ritmo-lotti](../../raw/mss/12-10-2026-nuovo-ritmo-lotti.md); [09-10-2026-controllo-sistema](../../raw/mss/09-10-2026-controllo-sistema.md); [07-10-2026-tipi-agente](../../raw/mss/07-10-2026-tipi-agente.md)
 > Updated: 2026-10-22
 
 ## Overview
@@ -35,6 +35,8 @@ Altre regole che Matteo ha fissato sul lavoro con gli agenti:
 ## Chi esegue (22/10/2026)
 
 Matteo ha fissato il riparto tra i modelli: «Usa Sonnet per l'esecuzione, Opus solo per decisioni difficili», poi «Decide Opus, esegue Sonnet». Nelle sessioni che hanno funzionato le decisioni sono state prese prima e passate a Sonnet in un solo brief, con file e prove in un giro. Le scelte puramente tecniche le prende l'agente (coerente con `0012`); Matteo conferma con frasi come «Confermo procedi pure e fai chiusura» o «Ottimo fai chiusura». Dettagli e lezioni in [Il ciclo progetta, brief, chiudi](ciclo-progetta-brief-chiudi.md).
+
+**Autorizzazioni tutte insieme (22/10/2026).** L'agente senior Opus, in chat di lavoro come queste, non chiede le autorizzazioni una alla volta: le raccoglie, le valuta tutte insieme quando può e le chiede in un solo messaggio (push, cancellazioni, file in `.git`, server da avviare). Parole di Matteo: «Deve valutarle tutte insieme quando può e chiedermele insieme. Per evitare di continuare a ricaricare contesto per rispondere.» Ogni turno in più rimanda tutto il contesto: nella chat del 22/10 la cache riletta era 7.058.449 token su 7.305.657.
 
 Un errore da non ripetere: il clone locale era indietro rispetto alla repo remota e, senza `git pull`, un agente ha creduto che mancasse `raw/sessioni/` e ha scritto un formato di nota diverso da quello già in AGENTS.md.
 
