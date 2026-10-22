@@ -21,3 +21,5 @@ fi
 "$PY" "$M/strumenti/controlla.py" "$M" "$@" || exit 1
 # numeri e citazioni devono comparire alla lettera nei raw (esce 0 anche con soli "sospetti")
 "$PY" "$M/.claude/skills/karpathy-llm-wiki/scripts/check_evidence.py" "$M" || exit 1
+# il controllo delle schede riconosce una scheda giusta e le tre sbagliate (esce 1 se no)
+"$PY" "$M/strumenti/prova_scheda.py" || exit 1

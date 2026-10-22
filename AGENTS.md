@@ -46,4 +46,5 @@ Poi, quando Matteo lo chiede, si compila nella wiki come ogni altro raw.
 ## Per gli altri progetti
 Nelle altre repo basta una riga nel loro CLAUDE.md / AGENTS.md:
 «Contesto su Matteo e sul suo metodo: repo `memory`, ingresso `wiki/index.md`;
+per progettare un lavoro prima del brief: skill `progetta` della repo memory (schede in `schede/`);
 a fine chat, "chiudi": skill `chiudi` della repo memory; lo stato del lavoro sta in `STATO.md` nella radice».
