@@ -54,8 +54,10 @@ utenti, soldi, produzione: criteri 1, 2, 4, 5, 17). Una domanda rimandata «per 
    Finché esce con errori **non scrivere il brief**: correggi la scheda o torna a ragionare con Matteo.
    Una mancanza `[blocca]` fa fallire il controllo: si risolve, o si declassa scrivendo perché.
 7. La prima volta in quella repo installa il blocco al commit:
-   `sh <memory>/strumenti/installa-hook-scheda.sh <repo progetto>`. Poi commit locale della scheda;
-   push solo con l'OK di Matteo in chat.
+   `sh <memory>/strumenti/installa-hook-scheda.sh <repo progetto>`, ma **non** se la repo ha
+   `core.hooksPath` su una cartella tracciata (es. `.husky`): la riga col percorso di questo PC
+   bloccherebbe i commit nel cloud. Lì si lancia il controllo a mano (passo 6). Poi commit locale
+   della scheda; push solo con l'OK di Matteo in chat.
 8. Scrivi il brief in chat, pronto da incollare nella chat dell'esecutore. Prima rileggilo come se fossi
    l'esecutore (criterio 7): se deve scegliere qualcosa che non è scritto, torna alla scheda.
 
@@ -67,6 +69,7 @@ Leggi solo: <file, in ordine>
 Fai: <cosa, in passi se servono>
 Confini: sempre <…>; chiedi <…>; mai <…>
 Finito quando: `<comando>` → <cosa deve uscire>
+Prova nell'app: <la fa l'agente con l'account di prova | la fa Matteo, perché …>
 Aperto: <aperta → fatto che la sblocca>, oppure «niente»
 A fine chat: «chiudi».
 Decide <modello della chat di ragionamento>, esegue <modello dell'esecutore>.
@@ -74,3 +77,11 @@ Decide <modello della chat di ragionamento>, esegue <modello dell'esecutore>.
 
 Il brief non ripete la scheda: prende solo ciò che serve all'esecutore. Di solito decide Opus ed esegue
 Sonnet.
+
+## Prova nell'app (regola di Matteo, 22/10/2026)
+
+La navigazione nell'app la fanno gli agenti, sull'anteprima collegata al DB di test e con l'account di
+prova della repo (dove sta lo dice la repo; in una cartella di lavoro separata il file va copiato dalla
+principale). Nella scheda (criterio 11) si stima se costa troppo: allora la fa Matteo. In quel caso la PR
+ha la sezione «Prova per Matteo»: link completi e cliccabili, un passo per riga, cosa deve vedere,
+nessun sottinteso («gira il telefono», non «guarda in orizzontale»).
