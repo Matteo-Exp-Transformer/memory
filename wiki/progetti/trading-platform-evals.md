@@ -1,7 +1,7 @@
 # Trading-Platform e il caso evals del cliente trading
 
-> Sources: Io-Claude, 2026-10-12; Io-Claude, 2026-07-30; Io-Claude, 2026-09-01
-> Raw: [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [02-vocabolario](../../raw/crescita-professionale/02-vocabolario.md); [03-skill-e-studio](../../raw/crescita-professionale/03-skill-e-studio.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md)
+> Sources: Io-Claude, 2026-10-12; Io-Claude, 2026-07-30; Io-Claude, 2026-09-01; Matteo, 2026-10-21
+> Raw: [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [02-vocabolario](../../raw/crescita-professionale/02-vocabolario.md); [03-skill-e-studio](../../raw/crescita-professionale/03-skill-e-studio.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [chiarimenti 21/10](../../raw/conversazioni/2026-10-21-chiarimenti-matteo.md)
 > Updated: 2026-10-21
 
 ## Overview
@@ -30,8 +30,10 @@ Il 07/08/2026 è stata definita la prima milestone di prova pratica: un eval di 
 
 Il 01/09/2026 `D-03` ha deciso: evals sul trading agent sì, ma non ora, apertura il 13/10/2026, perché sono il buco n.1 e testualmente il requisito degli annunci («definire metriche di successo per feature AI-powered»). Nel frattempo `ES-4` allena lo stesso muscolo su un caso più piccolo.
 
-> **Status: Disputed** (28/09/2026)
-> L'apertura del 13/10/2026 non è confermata: `D-08` (28/09/2026) ha sospeso le candidature e portato il focus sull'MSS, e nessun file dice cosa succede ai cantieri evals. Il test set resta l'ultima fondazione aperta.
+> **Status: Outdated** (2026-10-21)
+> Matteo il 2026-10-21: «non ho competenze per valutare il progetto. Devo fare ricerche al riguardo con agenti.» Prima delle evals servono ricerche guidate da agenti sul dominio.
+>
+> Prima: l'apertura del 13/10/2026 non era confermata: `D-08` (28/09/2026) ha sospeso le candidature e portato il focus sull'MSS, e nessun file dice cosa succede ai cantieri evals. Il test set resta l'ultima fondazione aperta.
 
 ## See Also
 

@@ -35,6 +35,13 @@ il suo metodo con l'IA, cosa è già fallito. Lingua: italiano, dando del tu a M
 - Matteo rivede ogni modifica: commit con messaggio chiaro, **push solo con il suo OK in chat**.
 - Repo privata: nessun contenuto di qui va copiato in repo pubbliche.
 
+## Note di fine chat
+A fine chat importante l'agente scrive `raw/sessioni/AAAA-MM-GG-argomento.md` (massimo 20 righe):
+dove (superficie e modello), obiettivo con le parole di Matteo, decisioni di Matteo tra virgolette,
+risultato con i percorsi, cosa ha funzionato e cosa no, costo (token letti o «non letto»), aperto
+(solo ciò che dipende da fatti non disponibili), link alla sessione. Esempio: `raw/sessioni/2026-10-21-avvio-memoria.md`.
+Poi, quando Matteo lo chiede, si compila nella wiki come ogni altro raw.
+
 ## Per gli altri progetti
 Nelle altre repo basta una riga nel loro CLAUDE.md / AGENTS.md:
 «Contesto su Matteo e sul suo metodo: repo `memory`, ingresso `wiki/index.md`;

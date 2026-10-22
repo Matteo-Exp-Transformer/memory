@@ -1,7 +1,7 @@
 # Chi è Matteo Cavallaro
 
-> Sources: Io-Claude, 2026-10-12; Io-Claude, 2026-09-25
-> Raw: [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [07-profilo-completo](../../raw/crescita-professionale/07-profilo-completo.md); [08-candidature-e-profilo](../../raw/crescita-professionale/08-candidature-e-profilo.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md)
+> Sources: Io-Claude, 2026-10-12; Io-Claude, 2026-09-25; Matteo, 2026-10-21
+> Raw: [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [07-profilo-completo](../../raw/crescita-professionale/07-profilo-completo.md); [08-candidature-e-profilo](../../raw/crescita-professionale/08-candidature-e-profilo.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [chiarimenti 21/10](../../raw/conversazioni/2026-10-21-chiarimenti-matteo.md)
 > Updated: 2026-10-21
 
 ## Overview
@@ -44,7 +44,9 @@ Debolezze, gestite con lucidità: (1) nessuna valutazione autonoma della fattibi
 > **Status: Outdated** (25/09/2026)
 > «ott 2016» come inizio ad Al Ritrovo (CV e profilo) e «apr 2015» (vecchio LinkedIn) sono superati: il 25/09/2026 Matteo ha confermato ottobre 2015 – settembre 2026, perché Londra finisce a ottobre 2015. Il CV Product Owner, non più di default, dice ancora ott 2016. Fonte: profilo completo.
 
-> **Status: Disputed**
+> **Status: Outdated** (2026-10-21)
+> Risolto da Matteo il 2026-10-21: «11 ad oggi.» Resta valida la regola dei materiali di candidatura: si scrive solo ciò che è documentabile.
+>
 > Gli anni di esperienza: il profilo di riferimento e il pitch dicono «oltre 11 anni» e «undici anni»; la scheda dei fatti dice «oltre 10 anni»; i materiali di candidatura pubblicati dicono «oltre 10 anni». Il valore da usare nei materiali è «oltre 10 anni» (vedi `carriera/regole-claim-e-presentazione.md`); «undici» resta da verificare.
 
 ## Fuori dal lavoro

@@ -1,7 +1,7 @@
 # Candidature, fasce, motori di ricerca e vincoli
 
-> Sources: Io-Claude, 2026-09-25; Io-Claude, 2026-10-12; Io-Claude, 2026-08-07
-> Raw: [08-candidature-e-profilo](../../raw/crescita-professionale/08-candidature-e-profilo.md); [12-handoff-interrogazione](../../raw/crescita-professionale/12-handoff-interrogazione.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [contesto-progetto](../../raw/crescita-professionale/contesto-progetto.md); [04-handoff-prossimo-agente](../../raw/crescita-professionale/04-handoff-prossimo-agente.md)
+> Sources: Io-Claude, 2026-09-25; Io-Claude, 2026-10-12; Io-Claude, 2026-08-07; Matteo, 2026-10-21
+> Raw: [08-candidature-e-profilo](../../raw/crescita-professionale/08-candidature-e-profilo.md); [12-handoff-interrogazione](../../raw/crescita-professionale/12-handoff-interrogazione.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [contesto-progetto](../../raw/crescita-professionale/contesto-progetto.md); [04-handoff-prossimo-agente](../../raw/crescita-professionale/04-handoff-prossimo-agente.md); [chiarimenti 21/10](../../raw/conversazioni/2026-10-21-chiarimenti-matteo.md)
 > Updated: 2026-10-21
 
 ## Overview
@@ -41,7 +41,7 @@ Due pezzi su cinque: fatti il CV (`CV_Matteo_Cavallaro_CustomerSuccess_IT/EN`) e
 ## Obsoleto
 
 > **Status: Outdated** (28/09/2026)
-> Il piano di spedizione del 25/09/2026 (almeno una candidatura entro il 06/10/2026, 5 annunci veri entro il 03/10/2026) è sospeso da `D-08`: candidature rinviate, nuova data non dichiarata. Il 06/11/2026, data in cui il tasso di risposta per famiglia avrebbe dovuto confermare l'ordine delle fasce, presuppone candidature spedite: senza di esse non c'è dato.
+> Il piano di spedizione del 25/09/2026 (almeno una candidatura entro il 06/10/2026, 5 annunci veri entro il 03/10/2026) è sospeso da `D-08`: candidature rinviate, nuova data non dichiarata. Confermato da Matteo il 2026-10-21: «per ora sospese.» Il 06/11/2026, data in cui il tasso di risposta per famiglia avrebbe dovuto confermare l'ordine delle fasce, presuppone candidature spedite: senza di esse non c'è dato.
 
 
 > **Status: Outdated** (25/09/2026)

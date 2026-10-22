@@ -158,3 +158,8 @@
 - Disposition: Update
 - Note: per restare entro 25 articoli, il gestionale HACCP (BHM) è confluito in PrenotaZen e CalendarBackup-v2, e i vincoli di ricerca con il dilemma laurea sono confluiti in Candidature, fasce e motori di ricerca. Aggiunti i rimandi See Also a tutti gli articoli e i link ai raw mancanti (08 per «oltre 10 anni», 09-10 controllo-sistema per l'ordine di ripartenza).
 - Updated: Regole di claim e presentazione; Costi e quota
+
+## [2026-10-21] ingest | Chiarimenti di Matteo sulle contraddizioni
+- Disposition: Update; Disputed risolti
+- Raw: raw/conversazioni/2026-10-21-chiarimenti-matteo.md
+- Updated: Chi è Matteo; Libri illustrati KDP; Candidature e ricerca; Trading-Platform e evals; PrenotaZen e BHM

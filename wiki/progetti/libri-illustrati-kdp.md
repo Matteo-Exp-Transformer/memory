@@ -1,12 +1,12 @@
 # Libri illustrati per KDP con Simone (C10)
 
-> Sources: Io-Claude, 2026-10-12
-> Raw: [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md)
+> Sources: Io-Claude, 2026-10-12; Matteo, 2026-10-21
+> Raw: [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [chiarimenti 21/10](../../raw/conversazioni/2026-10-21-chiarimenti-matteo.md)
 > Updated: 2026-10-21
 
 ## Overview
 
-Progetto aperto da Matteo intorno al 15/09/2026 e registrato nella roadmap il 19/09/2026, perché non era mai stato scritto lì: libri illustrati per Amazon KDP con Simone, dove Matteo è il Product Owner e Simone il maker. La repo è `Libri-Illustrati`, privata.
+Progetto aperto da Matteo intorno al 15/09/2026 e registrato nella roadmap il 19/09/2026, perché non era mai stato scritto lì: libri illustrati per Amazon KDP con Simone, dove Matteo è il Product Owner e Simone il maker. Al progetto collabora anche Francesca: Matteo il 2026-10-21, «Simone e francesca collaborano.» La repo è `Libri-Illustrati`, privata.
 
 ## Cosa lo distingue
 
