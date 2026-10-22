@@ -192,7 +192,7 @@ Fix these automatically:
 
 ### Mechanical Reports (no fixes)
 
-Run these mechanically with `python3 <skill-dir>/scripts/check_evidence.py <project-root>` (optionally followed by project-root-relative article paths to limit scope). Default scope is the whole wiki; the script is fast. Report findings; never auto-fix facts.
+Run these mechanically with `python <skill-dir>/scripts/check_evidence.py <project-root>` (on Matteo's PC `python3` is an empty Microsoft Store alias; on Linux, or if `python` is missing, use `sh strumenti/controlli.sh`, which tries `python` then `python3`) (optionally followed by project-root-relative article paths to limit scope). Default scope is the whole wiki; the script is fast. Report findings; never auto-fix facts.
 
 **Source fidelity** — reported suspects are candidates, not verdicts: derived values and product names may appear. Judge each against the raw context and report only real mismatches.
 

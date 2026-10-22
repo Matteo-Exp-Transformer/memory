@@ -1,13 +1,7 @@
 #!/bin/sh
 # Controlli automatici a ogni commit della repo memory.
-# python3 su questo PC è l'alias vuoto del Microsoft Store: uso python (o py).
-PY=$(command -v python || command -v py)
-if [ -z "$PY" ]; then
-  echo "pre-commit: python non trovato" >&2
-  exit 1
-fi
 
-# 1) raw/ è immutabile: si possono aggiungere file, non modificarli/cancellarli/rinominarli.
+# raw/ è immutabile: si possono aggiungere file, non modificarli/cancellarli/rinominarli.
 BLOCCATI=$(git diff --cached --name-status --diff-filter=MDR -- raw/)
 if [ -n "$BLOCCATI" ]; then
   echo "$BLOCCATI"
@@ -15,8 +9,5 @@ if [ -n "$BLOCCATI" ]; then
   exit 1
 fi
 
-# 2) lunghezza, date e link
-"$PY" strumenti/controlla.py . || exit 1
-
-# 3) numeri e citazioni devono comparire alla lettera nei raw (esce 0 anche con soli "sospetti")
-"$PY" .claude/skills/karpathy-llm-wiki/scripts/check_evidence.py . || exit 1
+# lunghezza, date, link e citazioni (sceglie da solo python o python3)
+exec sh strumenti/controlli.sh

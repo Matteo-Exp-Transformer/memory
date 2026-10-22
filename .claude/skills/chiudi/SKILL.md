@@ -52,16 +52,13 @@ Regole:
 3. Riscrivi da capo `STATO.md` nella radice della repo del progetto, nel formato sopra.
 4. Scrivi la nota NUOVA in `C:\Users\matte.MIO\Documents\GitHub\memory\raw\sessioni\AAAA-MM-GG-<argomento>.md`
    (crea la cartella se manca). `raw/` è immutabile: mai modificare una nota esistente; se il nome
-   esiste già aggiungi `-2`, `-3`. Formato della nota (max ~80 righe):
-   - righe d'intestazione: `Data:`, `Progetto:`, `Repo:`, `Agente:` (il modello);
-   - `## Cosa si è fatto` (breve);
-   - `## Cosa si è imparato` (su Matteo, sul metodo, cosa ha funzionato e cosa no);
-   - `## Decisioni e criterio`;
-   - `## Parole di Matteo` (citazioni alla lettera tra «», perché la wiki potrà citare solo ciò che è scritto qui alla lettera);
-   - `## Numeri` (numeri e date esatti).
-   Niente riassunti di codice: si ricavano dalla repo.
+   esiste già aggiungi `-2`, `-3`. Il formato (massimo 20 righe) è quello della sezione
+   «Note di fine chat» di `AGENTS.md`, con l'esempio `raw/sessioni/2026-10-21-avvio-memoria.md`:
+   non copiarlo qui. Le parole e le decisioni di Matteo vanno alla lettera tra «», perché la wiki
+   potrà citare solo ciò che è scritto nella nota. Niente riassunti di codice: si ricavano dalla repo.
 5. Lancia il controllo: `python C:\Users\matte.MIO\Documents\GitHub\memory\strumenti\controlla.py <radice repo progetto>`
    e `python strumenti/controlla.py .` nella memoria; correggi gli errori.
+   Nel cloud Linux, o dove `python` manca: `sh <memory>/strumenti/controlli.sh <radice repo progetto>`.
 6. Commit locale: nella memoria solo la nota (messaggio `sessione: AAAA-MM-GG <argomento>`);
    nella repo del progetto solo `STATO.md`, salvo regole proprie di quella repo.
    Push mai senza l'OK di Matteo in chat.

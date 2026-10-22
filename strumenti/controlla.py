@@ -2,6 +2,7 @@
 """Controlli sulla memoria e sui progetti: STATO.md, note di sessione, pagine wiki, link.
 
 Uso: python strumenti/controlla.py [radice ...]   (default: .)
+     nel cloud Linux: sh strumenti/controlli.sh
 Esce con 1 se c'è almeno un errore, altrimenti 0.
 """
 import re
@@ -82,8 +83,8 @@ def controlla_nota(file, righe):
         segnala("ERRORE", file, 1, "il nome deve iniziare con AAAA-MM-GG-")
     else:
         controlla_data(m.group(1), file, 1)
-    if len(righe) > 120:
-        segnala("AVVISO", file, 121, f"nota lunga {len(righe)} righe (oltre 120)")
+    if len(righe) > 20:
+        segnala("ERRORE", file, 21, f"nota di {len(righe)} righe (massimo 20, vedi AGENTS.md)")
 
 
 def controlla_pagina_wiki(file, righe):

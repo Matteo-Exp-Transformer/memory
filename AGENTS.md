@@ -19,7 +19,7 @@ il suo metodo con l'IA, cosa è già fallito. Lingua: italiano, dando del tu a M
 - Usa la skill `karpathy-llm-wiki` (`.claude/skills/` per Claude, `.agents/skills/` per Codex).
   Le sue tre operazioni: **aggiungi** (ingest), **interroga** (query), **controlla** (lint).
 - A fine chat, «chiudi» (skill `chiudi`): riscrive lo `STATO.md` del progetto (che vive nella repo
-  del progetto, non qui) e aggiunge una nota in `raw/sessioni/`.
+  del progetto, non qui) e aggiunge una nota in `raw/sessioni/` (formato in «Note di fine chat»).
 - `raw/` è **immutabile**: mai modificare né cancellare; si aggiungono solo file nuovi.
 - Ogni pagina di `wiki/` ha `Raw` (da dove viene) e `Updated` (data). Numeri, date e citazioni
   devono comparire **alla lettera** nel file raw collegato.
@@ -31,7 +31,8 @@ il suo metodo con l'IA, cosa è già fallito. Lingua: italiano, dando del tu a M
   `strumenti/controlla.py` per lunghezza, data e link, poi `check_evidence.py`). Dopo un clone nuovo
   attivali una volta con `git config core.hooksPath .githooks`. A mano:
   `python strumenti/controlla.py .` e `python .claude/skills/karpathy-llm-wiki/scripts/check_evidence.py .`.
-  Nota: su questo PC `python3` è l'alias vuoto del Microsoft Store, usa `python`.
+  Il comando è sempre `python`: su questo PC `python3` è l'alias vuoto del Microsoft Store.
+  Nel cloud Linux, o dove `python` manca: `sh strumenti/controlli.sh` (prova `python`, poi `python3`).
 - Matteo rivede ogni modifica: commit con messaggio chiaro, **push solo con il suo OK in chat**.
 - Repo privata: nessun contenuto di qui va copiato in repo pubbliche.
 
