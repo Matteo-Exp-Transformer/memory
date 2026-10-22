@@ -1,8 +1,8 @@
 # Costi e quota: come si misura il lavoro degli agenti
 
 > Sources: Io-Claude, 2026-10-12; Io-Claude, 2026-10-10; Io-Claude, 2026-10-21; Io-Claude, 2026-10-09
-> Raw: [12-10-2026-nuovo-ritmo-lotti](../../raw/mss/12-10-2026-nuovo-ritmo-lotti.md); [12-10-2026-audit-motore-lotto14](../../raw/mss/12-10-2026-audit-motore-lotto14.md); [mappa-esplorazioni](../../raw/esplorazione/mappa-esplorazioni.md); [2026-10-21-ricerca-iniziale](../../raw/metodo-ia/2026-10-21-ricerca-iniziale.md); [09-10-2026-controllo-sistema](../../raw/mss/09-10-2026-controllo-sistema.md)
-> Updated: 2026-10-21
+> Raw: [2026-10-21-avvio-memoria](../../raw/sessioni/2026-10-21-avvio-memoria.md); [2026-10-22-stato-chiudi-controlli](../../raw/sessioni/2026-10-22-stato-chiudi-controlli.md); [2026-10-22-skill-progetta](../../raw/sessioni/2026-10-22-skill-progetta.md); [2026-10-22-criteri-di-progetto](../../raw/sessioni/2026-10-22-criteri-di-progetto.md); [12-10-2026-nuovo-ritmo-lotti](../../raw/mss/12-10-2026-nuovo-ritmo-lotti.md); [12-10-2026-audit-motore-lotto14](../../raw/mss/12-10-2026-audit-motore-lotto14.md); [mappa-esplorazioni](../../raw/esplorazione/mappa-esplorazioni.md); [2026-10-21-ricerca-iniziale](../../raw/metodo-ia/2026-10-21-ricerca-iniziale.md); [09-10-2026-controllo-sistema](../../raw/mss/09-10-2026-controllo-sistema.md)
+> Updated: 2026-10-22
 
 ## Overview
 
@@ -36,6 +36,19 @@ Nessun agente riparte da solo dopo la quota: nella stessa chat basta «continua�
 - Risparmio: Sonnet di base, `opusplan`, un modello dedicato ai sotto-agenti, `/clear` tra i compiti, `/compact` nelle pause, MCP inutili spenti, `/usage` settimanale. I team di agenti costano circa 7 volte i token; le attività ricorrenti rimandano tutto il contesto ogni volta.
 - Controlli a zero token: «CLAUDE.md è consultivo, gli hook sono deterministici: se una regola viene ignorata, trasformala in hook o test». Gli hook coprono il blocco dei comandi prima dell'uso, la formattazione dopo, e i test verdi prima di chiudere; a questi si affiancano pre-commit e le GitHub Actions (2.000 minuti al mese sui repo privati del piano Free).
 - Fonti da seguire: Anthropic Engineering, la documentazione di Claude Code, quella di OpenAI Codex, Simon Willison, Armin Ronacher, Hamel Husain, Pragmatic Engineer, Latent Space. Da evitare: numeri senza link ufficiale, gli elenchi di «N trucchi», i siti che vendono un prodotto.
+
+## Costi misurati delle sessioni di memory (21-22/10/2026)
+
+Solo i sotto-agenti sono contati; la chat principale non è mai stata letta, quindi sono costi parziali.
+
+| Sessione | Costo letto |
+|---|---|
+| Avvio della memoria (21/10) | sotto-agenti Sonnet 131.237 + 169.660 + 156.602 + 152.151 token |
+| Criteri di progetto (22/10) | non letto, nessun sotto-agente |
+| STATO.md, «chiudi» e controlli (22/10) | sotto-agente Sonnet 88.838 token |
+| Skill `progetta` (22/10) | sotto-agente Sonnet 107.472 token; Codex 18.105 token |
+
+Per decisione di Matteo, per ora «Quasi tutto» l'abbonamento va a ricerca e definizione. Aperto: quanto le attività pianificate dell'MSS pesino sulla quota non è misurato.
 
 ## See Also
 

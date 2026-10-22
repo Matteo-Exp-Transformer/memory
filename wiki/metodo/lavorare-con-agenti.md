@@ -1,8 +1,8 @@
 # Lavorare con gli agenti: regole di Matteo
 
 > Sources: Io-Claude, 2026-10-12; Io-Claude, 2026-09-25; Io-Claude, 2026-10-09; Io-Claude, 2026-10-08
-> Raw: [12-handoff-interrogazione](../../raw/crescita-professionale/12-handoff-interrogazione.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [contesto-progetto](../../raw/crescita-professionale/contesto-progetto.md); [12-10-2026-nuovo-ritmo-lotti](../../raw/mss/12-10-2026-nuovo-ritmo-lotti.md); [09-10-2026-controllo-sistema](../../raw/mss/09-10-2026-controllo-sistema.md); [07-10-2026-tipi-agente](../../raw/mss/07-10-2026-tipi-agente.md)
-> Updated: 2026-10-21
+> Raw: [2026-10-22-stato-chiudi-controlli](../../raw/sessioni/2026-10-22-stato-chiudi-controlli.md); [2026-10-22-skill-progetta](../../raw/sessioni/2026-10-22-skill-progetta.md); [2026-10-22-criteri-di-progetto](../../raw/sessioni/2026-10-22-criteri-di-progetto.md); [12-handoff-interrogazione](../../raw/crescita-professionale/12-handoff-interrogazione.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [contesto-progetto](../../raw/crescita-professionale/contesto-progetto.md); [12-10-2026-nuovo-ritmo-lotti](../../raw/mss/12-10-2026-nuovo-ritmo-lotti.md); [09-10-2026-controllo-sistema](../../raw/mss/09-10-2026-controllo-sistema.md); [07-10-2026-tipi-agente](../../raw/mss/07-10-2026-tipi-agente.md)
+> Updated: 2026-10-22
 
 ## Overview
 
@@ -32,6 +32,12 @@ Altre regole che Matteo ha fissato sul lavoro con gli agenti:
 - Matteo detta a voce: refusi e parole storpiate vanno letti per il contesto («coda di tabù» voleva dire «Codex»).
 - Gli agenti devono sapere come comportarsi in base al ruolo; una regola «citami le righe» (quando una decisione dipende da un file, riportare le parti su cui deve decidere) va nelle istruzioni personalizzate delle piattaforme, non nei file personali.
 
+## Chi esegue (22/10/2026)
+
+Matteo ha fissato il riparto tra i modelli: «Usa Sonnet per l'esecuzione, Opus solo per decisioni difficili», poi «Decide Opus, esegue Sonnet». Nelle sessioni che hanno funzionato le decisioni sono state prese prima e passate a Sonnet in un solo brief, con file e prove in un giro. Le scelte puramente tecniche le prende l'agente (coerente con `0012`); Matteo conferma con frasi come «Confermo procedi pure e fai chiusura» o «Ottimo fai chiusura». Dettagli e lezioni in [Il ciclo progetta, brief, chiudi](ciclo-progetta-brief-chiudi.md).
+
+Un errore da non ripetere: il clone locale era indietro rispetto alla repo remota e, senza `git pull`, un agente ha creduto che mancasse `raw/sessioni/` e ha scritto un formato di nota diverso da quello già in AGENTS.md.
+
 ## Come si tiene la roadmap (regole del 07/08/2026 e del 01/09/2026)
 
 - Una riga per movimento, con la data; niente riscritture silenziose.
@@ -54,6 +60,7 @@ Il CV Customer Success si rigenera con `strumenti/build_cv_customer_success.js` 
 
 ## See Also
 
+- [Il ciclo progetta, brief, chiudi](ciclo-progetta-brief-chiudi.md)
 - [File, cartelle e contesto](../metodo/gestione-file-e-contesto.md)
 - [Come comunicare](../persona/come-comunicare.md)
 - [Lezioni apprese](../metodo/lezioni-apprese.md)

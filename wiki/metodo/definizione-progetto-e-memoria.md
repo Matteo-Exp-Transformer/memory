@@ -1,8 +1,8 @@
 # Definire un progetto e tenere la memoria: letture del 21/10/2026
 
-> Sources: Io-Claude, 2026-10-21
-> Raw: [2026-10-21-ricerca-iniziale](../../raw/metodo-ia/2026-10-21-ricerca-iniziale.md)
-> Updated: 2026-10-21
+> Sources: Io-Claude, 2026-10-21; chat Claude cloud, 2026-10-21
+> Raw: [2026-10-21-ricerca-iniziale](../../raw/metodo-ia/2026-10-21-ricerca-iniziale.md); [2026-10-21-avvio-memoria](../../raw/sessioni/2026-10-21-avvio-memoria.md)
+> Updated: 2026-10-22
 
 ## Overview
 
@@ -29,6 +29,17 @@ Il 21/10/2026 tre ricercatori (Sonnet) e una sintesi della chat principale hanno
 - Uno studio ETH (arXiv 2602.11988) dice che i file di contesto spesso non aumentano il successo e alzano i costi oltre il 20%; quelli generati dall'LLM vanno peggio. Servono solo informazioni non deducibili.
 - Rischio di deriva: i riassunti perdono dettagli e vengono riletti come fonti. Contromisure: raw immutabile, ogni pagina con data e fonte, ricostruzione dagli originali quando conta.
 - Architettura proposta: un repo privato «memoria» con `raw/` e `wiki/`; un solo `AGENTS.md` (con `CLAUDE.md` che lo richiama); un puntatore cortissimo da ogni repo; skill in `.claude/skills/` e `.agents/skills/`; partire da 20–30 documenti; Matteo rivede il diff.
+
+## Le scelte di Matteo all'avvio (21/10/2026)
+
+Lo scopo, nelle sue parole: «raccogliere il contesto minimo per capire come creare quello che mi serve». Il disagio di partenza: costi eccessivi, contesto macchinoso, lavoro sul sistema invece che sul prodotto. Decisioni:
+
+- Congelare l'MSS e partire dal contesto; le attività pianificate dell'MSS le spegne lui.
+- Soglia di definizione di un progetto: «dipende dal rischio ( valuto insieme ad agente )», con prototipi fino a un minimo accettabile. Da qui i livelli di [Criteri di progetto](criteri-di-progetto.md).
+- Contesto in una LLM wiki, in una repo privata chiamata `memory` (non `memoria`); si parte dalla wiki.
+- Quota: «Quasi tutto» l'abbonamento a ricerca e definizione, per ora.
+
+Cosa ha funzionato: domande a scelta prima di lanciare agenti; ricercatori Sonnet in parallelo, ognuno con fonti e affidabilità; controllo automatico delle citazioni (0 errori). Cosa no: dal cloud non si crea una repo GitHub, la crea Matteo; i documenti totali sono circa 4,6 milioni di parole, troppi da caricare tutti. Costo dei ricercatori in [Costi e quota](costi-e-quota.md). Aperto: quanto pesano davvero le attività pianificate sulla quota, non misurato.
 
 ## Non verificato
 

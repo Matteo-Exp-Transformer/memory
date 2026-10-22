@@ -1,7 +1,7 @@
 # Criteri di progetto
 
 > Sources: chat Claude desktop, 2026-10-22
-> Raw: [2026-10-22-criteri-di-progetto](../../raw/conversazioni/2026-10-22-criteri-di-progetto.md)
+> Raw: [2026-10-22-criteri-di-progetto](../../raw/conversazioni/2026-10-22-criteri-di-progetto.md); [2026-10-22-criteri-di-progetto (nota di fine chat)](../../raw/sessioni/2026-10-22-criteri-di-progetto.md)
 > Updated: 2026-10-22
 
 ## Overview
@@ -58,6 +58,15 @@ A R1 i criteri obbligatori sono 7 (1, 6, 7, 8, 9, 11, 15): un lavoro piccolo res
 
 Efficienza e compatibilità (ISO) entrano solo con un requisito misurabile. La flessibilità è coperta dal 12. La safety è una delle condizioni di R3.
 
+## Come sono nati (nota di fine chat del 22/10/2026)
+
+Obiettivo di Matteo: «definire i criteri con cui lavoro ai progetti avviandoli da chat reasoning come questa», per far lavorare Sonnet e Opus «commettendo il minor numero di errori possibili». Sua definizione: ««Parallelizzabile» si chiama basso accoppiamento: pezzi che non si pestano i piedi».
+
+- I tre livelli di rischio non erano definiti da nessuna parte: la ricerca diceva solo «è una costruzione di Matteo». Li ha proposti Claude e Matteo li ha confermati; sono quindi una proposta confermata, non una fonte esterna.
+- La prima bozza metteva «Tu a mano» sui criteri tecnici, in contraddizione con la decisione `0012`; è stato spostato su controllo automatico o agente revisore.
+- Ha funzionato: leggere solo indice, due pagine di metodo e il raw della ricerca è bastato per proporre tutto in un turno.
+- Aperto: i criteri non sono ancora provati su un progetto vero. Dopo questa chat sono diventati la skill `progetta` (vedi [Il ciclo progetta, brief, chiudi](ciclo-progetta-brief-chiudi.md)).
+
 ## Manutenzione
 
 I criteri restano fissi. Se ne aggiunge uno solo dopo un errore ripetuto; se ne toglie uno se in 3 progetti non ha mai fermato niente.
@@ -67,3 +76,4 @@ I criteri restano fissi. Se ne aggiunge uno solo dopo un errore ripetuto; se ne 
 - [Definire un progetto e tenere la memoria](definizione-progetto-e-memoria.md)
 - [Lavorare con gli agenti](lavorare-con-agenti.md)
 - [Costi e quota](costi-e-quota.md)
+- [Il ciclo progetta, brief, chiudi](ciclo-progetta-brief-chiudi.md)

@@ -40,10 +40,11 @@ Prima versione della wiki personale di Matteo Cavallaro, compilata il 21/10/2026
 
 | Articolo | Descrizione | Updated |
 |---|---|---|
-| [Criteri di progetto](metodo/criteri-di-progetto.md) | Tre livelli di rischio e 17 criteri: domanda, chi verifica, da quale livello | 2026-10-22 |
-| [Costi e quota](metodo/costi-e-quota.md) | Come si misura il lavoro degli agenti, lotti, quota, letture ufficiali | 2026-10-21 |
-| [Definire un progetto e tenere la memoria](metodo/definizione-progetto-e-memoria.md) | Letture del 21/10/2026, non provate sul campo | 2026-10-21 |
+| [Il ciclo progetta, brief, chiudi](metodo/ciclo-progetta-brief-chiudi.md) | Richieste, decisioni e lezioni delle chat «chiudi» e «progetta»; non ancora usato su un lavoro vero | 2026-10-22 |
+| [Criteri di progetto](metodo/criteri-di-progetto.md) | Tre livelli di rischio e 17 criteri: domanda, chi verifica, da quale livello; come sono nati | 2026-10-22 |
+| [Costi e quota](metodo/costi-e-quota.md) | Come si misura il lavoro degli agenti, lotti, quota, letture ufficiali, costi delle sessioni di memory | 2026-10-22 |
+| [Definire un progetto e tenere la memoria](metodo/definizione-progetto-e-memoria.md) | Letture del 21/10/2026, non provate sul campo; le scelte di Matteo all'avvio | 2026-10-22 |
 | [File, cartelle e contesto](metodo/gestione-file-e-contesto.md) | Tre aree di lavoro, regole operative, handoff | 2026-10-21 |
-| [Lavorare con gli agenti](metodo/lavorare-con-agenti.md) | Regole di Matteo per gli agenti | 2026-10-21 |
+| [Lavorare con gli agenti](metodo/lavorare-con-agenti.md) | Regole di Matteo per gli agenti; chi decide e chi esegue (Opus, Sonnet) | 2026-10-22 |
 | [Lezioni apprese](metodo/lezioni-apprese.md) | Cosa ha insegnato costruire il sistema di valutazione | 2026-10-21 |
 | [Modo esplorazione](metodo/modo-esplorazione.md) | Come accompagnare la curiosità di Matteo | 2026-10-21 |

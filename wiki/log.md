@@ -167,3 +167,13 @@
 ## [2026-10-22] ingest | Criteri di progetto
 - Disposition: New
 - Raw: raw/conversazioni/2026-10-22-criteri-di-progetto.md
+
+## [2026-10-22] ingest | Il ciclo progetta, brief, chiudi
+- Disposition: New
+- Raw: raw/sessioni/2026-10-22-stato-chiudi-controlli.md; raw/sessioni/2026-10-22-skill-progetta.md
+- Updated: Lavorare con gli agenti (chi esegue, errore del clone indietro); Criteri di progetto (collegamento al ciclo); Costi e quota (costi dei sotto-agenti)
+
+## [2026-10-22] ingest | Note di fine chat: avvio della memoria e criteri di progetto
+- Disposition: Update
+- Raw: raw/sessioni/2026-10-21-avvio-memoria.md; raw/sessioni/2026-10-22-criteri-di-progetto.md
+- Updated: Definire un progetto e tenere la memoria (scelte di Matteo all'avvio); Criteri di progetto (come sono nati, livelli proposti da Claude); Costi e quota (costi misurati delle sessioni)
