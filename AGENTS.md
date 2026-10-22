@@ -39,8 +39,14 @@ il suo metodo con l'IA, cosa è già fallito. Lingua: italiano, dando del tu a M
 ## Note di fine chat
 A fine chat importante l'agente scrive `raw/sessioni/AAAA-MM-GG-argomento.md` (massimo 20 righe):
 dove (superficie e modello), obiettivo con le parole di Matteo, decisioni di Matteo tra virgolette,
-risultato con i percorsi, cosa ha funzionato e cosa no, costo (token letti o «non letto»), aperto
+risultato con i percorsi, cosa ha funzionato e cosa no, costo, letti, aperto
 (solo ciò che dipende da fatti non disponibili), link alla sessione. Esempio: `raw/sessioni/2026-10-21-avvio-memoria.md`.
+- **Costo:** i numeri di `python <memory>/strumenti/costo_sessione.py` (aggiungi `codex` se la chat è Codex),
+  lanciato dalla cartella in cui gira la chat; per i sotto-agenti il «subagent_tokens» del loro avviso di fine.
+  «non letto» solo con il motivo.
+- **Letti:** ogni file letto nella chat, con «servito» (ha cambiato una decisione o il risultato) o «non servito».
+  Serve a capire quali fonti tenere nell'instradamento e quali togliere.
+Il controllo al commit rifiuta una nota nuova senza la riga «Letti» o con un costo senza numeri.
 Poi, quando Matteo lo chiede, si compila nella wiki come ogni altro raw.
 
 ## Per gli altri progetti

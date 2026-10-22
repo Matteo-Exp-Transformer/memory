@@ -50,7 +50,11 @@ Regole:
 1. Guarda lo stato reale: `git status`, `git log` della chat, i file toccati. Non fidarti del vecchio `STATO.md`.
 2. Se la repo è `memory` stessa: niente `STATO.md` (memory non organizza lavori), solo la nota (passo 4).
 3. Riscrivi da capo `STATO.md` nella radice della repo del progetto, nel formato sopra.
-4. Scrivi la nota NUOVA in `C:\Users\matte.MIO\Documents\GitHub\memory\raw\sessioni\AAAA-MM-GG-<argomento>.md`
+4. Leggi il costo: dalla cartella in cui gira la chat lancia
+   `python C:\Users\matte.MIO\Documents\GitHub\memory\strumenti\costo_sessione.py` (in Codex aggiungi `codex`);
+   per i sotto-agenti prendi il «subagent_tokens» del loro avviso di fine. Ripassa i file che hai letto
+   nella chat e segna per ciascuno se è servito (ha cambiato una decisione o il risultato) o no.
+   Poi scrivi la nota NUOVA in `C:\Users\matte.MIO\Documents\GitHub\memory\raw\sessioni\AAAA-MM-GG-<argomento>.md`
    (crea la cartella se manca). `raw/` è immutabile: mai modificare una nota esistente; se il nome
    esiste già aggiungi `-2`, `-3`. Il formato (massimo 20 righe) è quello della sezione
    «Note di fine chat» di `AGENTS.md`, con l'esempio `raw/sessioni/2026-10-21-avvio-memoria.md`:

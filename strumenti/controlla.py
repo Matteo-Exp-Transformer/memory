@@ -6,6 +6,7 @@ Uso: python strumenti/controlla.py [radice ...]   (default: .)
 Esce con 1 se c'è almeno un errore, altrimenti 0.
 """
 import re
+import subprocess
 import sys
 from datetime import date
 from pathlib import Path
@@ -85,6 +86,25 @@ def controlla_nota(file, righe):
         controlla_data(m.group(1), file, 1)
     if len(righe) > 20:
         segnala("ERRORE", file, 21, f"nota di {len(righe)} righe (massimo 20, vedi AGENTS.md)")
+    if gia_in_git(file):
+        return  # raw/ è immutabile: le note già salvate restano come sono
+    costo = next((n for n, r in enumerate(righe, 1) if r.startswith("- **Costo:**")), None)
+    if not costo:
+        segnala("ERRORE", file, 1, "manca la riga «- **Costo:**» (vedi AGENTS.md)")
+    elif not re.search(r"\d", righe[costo - 1].removeprefix("- **Costo:**")):
+        segnala("ERRORE", file, costo, "costo senza numeri: lancia strumenti/costo_sessione.py")
+    if not any(r.startswith("- **Letti:**") for r in righe):
+        segnala("ERRORE", file, 1, "manca la riga «- **Letti:**» con i file letti, serviti o no")
+
+
+def gia_in_git(file):
+    """True se il file è già nell'ultimo commit (allora è una nota vecchia, che non si tocca)."""
+    try:
+        r = subprocess.run(["git", "-C", str(file.parent), "cat-file", "-e", f"HEAD:./{file.name}"],
+                           capture_output=True)
+        return r.returncode == 0
+    except OSError:
+        return True  # senza git non si distingue: non bloccare le note vecchie
 
 
 def controlla_pagina_wiki(file, righe):
