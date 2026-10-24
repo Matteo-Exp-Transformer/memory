@@ -1,8 +1,8 @@
 # Come apprende Matteo e il metodo che si è dato
 
-> Sources: Io-Claude, 2026-10-10; Io-Claude, 2026-10-12
-> Raw: [05-metodo-di-apprendimento](../../raw/crescita-professionale/05-metodo-di-apprendimento.md); [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [11-valutazioni-didattiche](../../raw/crescita-professionale/11-valutazioni-didattiche.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md)
-> Updated: 2026-10-21
+> Sources: Io-Claude, 2026-10-10; Io-Claude, 2026-10-12; ChatGPT, 2026-10-24
+> Raw: [05-metodo-di-apprendimento](../../raw/crescita-professionale/05-metodo-di-apprendimento.md); [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [11-valutazioni-didattiche](../../raw/crescita-professionale/11-valutazioni-didattiche.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [formazione-operativa-food-ai](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md)
+> Updated: 2026-10-24
 
 ## Overview
 
@@ -41,6 +41,10 @@ Il 04/06/2026, alle 14:34, un'architettura proposta da lui è stata eseguita; al
 ## Cosa sopravvive tra una sessione e l'altra
 
 Misurato il 07/08/2026 sui concetti del 13/07: ritiene ciò che può usare come mossa (il sensore, l'estrazione del ground truth dall'esperto, la propria regola sull'artefatto) e perde ciò che è una distinzione (guardrail ≠ eval, scala ancorata, denominatore). Una distinzione, per attecchire, va consegnata come mossa: «Prima di dire una percentuale, di' su cosa l'hai calcolata» funziona, «esiste il concetto di denominatore» no. Confermato l'08/08/2026: la mossa del denominatore, consegnata in quella forma, l'ha applicata nel turno successivo senza richiesta, a due livelli. Un turno dopo la consegna è raccolta immediata: il test vero è il prossimo numero non sollecitato. Le distinzioni già perse due volte (guardrail ≠ eval) vanno riproposte in forma di mossa, non ripetute.
+
+## Aggiornamento 24/10/2026 — come vuole studiare Operations Food & AI
+
+Nella nuova formazione F&B Matteo ha richiesto micro-lezioni di pochi concetti, spiegazione minima, sua rielaborazione attiva e piccoli casi concreti per allenare la risposta rapida. **Argomento trattato non equivale a competenza consolidata**: dare punteggi provvisori 1–5 con prove, ripassare in sessioni successive con tabelle da completare a memoria e casi integrati progressivamente più complessi. Non considerare il primo esercizio guidato una prova a distanza. Dettagli, valutazioni e protocollo: [Formazione Operations Food & AI](../carriera/formazione-operations-food-ai.md).
 
 ## Come deve condurre una sessione un agente
 
