@@ -24,6 +24,7 @@ Prima versione della wiki personale di Matteo Cavallaro, compilata il 21/10/2026
 | [Profilo LinkedIn](carriera/profilo-linkedin.md) | Profilo pubblicato e decisioni collegate | 2026-10-21 |
 | [Regole di claim e presentazione](carriera/regole-claim-e-presentazione.md) | Cosa può dire di sé e cosa no, pitch, domande a freddo | 2026-10-21 |
 | [Skill e livelli](carriera/skill-e-livelli.md) | Cosa sa fare, cosa non sa, cosa è provato | 2026-10-21 |
+| [Formazione Operations Food & AI](carriera/formazione-operations-food-ai.md) | Obiettivo, preferenze didattiche, voti provvisori 1–5, ripasso e stato degli argomenti | 2026-10-24 |
 
 ## progetti
 
