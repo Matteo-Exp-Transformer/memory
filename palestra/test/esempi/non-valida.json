@@ -1,0 +1,33 @@
+{
+  "formato": 1,
+  "id": "Prova Sbagliata",
+  "versione": 0,
+  "titolo": "Cartuccia volutamente sbagliata (serve solo ai test)",
+  "zona": "banco",
+  "creata": "25/10/2026",
+  "autore": "test",
+  "durata_minuti": 10,
+  "concetti": [{ "id": "x", "nome": "X" }],
+  "blocchi": [
+    {
+      "id": "d1",
+      "tipo": "duello",
+      "dominio": "ristorazione",
+      "testo": "Domanda ovvia senza vincoli.",
+      "vincoli": [],
+      "opzioni": [{ "id": "a", "testo": "Sì", "perche_plausibile": "", "conseguenza": "ok" }],
+      "migliore": "z",
+      "spiegazione": "ovvio",
+      "domanda_ribalta": "?"
+    },
+    {
+      "id": "s1",
+      "tipo": "simulatore",
+      "dominio": "ristorazione",
+      "testo": "Formula pericolosa.",
+      "parametri": [{ "id": "a", "nome": "A", "min": 1, "max": 5, "passo": 1, "valore": 2, "unita": "" }],
+      "uscite": [{ "id": "u", "nome": "U", "formula": "alert(a)", "decimali": 0, "unita": "" }]
+    },
+    { "id": "s1", "tipo": "quiz", "dominio": "ristorazione", "testo": "tipo inesistente" }
+  ]
+}

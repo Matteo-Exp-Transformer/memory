@@ -1,0 +1,95 @@
+{
+  "formato": 1,
+  "id": "campo-code-ovunque",
+  "versione": 1,
+  "titolo": "Campo giochi — le code fuori dal bar",
+  "zona": "campo",
+  "creata": "2026-10-25",
+  "autore": "Claude (claude-opus-5-5)",
+  "durata_minuti": 15,
+  "note_per_agenti": "Zona campo: nessun voto. Serve a toccare collo di bottiglia e carico in domini lontani dalla ristorazione, con esempi umani inventati.",
+  "concetti": [
+    { "id": "collo-di-bottiglia", "nome": "Collo di bottiglia" },
+    { "id": "carico", "nome": "Carico (domanda ÷ capacità)" }
+  ],
+  "blocchi": [
+    {
+      "id": "festival",
+      "tipo": "racconto",
+      "dominio": "eventi",
+      "titolo": "Festival d'estate",
+      "testo": "Tremila persone, quaranta bagni chimici. In media ognuno ci va una volta ogni tre ore e ci resta due minuti. Sulla carta ce la si fa. Alle due di notte la fila arriva al palco."
+    },
+    {
+      "id": "sim-bagni",
+      "tipo": "simulatore",
+      "dominio": "eventi",
+      "concetti": ["carico", "collo-di-bottiglia"],
+      "titolo": "Gioca coi bagni",
+      "testo": "Muovi i cursori. Guarda come cambia l'indice di attesa quando il carico si avvicina al 100%.",
+      "parametri": [
+        { "id": "persone", "nome": "Persone", "min": 1000, "max": 6000, "passo": 500, "valore": 3000, "unita": "" },
+        { "id": "bagni", "nome": "Bagni", "min": 10, "max": 80, "passo": 1, "valore": 40, "unita": "" },
+        { "id": "minuti_uso", "nome": "Minuti per persona", "min": 1, "max": 5, "passo": 0.5, "valore": 2, "unita": "min" },
+        { "id": "ore_tra_visite", "nome": "Ore tra una visita e l'altra", "min": 1, "max": 5, "passo": 0.5, "valore": 3, "unita": "h" }
+      ],
+      "uscite": [
+        { "id": "domanda", "nome": "Domanda", "formula": "persone / ore_tra_visite", "decimali": 0, "unita": "visite/ora" },
+        { "id": "capacita", "nome": "Capacità", "formula": "bagni * 60 / minuti_uso", "decimali": 0, "unita": "visite/ora" },
+        { "id": "carico", "nome": "Carico", "formula": "persone / ore_tra_visite / (bagni * 60 / minuti_uso) * 100", "decimali": 0, "unita": "%" },
+        { "id": "attesa", "nome": "Indice di attesa", "formula": "se(persone / ore_tra_visite >= bagni * 60 / minuti_uso, 1 / 0, (persone / ore_tra_visite) / (bagni * 60 / minuti_uso - persone / ore_tra_visite))", "decimali": 1, "unita": "" }
+      ],
+      "nota": "Indice di attesa = carico ÷ (1 − carico): un modello semplice di coda, utile per vedere la forma della curva, non per prevedere i minuti."
+    },
+    {
+      "id": "aperta-bagni",
+      "tipo": "aperta",
+      "dominio": "eventi",
+      "titolo": "Quando serve aggiungere",
+      "testo": "Trova coi cursori un caso in cui aggiungere 10 bagni cambia poco e uno in cui cambia tutto. Cosa distingue i due casi?",
+      "suggerimento": "Guarda il carico prima di aggiungere."
+    },
+    {
+      "id": "duello-ambulatorio",
+      "tipo": "duello",
+      "dominio": "sanità",
+      "concetti": ["carico", "collo-di-bottiglia"],
+      "titolo": "La dottoressa Ferri",
+      "testo": "La dottoressa Ferri, medico di base, ha 7 ore di ambulatorio e 40 richieste al giorno, prenotate ogni 10 minuti. Sulla carta ci sta (42 posti). Alle 11 la sala d'attesa è sempre piena. Non può assumere nessuno.",
+      "vincoli": [
+        "Nessun medico in più",
+        "Può cambiare gli orari degli appuntamenti",
+        "Circa 10 richieste su 40 sono ricette o certificati brevi"
+      ],
+      "opzioni": [
+        { "id": "piu-larghi", "testo": "Appuntamenti ogni 12 minuti invece di 10.", "perche_plausibile": "Lascia margine per le visite che durano più del previsto.", "conseguenza": "7 ore a 12 minuti fanno 35 posti: la coda sparisce, ma 5 persone al giorno restano fuori." },
+        { "id": "slot-vuoti", "testo": "Uno spazio vuoto di 20 minuti ogni due ore.", "perche_plausibile": "Assorbe le visite lunghe dove servono, senza spostare tutti.", "conseguenza": "Tre spazi da 20 minuti tolgono un'ora: circa 36 posti. Stessa perdita di capacità, ma la coda si riassorbe tre volte al giorno." },
+        { "id": "ricette-a-parte", "testo": "Ricette e certificati in una fascia di 30 minuti, a fine giornata.", "perche_plausibile": "Toglie lavoro dal collo di bottiglia invece di allargarlo.", "conseguenza": "Se 10 richieste brevi da 10 minuti diventano 3 minuti l'una, liberi circa 70 minuti: è lo stesso trucco dei piattini preparati prima del picco." }
+      ],
+      "migliore": null,
+      "domanda_ribalta": "Quale dato, se lo scoprissi, ti farebbe cambiare scelta?",
+      "spiegazione": "Le prime due allargano il margine togliendo capacità; la terza riduce il lavoro che passa dal collo di bottiglia. Quale vince dipende da un dato: quante richieste sono davvero brevi."
+    },
+    {
+      "id": "mosse",
+      "tipo": "carte",
+      "dominio": "vita quotidiana",
+      "concetti": ["collo-di-bottiglia", "carico"],
+      "titolo": "Tre mosse da usare domani",
+      "testo": "Ogni carta è una mossa: una cosa che fai, non una definizione.",
+      "ripasso": true,
+      "carte": [
+        { "id": "prima-di-comprare", "fronte": "Prima di dire «serve più gente» o «serve un'altra macchina»…", "retro": "Chiedi qual è la fase più lenta e chi la fa. Se il limite è una persona, una macchina in più non serve." },
+        { "id": "sotto-cento", "fronte": "Prima di dire «ce la facciamo, siamo sotto il 100%»…", "retro": "Calcola il carico. Sopra l'80–85% (regola pratica) ogni intoppo fa una coda che non si riassorbe." },
+        { "id": "prima-del-cambio", "fronte": "Prima di proporre un cambio…", "retro": "Prendi la misura di base: senza il prima non puoi provare il dopo." }
+      ]
+    },
+    {
+      "id": "aperta-tua",
+      "tipo": "aperta",
+      "dominio": "vita quotidiana",
+      "titolo": "Il tuo collo di bottiglia",
+      "testo": "Trova un collo di bottiglia nella tua settimana fuori dal lavoro (casa, sport, musica, burocrazia, una pratica da sbrigare). Qual è la fase lenta e come la misureresti?"
+    }
+  ]
+}

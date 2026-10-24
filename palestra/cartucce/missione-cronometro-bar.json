@@ -1,0 +1,99 @@
+{
+  "formato": 1,
+  "id": "missione-cronometro-bar",
+  "versione": 1,
+  "titolo": "Missione sul campo — cronometra il tuo giro",
+  "zona": "banco",
+  "creata": "2026-10-25",
+  "autore": "Claude (claude-opus-5-5)",
+  "durata_minuti": 30,
+  "finito_suggerito": "Ho cronometrato almeno 3 giri veri durante un picco e ho scritto cosa è andato storto.",
+  "note_per_agenti": "Serve a sostituire le stime del 24/10 (caricare i gruppi 14 s, latte brocca 1 12 s, latte brocca 2 12 s, piattini 14 s, versare 19 s; giro 71 s) con misure. Una voce va in «posso provarlo» solo con questa misura.",
+  "concetti": [
+    { "id": "misura-di-base", "nome": "Misura di base" },
+    { "id": "collo-di-bottiglia", "nome": "Collo di bottiglia" },
+    { "id": "parallelo", "nome": "Lavoro in serie e in parallelo" }
+  ],
+  "blocchi": [
+    {
+      "id": "istruzioni",
+      "tipo": "racconto",
+      "dominio": "ristorazione",
+      "titolo": "Come si fa",
+      "testo": "Durante un picco vero, telefono appoggiato dove lo vedi. Premi «Via» quando inizi un giro da 6 cappuccini. Ogni volta che FINISCI una fase tocca il suo pulsante; a fine giro tocca «Fine giro». Almeno 3 giri. Se succede un intoppo non fermarti: lo scrivi nella nota alla fine. Lo schermo resta acceso finché il cronometro gira."
+    },
+    {
+      "id": "scommessa-giro",
+      "tipo": "previsione",
+      "dominio": "ristorazione",
+      "concetti": ["misura-di-base"],
+      "titolo": "Scommetti prima di misurare",
+      "testo": "Prima di misurare: quanti secondi durerà in media il tuo giro da 6 cappuccini? Il confronto arriva dopo la misura.",
+      "unita": "secondi",
+      "collegata_a": "crono-giro",
+      "tolleranza_percento": 10
+    },
+    {
+      "id": "crono-giro",
+      "tipo": "cronometro",
+      "dominio": "ristorazione",
+      "concetti": ["misura-di-base", "collo-di-bottiglia"],
+      "titolo": "Cronometro",
+      "testo": "Tocca il pulsante della fase quando la finisci. L'estrazione va avanti da sola mentre monti il latte: qui misuri le tue mani, che sono il collo di bottiglia.",
+      "consegna": "Giri da 6 cappuccini durante il picco del mattino.",
+      "fasi": ["caricare i gruppi", "latte brocca 1", "latte brocca 2", "piattini", "versare"],
+      "min_giri": 3
+    },
+    {
+      "id": "giro-vero",
+      "tipo": "mio_modello",
+      "dominio": "ristorazione",
+      "concetti": ["misura-di-base", "collo-di-bottiglia"],
+      "titolo": "Il tuo giro, con i tempi veri",
+      "testo": "Qui sotto ci sono le tue stime del 24/10. Sostituisci ogni numero con la media misurata della fase (la trovi nell'elenco dei giri qui sopra). Se una fase che fai davvero manca, aggiungila.",
+      "unita_riga": "secondi",
+      "righe_iniziali": [
+        { "nome": "caricare i gruppi", "valore": 14 },
+        { "nome": "latte brocca 1", "valore": 12 },
+        { "nome": "latte brocca 2", "valore": 12 },
+        { "nome": "piattini", "valore": 14 },
+        { "nome": "versare", "valore": 19 }
+      ],
+      "costanti": [
+        { "id": "tazze", "nome": "Tazze per giro", "valore": 6 }
+      ],
+      "uscite": [
+        { "id": "giro", "nome": "Giro", "formula": "somma", "decimali": 0, "unita": "s" },
+        { "id": "al-minuto", "nome": "Tazze al minuto", "formula": "tazze * 60 / somma", "decimali": 2, "unita": "" },
+        { "id": "all-ora", "nome": "Tazze all'ora (capacità)", "formula": "tazze * 3600 / somma", "decimali": 0, "unita": "" }
+      ]
+    },
+    {
+      "id": "confronto-stime",
+      "tipo": "aperta",
+      "dominio": "ristorazione",
+      "concetti": ["misura-di-base"],
+      "titolo": "Stima contro misura",
+      "testo": "Il 24/10 avevi stimato: caricare i gruppi 14 s, latte brocca 1 12 s, latte brocca 2 12 s, piattini 14 s, versare 19 s, giro 71 s. Quale fase hai sbagliato di più, in che direzione, e perché secondo te?"
+    },
+    {
+      "id": "pit-stop",
+      "tipo": "aperta",
+      "dominio": "sport",
+      "concetti": ["parallelo", "collo-di-bottiglia"],
+      "titolo": "Il pit stop",
+      "testo": "In Formula 1 un cambio gomme dura circa due secondi, con una ventina di persone attorno alla macchina. Chi è il collo di bottiglia lì, e cosa hanno fatto per renderlo così corto? Cosa potresti copiare al tuo bancone?"
+    },
+    {
+      "id": "fascicolo-misura",
+      "tipo": "fascicolo",
+      "dominio": "ristorazione",
+      "titolo": "Cosa ora puoi provare",
+      "testo": "Se hai almeno 3 giri misurati, queste voci possono andare in «posso provarlo» con prova «misura». Altrimenti restano dove sono.",
+      "voci": [
+        { "id": "giro-misurato", "testo": "Il mio giro da 6 cappuccini al picco dura in media X secondi (misurato su almeno 3 giri)." },
+        { "id": "collo-persona", "testo": "Al mio bancone il collo di bottiglia è la persona, non la macchina." }
+      ]
+    }
+  ]
+}

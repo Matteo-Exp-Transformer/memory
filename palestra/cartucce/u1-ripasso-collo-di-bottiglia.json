@@ -1,0 +1,141 @@
+{
+  "formato": 1,
+  "id": "u1-ripasso-collo-di-bottiglia",
+  "versione": 1,
+  "titolo": "Ripasso a distanza — il picco al bancone",
+  "zona": "banco",
+  "creata": "2026-10-25",
+  "autore": "Claude (claude-opus-5-5)",
+  "durata_minuti": 20,
+  "finito_suggerito": "Ho risposto a tutto senza appunti e ho messo ogni voce in una colonna del fascicolo.",
+  "note_per_agenti": "Primo richiamo a distanza dell'Unità 1 del 24/10/2026 (Banco di Prova). Il giro da 71 s è una stima di Matteo, non una misura.",
+  "concetti": [
+    { "id": "collo-di-bottiglia", "nome": "Collo di bottiglia" },
+    { "id": "parallelo", "nome": "Lavoro in serie e in parallelo" },
+    { "id": "carico", "nome": "Carico (domanda ÷ capacità)" },
+    { "id": "misura-di-base", "nome": "Misura di base" }
+  ],
+  "blocchi": [
+    {
+      "id": "apertura",
+      "tipo": "racconto",
+      "dominio": "ristorazione",
+      "titolo": "Senza appunti",
+      "testo": "Questo è il primo ripasso a distanza dell'Unità 1. Niente appunti, niente chat aperta: quello che esce oggi è il primo dato vero su cosa ti è rimasto. Sbagliare qui costa zero e vale molto."
+    },
+    {
+      "id": "richiamo",
+      "tipo": "carte",
+      "dominio": "ristorazione",
+      "concetti": ["collo-di-bottiglia", "parallelo", "carico", "misura-di-base"],
+      "titolo": "Richiamo a freddo",
+      "testo": "Prima rispondi a voce alta o nella testa, poi gira la carta e giudicati da solo.",
+      "ripasso": true,
+      "carte": [
+        { "id": "cdb", "fronte": "Collo di bottiglia: cos'è e come lo trovi?", "retro": "La fase più lenta del giro: decide quanto esce da tutto il sistema. Si trova misurando ogni fase, non a occhio." },
+        { "id": "carico", "fronte": "Carico: come si calcola e cosa ti dice?", "retro": "Domanda ÷ capacità, nello stesso tempo (per esempio all'ora). 0,8 vuol dire occupato all'80%. Vicino a 1 l'attesa esplode anche se «ce la si fa»." },
+        { "id": "base", "fronte": "Misura di base: cos'è?", "retro": "La misura presa PRIMA di cambiare qualcosa, per confrontare il dopo. Non è il tempo minimo del giro." },
+        { "id": "parallelo", "fronte": "Quando i tempi si sommano e quando no?", "retro": "Se la stessa persona fa le fasi una dopo l'altra, si sommano. Se le fanno persone o macchine diverse nello stesso momento, conta la più lunga." }
+      ]
+    },
+    {
+      "id": "stima-carico-bar",
+      "tipo": "stima",
+      "dominio": "ristorazione",
+      "concetti": ["carico"],
+      "titolo": "Il conto del carico",
+      "testo": "Picco del sabato: arrivano 240 cappuccini all'ora. Un barista da solo fa un giro da 6 cappuccini in 71 secondi (il tuo giro stimato del 24/10). Qual è il carico, in percentuale?",
+      "unita": "%",
+      "risposta": 79,
+      "tolleranza": 5,
+      "spiegazione": "Capacità: 3600 ÷ 71 × 6 ≈ 304 cappuccini all'ora. Carico: 240 ÷ 304 ≈ 0,79, cioè 79%. Se hai sbagliato, controlla il denominatore: la capacità va calcolata nello stesso tempo della domanda (un'ora) e per 6 tazze, non per una."
+    },
+    {
+      "id": "scelta-sotto-cento",
+      "tipo": "scelta",
+      "dominio": "ristorazione",
+      "concetti": ["carico"],
+      "titolo": "«Tanto siamo sotto il 100%»",
+      "testo": "Il titolare dice: «Siamo al 79%, ce la facciamo». A Natale la domanda sale del 20% (da 240 a 288 all'ora, carico circa 95%). Cosa succede all'attesa media dei clienti?",
+      "opzioni": [
+        { "id": "proporzionale", "testo": "Sale più o meno del 20%, come la domanda.", "conseguenza": "È l'intuizione comune, ma l'attesa non cresce in proporzione: cresce sempre più in fretta man mano che ci si avvicina al 100%." },
+        { "id": "esplode", "testo": "Cresce molto più del 20%: vicino al 100% ogni intoppo crea una coda che non si riassorbe.", "conseguenza": "Giusto. In un modello semplice di coda l'attesa va come carico ÷ (1 − carico): al 79% vale circa 3,8, al 95% circa 18. Quasi cinque volte tanto, per un +20% di domanda." },
+        { "id": "uguale", "testo": "Resta uguale finché si resta sotto il 100%.", "conseguenza": "Sotto il 100% non si va in crisi permanente, ma il margine per assorbire gli intoppi (una brocca da rifare, un cliente che cambia ordine) si riduce quasi a zero." }
+      ],
+      "giusta": "esplode",
+      "spiegazione": "La mossa da portarti via: prima di dire «ce la facciamo», calcola il carico. Sopra l'80–85% (regola pratica, non legge) il servizio diventa fragile."
+    },
+    {
+      "id": "duello-1500",
+      "tipo": "duello",
+      "dominio": "ristorazione",
+      "concetti": ["collo-di-bottiglia", "misura-di-base", "parallelo"],
+      "titolo": "1.500 euro e due settimane",
+      "testo": "Pasticceria con bar. Picco 7:30–9:30, un barista. Il titolare ti dà 1.500 € e due settimane prima dell'alta stagione. C'è un aiuto banco part-time, oggi presente solo dalle 8:30. Cosa proponi per primo?",
+      "vincoli": [
+        "Budget 1.500 € una tantum",
+        "Carico stimato in alta stagione: circa 95%",
+        "Nessun tempo è cronometrato: i 71 secondi del giro sono una stima"
+      ],
+      "opzioni": [
+        { "id": "macinadosatore", "testo": "Un secondo macinadosatore on-demand (1.400 €) per togliere tempo alla dosatura.", "perche_plausibile": "Accorcia il giro per sempre, senza costi di personale ogni giorno.", "conseguenza": "Funziona solo se la dosatura è una fetta grande del giro. Se pesa 3 secondi su 71, hai speso 1.400 € per un 4% e senza misura non puoi saperlo prima." },
+        { "id": "aiuto-presto", "testo": "Spostare l'aiuto banco alle 7:30 su piattini, cassa e consegna.", "perche_plausibile": "Toglie al barista le fasi che non sono macchina: nel tuo giro, piattini (14 s) e parte del versare.", "conseguenza": "Toglie fasi intere dal giro del barista da subito ed è reversibile in un giorno. Costa ore ogni giorno, e un aiuto non formato può rallentare il bancone invece di sgravarlo." },
+        { "id": "misura-prima", "testo": "Cronometrare prima tre picchi (costo zero), poi decidere.", "perche_plausibile": "Senza misura di base non sai quale fase pesa e non potrai dimostrare il miglioramento al titolare.", "conseguenza": "Non migliora niente subito e consuma tre giorni della finestra di due settimane, ma è l'unica strada che ti lascia una prova del prima e del dopo." }
+      ],
+      "migliore": null,
+      "domanda_ribalta": "Quale numero, se lo misurassi domani, ti farebbe cambiare scelta? Scrivi il numero e la soglia (es. «se i piattini pesano più di X secondi…»).",
+      "spiegazione": "Non c'è una risposta unica: dipende da quale fase pesa di più. La sequenza che regge un'obiezione: misura (costa zero), poi l'intervento reversibile, e solo dopo quello che costa per sempre. Nel debrief Claude valuta la tua motivazione e il numero che hai scritto."
+    },
+    {
+      "id": "ordina-bagno",
+      "tipo": "ordina",
+      "dominio": "vita quotidiana",
+      "concetti": ["collo-di-bottiglia", "misura-di-base"],
+      "titolo": "Un bagno, quattro persone",
+      "testo": "Sabato mattina, casa con un solo bagno, quattro persone che devono uscire entro le 8:00. Ogni settimana qualcuno arriva tardi. Metti in ordine i passi per capire dove nasce il ritardo e sistemarlo.",
+      "elementi": [
+        { "id": "domanda", "testo": "Scrivi a che ora deve uscire ciascuno (la domanda)." },
+        { "id": "base", "testo": "Cronometra una mattina normale: quanto resta in bagno ognuno (la misura di base)." },
+        { "id": "collo", "testo": "Trova la fase più lunga e chi la fa (il collo di bottiglia)." },
+        { "id": "prova", "testo": "Prova per una settimana un cambio reversibile (es. barba o trucco in camera)." },
+        { "id": "confronto", "testo": "Confronta i nuovi tempi con la misura di base." }
+      ],
+      "spiegazione": "È lo stesso giro del bancone: domanda, misura di base, collo di bottiglia, intervento reversibile, confronto. Se hai messo il cambio prima della misura, è la tentazione di sempre: sistemare prima di sapere."
+    },
+    {
+      "id": "stima-cassa",
+      "tipo": "stima",
+      "dominio": "vita quotidiana",
+      "concetti": ["carico"],
+      "titolo": "La cassa del supermercato",
+      "testo": "Una cassa sola: arrivano 50 clienti all'ora e la cassiera serve un cliente ogni 1 minuto e 6 secondi. Qual è il carico, in percentuale?",
+      "unita": "%",
+      "risposta": 92,
+      "tolleranza": 3,
+      "spiegazione": "Capacità: 3600 ÷ 66 ≈ 54,5 clienti all'ora. Carico: 50 ÷ 54,5 ≈ 0,92, cioè 92%. È lo stesso conto del bancone e spiega perché quella coda «non si muove mai» anche se la cassiera non è mai ferma."
+    },
+    {
+      "id": "spiega-titolare",
+      "tipo": "spiega",
+      "dominio": "ristorazione",
+      "concetti": ["carico", "collo-di-bottiglia", "misura-di-base"],
+      "titolo": "Spiegalo al titolare",
+      "testo": "In massimo 5 frasi: spiega a un titolare perché «siamo sotto il 100%» non vuol dire «niente coda», e cosa misureresti per primo. Le parole qui sotto si accendono quando le usi: non danno voti, il voto lo dà Claude nel debrief.",
+      "parole_chiave": ["carico", "capacità", "domanda", "collo di bottiglia", "misura di base"],
+      "max_frasi": 5
+    },
+    {
+      "id": "fascicolo-u1",
+      "tipo": "fascicolo",
+      "dominio": "ristorazione",
+      "titolo": "Dove sta ogni cosa",
+      "testo": "Metti ogni voce nella sua colonna. «Posso provarlo» solo con una misura, un ripasso a distanza superato o un tuo artefatto: una stima, anche tua, sta in «lo spiego, non lo provo».",
+      "voci": [
+        { "id": "calcolo-carico", "testo": "Calcolo il carico di una stazione (domanda ÷ capacità)." },
+        { "id": "serie-parallelo", "testo": "Distinguo fasi in serie e in parallelo nel giro del bancone." },
+        { "id": "uso-base", "testo": "Uso la misura di base per confrontare prima e dopo un cambio." },
+        { "id": "attesa-100", "testo": "So spiegare perché l'attesa esplode vicino al 100% di carico." }
+      ]
+    }
+  ]
+}
