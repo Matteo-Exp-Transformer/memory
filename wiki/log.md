@@ -192,3 +192,8 @@
 - Disposition: Update
 - Raw: raw/conversazioni/2026-10-25-feedback-ripasso-operazione-0845.md
 - Updated: Come apprende Matteo (format investigativo promosso; evitare domande ovvie, esigere confronto di opzioni plausibili e prove)
+
+## [2026-10-25] ingest | Chiusura del ripasso «Operazione 08:45»
+- Disposition: Update
+- Raw: raw/sessioni/2026-10-25-ripasso-operazione-0845.md
+- Updated: Formazione Operations Food & AI (ripasso apprezzato; risposte non ancora restituite; nessuna nuova valutazione)
