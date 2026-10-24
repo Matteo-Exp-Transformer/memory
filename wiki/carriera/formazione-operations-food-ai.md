@@ -1,8 +1,8 @@
 # Percorso operativo F&B assistito da AI — memoria didattica condivisa
 
-> Sources: conversazione ChatGPT del 2026-10-24, progetto Analisi; precedente simulazione di colloquio manageriale del 2026-10-24; chat Claude del 2026-10-24 (artefatto Banco di Prova)
-> Raw: [fonte e risposte della prima sessione](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md); [seconda sessione, Banco di Prova](../../raw/conversazioni/2026-10-24-lezioni-con-artefatti-giocabili.md)
-> Updated: 2026-10-24
+> Sources: conversazione ChatGPT del 2026-10-24, progetto Analisi; precedente simulazione di colloquio manageriale del 2026-10-24; chat Claude del 2026-10-24 (artefatto Banco di Prova); sessione ChatGPT del 2026-10-25 (ripasso Operazione 08:45)
+> Raw: [fonte e risposte della prima sessione](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md); [seconda sessione, Banco di Prova](../../raw/conversazioni/2026-10-24-lezioni-con-artefatti-giocabili.md); [chiusura del ripasso Operazione 08:45](../../raw/sessioni/2026-10-25-ripasso-operazione-0845.md)
+> Updated: 2026-10-25
 
 ## Obiettivo e punto di partenza
 Prepararsi a proporre e realizzare interventi di miglioramento in ristoranti/pasticcerie, con orizzonte indicativo di **3–6 mesi** e risultati misurabili; presentarsi con lessico appropriato e un proprio metodo di lavoro AI-assisted. Non confondere il target con un incarico permanente da store manager. Esperienza operativa e intuito pratico sono la base dichiarata; metodo e competenze tecniche gestionali devono ancora essere costruiti e dimostrati.
@@ -55,6 +55,11 @@ Unità 1: collo di bottiglia in caffetteria nel picco. Giudizi del tutor su una 
 | Cercapersone: sposta l'attesa, non aumenta i prodotti | 3 | Ripasso «sì», ma nello stesso giorno |
 
 Nessun tempo è cronometrato: i secondi del giro sono stime sue. Il primo ripasso a distanza è il prossimo dato utile.
+
+## Ripasso «Operazione 08:45» (25/10/2026) — formato approvato, apprendimento non verificato
+È stato consegnato in ChatGPT un nuovo artefatto HTML investigativo di ripasso del picco in caffetteria. Matteo ha apprezzato l'idea come alternativa al simulatore «Banco di Prova», ma ha segnalato domande troppo ovvie (es. «lo consigli per tutte le pasticcerie?»). Preferisce decisioni tra alternative plausibili, con vincoli e motivazioni verificabili. Il principio didattico è anche in [Come apprende](../persona/come-apprende.md).
+
+**Nessuna risposta dell'utente è stata restituita o valutata**: il ripasso non dà nuovi punteggi e non costituisce una prova a distanza. Restano valide le stime provvisorie precedenti.
 
 ## I concetti operativi già introdotti
 - Produttività oraria = ricavi / ore lavorate; Labor Cost % = costo personale / ricavi × 100.
