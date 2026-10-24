@@ -1,7 +1,7 @@
 # Percorso operativo F&B assistito da AI — memoria didattica condivisa
 
-> Sources: conversazione ChatGPT del 2026-10-24, progetto Analisi; precedente simulazione di colloquio manageriale del 2026-10-24
-> Raw: [fonte e risposte della prima sessione](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md)
+> Sources: conversazione ChatGPT del 2026-10-24, progetto Analisi; precedente simulazione di colloquio manageriale del 2026-10-24; chat Claude del 2026-10-24 (artefatto Banco di Prova)
+> Raw: [fonte e risposte della prima sessione](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md); [seconda sessione, Banco di Prova](../../raw/conversazioni/2026-10-24-lezioni-con-artefatti-giocabili.md)
 > Updated: 2026-10-24
 
 ## Obiettivo e punto di partenza
@@ -43,6 +43,19 @@ I voti qui **non** corrispondono ai livelli L0–L4 dell'albero competenze esist
 
 **Stato:** nessuna competenza consolidata. Sono giudizi del tutor su una sola sessione guidata, non valutazioni indipendenti. I punti 4 NON autorizzano claim professionali.
 
+## Seconda sessione — Claude, artefatto «Banco di Prova» (24/10/2026, sera)
+Unità 1: collo di bottiglia in caffetteria nel picco. Giudizi del tutor su una sola sessione, come sopra.
+
+| Argomento | Stima /5 | Evidenza / attenzione |
+|---|---:|---|
+| Collo di bottiglia e capacità di una stazione | 3 | Scommessa 0/2 con fiducia 5/5; poi caso nuovo giusto con fiducia 4/5, ma motivazione con tempi sommati in serie |
+| Lavoro in parallelo e tempo del giro | 3 | Ha proposto da solo il parallelo; suo giro 71 s, 5.07 tazze al minuto; in chat ha però concluso «limite gruppi caffe» |
+| Carico (domanda ÷ capacità), attesa vicino al 100% | 1 | Ripasso «no»; registro «non lo so ancora» |
+| Misura di base (baseline) | 2 | Usata come tempo minimo del giro; ripasso «no» |
+| Cercapersone: sposta l'attesa, non aumenta i prodotti | 3 | Ripasso «sì», ma nello stesso giorno |
+
+Nessun tempo è cronometrato: i secondi del giro sono stime sue. Il primo ripasso a distanza è il prossimo dato utile.
+
 ## I concetti operativi già introdotti
 - Produttività oraria = ricavi / ore lavorate; Labor Cost % = costo personale / ricavi × 100.
 - Sintomo ≠ causa; confrontare flussi clienti, mansioni e turni prima di tagliare ore.
@@ -56,7 +69,7 @@ I voti qui **non** corrispondono ai livelli L0–L4 dell'albero competenze esist
 ## Protocollo della prossima sessione
 1. **Richiamo attivo** senza suggerimenti (2–4 min), per esempio chiedere di compilare una tabella con colonne `Situazione | Indicatore scelto | Calcolo o verifica | Decisione | Rischio da controllare` su un nuovo mini-caso; non precompilare la colonna da ricordare.
 2. Correggere con esempi minimi, aggiornare voti 1–5 solo con prove specifiche; distinguere ricordo stimolato e uso spontaneo.
-3. Introdurre **un solo** tema nuovo (es. confronto fra due interventi con costi/benefici e rischi).
+3. Introdurre **un solo** tema nuovo (es. confronto fra due interventi con costi/benefici e rischi): spiegazione breve, poi artefatto da giocare come descritto in [Come apprende](../persona/come-apprende.md).
 4. Riprendere alcuni strumenti vecchi in un problema più strutturato, senza nominare il KPI da usare.
 5. Fine chat: scrivere solo nuove evidenze e variazioni reali; **non chiamare «completato» un argomento non testato a distanza**.
 

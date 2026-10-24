@@ -1,7 +1,7 @@
 # Come apprende Matteo e il metodo che si è dato
 
-> Sources: Io-Claude, 2026-10-10; Io-Claude, 2026-10-12; ChatGPT, 2026-10-24
-> Raw: [05-metodo-di-apprendimento](../../raw/crescita-professionale/05-metodo-di-apprendimento.md); [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [11-valutazioni-didattiche](../../raw/crescita-professionale/11-valutazioni-didattiche.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [formazione-operativa-food-ai](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md)
+> Sources: Io-Claude, 2026-10-10; Io-Claude, 2026-10-12; ChatGPT, 2026-10-24; Claude, 2026-10-24
+> Raw: [05-metodo-di-apprendimento](../../raw/crescita-professionale/05-metodo-di-apprendimento.md); [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [11-valutazioni-didattiche](../../raw/crescita-professionale/11-valutazioni-didattiche.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [formazione-operativa-food-ai](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md); [lezioni-con-artefatti-giocabili](../../raw/conversazioni/2026-10-24-lezioni-con-artefatti-giocabili.md)
 > Updated: 2026-10-24
 
 ## Overview
@@ -45,6 +45,20 @@ Misurato il 07/08/2026 sui concetti del 13/07: ritiene ciò che può usare come 
 ## Aggiornamento 24/10/2026 — come vuole studiare Operations Food & AI
 
 Nella nuova formazione F&B Matteo ha richiesto micro-lezioni di pochi concetti, spiegazione minima, sua rielaborazione attiva e piccoli casi concreti per allenare la risposta rapida. **Argomento trattato non equivale a competenza consolidata**: dare punteggi provvisori 1–5 con prove, ripassare in sessioni successive con tabelle da completare a memoria e casi integrati progressivamente più complessi. Non considerare il primo esercizio guidato una prova a distanza. Dettagli, valutazioni e protocollo: [Formazione Operations Food & AI](../carriera/formazione-operations-food-ai.md).
+
+## Aggiornamento 24/10/2026 — le lezioni si giocano
+
+Richiesta di Matteo: «fai in modo che se chiedo di fare una lezione venga usato questo genere di artefatti dopo la spiegazione iniziale», perché è «allineato al mio voler giocare e interagiire con le informazioni». La sicurezza, per lui: «se mi so esporre bene comprovando le cose che dico da fatti verificati da me o miei artefatti allora sono coperto».
+
+**Quando Matteo chiede una lezione:**
+1. Spiegazione iniziale breve (micro-lezione, pochi concetti), legata a un caso reale o a una sua frase.
+2. Poi un artefatto interattivo sul modello di [Banco di Prova](../../raw/artefatti/2026-10-24-banco-di-prova-unita-01.html): scommessa con fiducia 1–5 prima di vedere il gioco; simulatore con i suoi numeri, dove a dargli torto è un numero e non una persona; uno spazio per il **suo** modello (i suoi passaggi, i suoi tempi); spiegazione in massimo cinque frasi con parole chiave; caso nuovo senza aiuti; registro a tre colonne; ripasso a 1, 3 e 7 giorni.
+3. Le risposte si salvano dove l'agente può rileggerle: database dell'artefatto su claude.ai; altrove, una pagina HTML unica con un pulsante per copiare i risultati in chat.
+4. Debrief in chat: l'agente valuta la spiegazione sul significato, non sul contatore di parole («la devi poi valutare tu»), e aggiorna i voti 1–5 in [Formazione Operations Food & AI](../carriera/formazione-operations-food-ai.md).
+
+**Colonna «posso provarlo»:** solo con una misura o un calcolo da dati misurati. Una stima, anche sua, sta in «lo spiego, non lo provo».
+
+**Prima misura:** scommessa 0/2 con fiducia 5/5, poi caso nuovo giusto con fiducia 4/5. Ha corretto da solo il modello dell'agente sul lavoro in parallelo, e da lì è nata la sezione col suo giro. Il contatore di parole chiave dava 5/5; il lessico reale era 3 su 5.
 
 ## Come deve condurre una sessione un agente
 

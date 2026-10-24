@@ -7,7 +7,7 @@ Prima versione della wiki personale di Matteo Cavallaro, compilata il 21/10/2026
 | Articolo | Descrizione | Updated |
 |---|---|---|
 | [Chi è Matteo](persona/chi-e-matteo.md) | Profilo di base, cosa è verificato e cosa no (anni di esperienza in disputa) | 2026-10-21 |
-| [Come apprende](persona/come-apprende.md) | Il ciclo con cui impara, mosse contro distinzioni, il canale reale | 2026-10-21 |
+| [Come apprende](persona/come-apprende.md) | Il ciclo con cui impara, mosse contro distinzioni, il canale reale; le lezioni con artefatti da giocare | 2026-10-24 |
 | [Come comunicare](persona/come-comunicare.md) | Regole di tono e di lavoro in sessione | 2026-10-21 |
 | [Il difetto-chiave e le forze](persona/difetto-chiave-e-forze.md) | Le forme del difetto, i segnali da sorvegliare, la forza opposta | 2026-10-21 |
 | [Lettura non verbale](persona/lettura-non-verbale.md) | Specchio d'apertura, macro parole, lenti, regola su fatica e riposo | 2026-10-21 |
@@ -24,7 +24,7 @@ Prima versione della wiki personale di Matteo Cavallaro, compilata il 21/10/2026
 | [Profilo LinkedIn](carriera/profilo-linkedin.md) | Profilo pubblicato e decisioni collegate | 2026-10-21 |
 | [Regole di claim e presentazione](carriera/regole-claim-e-presentazione.md) | Cosa può dire di sé e cosa no, pitch, domande a freddo | 2026-10-21 |
 | [Skill e livelli](carriera/skill-e-livelli.md) | Cosa sa fare, cosa non sa, cosa è provato | 2026-10-21 |
-| [Formazione Operations Food & AI](carriera/formazione-operations-food-ai.md) | Obiettivo, preferenze didattiche, voti provvisori 1–5, ripasso e stato degli argomenti | 2026-10-24 |
+| [Formazione Operations Food & AI](carriera/formazione-operations-food-ai.md) | Obiettivo, preferenze didattiche, voti provvisori 1–5 (anche dell'Unità 1 sul collo di bottiglia), ripasso e stato degli argomenti | 2026-10-24 |
 
 ## progetti
 

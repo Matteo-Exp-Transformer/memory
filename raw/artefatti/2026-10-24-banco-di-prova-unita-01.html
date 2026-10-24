@@ -1,0 +1,527 @@
+<title>Banco di Prova</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* Layout: una colonna da banco di lavoro; ogni passo del ciclo è una stazione numerata (l'ordine è reale: prima scommetti, poi giochi) */
+:root{
+  --bg:#EDF0EE; --paper:#F9FBFA; --ink:#17201D; --muted:#56645E; --line:#CAD3CF;
+  --accent:#22557D; --accent-soft:#DBE6EF; --warn:#A94D18; --warn-soft:#F5E2D5; --ok:#2B7349; --ok-soft:#DAEEE1;
+  --f-display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#101513; --paper:#171E1B; --ink:#E3EBE7; --muted:#98A69F; --line:#2C3732;
+  --accent:#86B5DB; --accent-soft:#1C2D3A; --warn:#EB9763; --warn-soft:#3A2519; --ok:#71CB96; --ok-soft:#173021; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#101513; --paper:#171E1B; --ink:#E3EBE7; --muted:#98A69F; --line:#2C3732;
+  --accent:#86B5DB; --accent-soft:#1C2D3A; --warn:#EB9763; --warn-soft:#3A2519; --ok:#71CB96; --ok-soft:#173021; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);}
+.wrap{max-width:880px;margin:0 auto;padding-block:28px 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(28px,5vw,40px);font-weight:700}
+h2{font-size:22px;font-weight:700}
+h3{font-size:16px;font-weight:600;font-family:var(--f-body)}
+p{margin:0;max-width:68ch}
+.eyebrow{font:500 12px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.lead{color:var(--muted);font-size:16px}
+.cycle{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.cycle a{font:500 13px/1 var(--f-mono);color:var(--ink);text-decoration:none;border:1px solid var(--line);padding:7px 10px;border-radius:999px;background:var(--paper)}
+.cycle a:hover,.cycle a:focus-visible{border-color:var(--accent);color:var(--accent);outline:none}
+.cycle a.done{background:var(--ok-soft);border-color:transparent}
+section.st{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:22px clamp(16px,3vw,28px);display:grid;gap:16px}
+.st-head{display:flex;gap:14px;align-items:baseline}
+.num{font:500 13px/1 var(--f-mono);color:var(--accent);min-width:2ch}
+.quote{border-left:3px solid var(--accent);padding:6px 0 6px 14px;font-style:italic;color:var(--ink)}
+.quote small{display:block;font-style:normal;color:var(--muted);font:12px var(--f-mono);margin-top:4px}
+.given{white-space:pre;font:13px/1.7 var(--f-mono);background:var(--bg);border-radius:8px;padding:12px 14px;overflow-x:auto}
+.q{display:grid;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:7px 12px;border-radius:7px;cursor:pointer}
+.chip:hover{border-color:var(--accent)}
+.chip:focus-visible,.btn:focus-visible,textarea:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--paper)}
+.chip:disabled{cursor:default;opacity:.75}
+.chip.right{background:var(--ok-soft);border-color:var(--ok);color:var(--ink)}
+.chip.wrong{background:var(--warn-soft);border-color:var(--warn);color:var(--ink)}
+.btn{font:600 14px var(--f-body);background:var(--ink);color:var(--paper);border:0;padding:10px 16px;border-radius:8px;cursor:pointer;justify-self:start}
+.btn.ghost{background:transparent;color:var(--accent);border:1px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.note{font-size:13px;color:var(--muted)}
+.locked{filter:blur(5px);pointer-events:none;user-select:none}
+.verdict{border-radius:8px;padding:12px 14px;display:grid;gap:6px}
+.verdict.good{background:var(--ok-soft)} .verdict.bad{background:var(--warn-soft)} .verdict.info{background:var(--accent-soft)}
+.sliders{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px 22px}
+.sl{display:grid;gap:3px;min-width:0}
+.sl label{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.sl output{font:500 13px var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sl input{width:100%;accent-color:var(--accent)}
+.sl .src{font-size:11.5px;color:var(--muted)}
+.grp-title{grid-column:1/-1;font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-top:1px solid var(--line);padding-top:10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.kpi{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:grid;gap:2px}
+.kpi b{font:600 22px var(--f-mono);font-variant-numeric:tabular-nums}
+.kpi span{font-size:12.5px;color:var(--muted)}
+.kpi.alert{border-color:var(--warn);background:var(--warn-soft)}
+.chart{width:100%;overflow-x:auto}
+.chart svg{display:block;width:100%;height:auto;min-width:320px}
+svg .ax{stroke:var(--line);stroke-width:1}
+svg .tx{fill:var(--muted);font:11px var(--f-mono)}
+svg .tx.strong{fill:var(--ink)}
+svg .ln{fill:none;stroke:var(--accent);stroke-width:2.5}
+svg .ln.warn{stroke:var(--warn)}
+svg .area{fill:var(--accent-soft);stroke:none}
+svg .bar{fill:var(--accent-soft)} svg .bar.bn{fill:var(--warn)}
+svg .dem{stroke:var(--ink);stroke-width:2;stroke-dasharray:5 4}
+svg .dot{fill:var(--warn);stroke:var(--paper);stroke-width:2}
+textarea{width:100%;min-height:120px;font:15px/1.5 var(--f-body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;resize:vertical}
+.terms .chip{cursor:default;font-size:13px}
+.terms .chip.on{background:var(--ok-soft);border-color:var(--ok)}
+.reg{display:grid;gap:10px}
+.reg-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;border-top:1px solid var(--line);padding-top:10px}
+.reg-item small{color:var(--muted);font:11.5px var(--f-mono)}
+@media (max-width:620px){.reg-item{grid-template-columns:1fr}}
+.seg{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg button{font:inherit;font-size:12.5px;background:var(--paper);color:var(--ink);border:0;border-right:1px solid var(--line);padding:6px 9px;cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--paper)}
+.cards{display:grid;gap:10px}
+.card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;display:grid;gap:8px}
+.card .ans{border-top:1px dashed var(--line);padding-top:8px}
+.meas{width:100%;border-collapse:collapse;font-size:14px}
+.meas th,.meas td{text-align:left;padding:8px 6px;border-top:1px solid var(--line);vertical-align:top}
+.meas th{font:500 12px var(--f-mono);color:var(--muted);text-transform:uppercase;letter-spacing:.05em}
+.status{font:12px var(--f-mono);color:var(--muted)}
+.tbl{overflow-x:auto}
+.num-in{width:5em;font:14px var(--f-mono);padding:5px 7px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+.gtasks{display:grid;gap:6px}
+.gt{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;align-items:center;font-size:14px}
+.gt select{font:13px var(--f-mono);padding:5px;border:1px solid var(--line);border-radius:6px;background:var(--bg);color:var(--ink)}
+svg .gA{fill:var(--accent)} svg .gB{fill:var(--warn)} svg .gM{fill:var(--line)}
+svg .gl{fill:var(--paper);font:11px var(--f-mono)} svg .gl.m{fill:var(--ink)}
+@media (prefers-reduced-motion:no-preference){.verdict{animation:in .25s ease-out}@keyframes in{from{transform:translateY(4px)}to{transform:none}}}
+</style>
+
+<div class="wrap">
+  <header style="display:grid;gap:10px">
+    <span class="eyebrow">Unità 1 · Caffetteria nel picco della colazione</span>
+    <h1>Banco di Prova</h1>
+    <p class="lead">Una prova del metodo su di te. Prendi una frase che hai detto nel colloquio, scommetti, giocaci, spiegala, difendila su un caso nuovo, poi decidi tu cosa puoi dire di saper provare.</p>
+    <nav class="cycle" aria-label="Passi del ciclo">
+      <a href="#s1" data-step="scommessa">01 Scommessa</a><a href="#s2">02 Gioca</a><a href="#s3" data-step="spiegazione">03 Spiega</a><a href="#s4" data-step="interrogatorio">04 Interrogatorio</a><a href="#s5" data-step="registro">05 Registro</a><a href="#s6" data-step="ripasso">06 Scale</a><a href="#s7">Misure</a>
+    </nav>
+    <span class="status" id="status">Collegamento al salvataggio…</span>
+  </header>
+
+  <!-- 01 -->
+  <section class="st" id="s1">
+    <div class="st-head"><span class="num">01</span><h2>Scommessa, prima di toccare niente</h2></div>
+    <div class="quote">«Quindi con tre gruppi, braccio doppio, si fanno sei cappucci entro un minuto.» … «immaginare su un'affluenza di cinque clienti al minuto»<small>tu, colloquio simulato · CV-10</small></div>
+    <p>Prendiamo le tue ipotesi e aggiungiamo le mie, dichiarate. Rispondi d'istinto: la scommessa serve a misurare quanto ti fidi del tuo intuito, non a indovinare.</p>
+    <div class="given" id="givens"></div>
+    <div class="q"><h3>A. Dopo 30 minuti di picco, quanto aspetta chi arriva al bancone?</h3><div class="chips" id="betWait"></div></div>
+    <div class="q"><h3>B. Cosa limita quanti prodotti escono al minuto?</h3><div class="chips" id="betBn"></div></div>
+    <div class="q"><h3>Quanto sei sicuro? (1 = tiro a caso, 5 = lo direi al titolare)</h3><div class="chips" id="betConf"></div></div>
+    <div class="row"><button class="btn" id="betLock" disabled>Blocca la scommessa</button><button class="btn ghost" id="betSkip">Salta</button></div>
+    <div id="betOut"></div>
+  </section>
+
+  <!-- 02 -->
+  <section class="st" id="s2">
+    <div class="st-head"><span class="num">02</span><h2>Gioca con il bancone</h2></div>
+    <div id="simBox" class="locked" aria-hidden="true">
+      <div style="display:grid;gap:16px">
+        <p>Muovi i cursori. I valori di partenza sono quelli della scommessa. Le ipotesi mie sono segnate: il loro valore vero si prende col cronometro.</p>
+        <div class="verdict info" id="claim"></div>
+        <div class="kpis" id="kpis"></div>
+        <div><h3 style="margin-bottom:6px">Prodotti al minuto: quanto regge ogni stazione, contro quanto chiedono i clienti</h3><div class="chart" id="chBars"></div></div>
+        <div><h3 style="margin-bottom:6px">Quanto aspetta chi arriva al minuto t</h3><div class="chart" id="chQueue"></div></div>
+        <div><h3 style="margin-bottom:6px">Perché lavorare "quasi al 100%" non basta</h3><div class="chart" id="chHockey"></div><p class="note" id="hockeyNote"></p></div>
+        <div class="sliders" id="sliders"></div>
+        <div class="row"><button class="btn ghost" id="reset">Torna alle ipotesi della scommessa</button></div>
+        <details><summary class="note">Come calcola</summary><p class="note" style="margin-top:8px">Ogni stazione ha una capacità in prodotti al minuto. Gruppi: gruppi × 2 tazze × 60 ÷ secondi di estrazione. Vapore: lance × cappuccini per brocca × 60 ÷ secondi di montatura, diviso la quota di prodotti col latte. Barista: persone × 60 ÷ secondi di lavoro manuale per prodotto (macinare, pressare, versare, servire). La più bassa comanda. Se la domanda supera la capacità, la coda cresce di (domanda − capacità) prodotti ogni minuto. Sotto il 100%, l'attesa media usa una formula classica delle code con arrivi irregolari (M/D/1): è una stima, non una misura.</p></details>
+        <div style="display:grid;gap:12px;border-top:1px solid var(--line);padding-top:18px">
+          <span class="eyebrow">Modello tuo · versione 1</span>
+          <h3 style="font-family:var(--f-display);font-size:19px">Il tuo giro, come l'hai descritto in chat</h3>
+          <p class="note">I secondi sono i tuoi (chat del 24/10, 22:52). Qui la macchina lavora mentre tu fai altro: è il lavoro in parallelo che mi hai fatto notare. Quando cronometri un giro vero, sostituisci i numeri e salva.</p>
+          <div class="row"><label for="gBatch">Tazze per giro</label><input type="number" class="num-in" id="gBatch" min="1" max="12" step="1"><label for="gEstr">Estrazione (la fa la macchina)</label><input type="number" class="num-in" id="gEstr" min="10" max="40" step="1"><span class="note">s</span></div>
+          <div class="chips" id="gPers"></div>
+          <div class="gtasks" id="gTasks"></div>
+          <div class="chart" id="chGiro"></div>
+          <div class="kpis" id="gKpis"></div>
+          <div class="verdict info" id="gVerdict"></div>
+          <div class="row"><button class="btn" id="gSave">Salva il mio giro</button><span class="note" id="gNote"></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="st" id="s3">
+    <div class="st-head"><span class="num">03</span><h2>Spiegalo al titolare</h2></div>
+    <p>Massimo cinque frasi. Perché a colazione si forma la coda, e cosa misureresti per primo. Le parole chiave si accendono quando le usi: sono il lessico che fa capire subito di cosa parli.</p>
+    <textarea id="spieg" placeholder="Il problema non è…"></textarea>
+    <div class="chips terms" id="terms"></div>
+    <div class="row"><button class="btn" id="spiegSave">Salva la spiegazione</button><span class="note" id="spiegNote"></span></div>
+  </section>
+
+  <!-- 04 -->
+  <section class="st" id="s4">
+    <div class="st-head"><span class="num">04</span><h2>Interrogatorio: caso nuovo, senza cursori</h2></div>
+    <p>Un altro locale. Il titolare ha già fatto il test del cronometro che proponevi tu (CV-09) e ti dà i dati misurati:</p>
+    <div class="given" id="caseGiven"></div>
+    <p><b>«Compro una seconda macchina da due gruppi, 6.000 euro. Così sistemiamo le code. Sei d'accordo?»</b></p>
+    <div class="chips" id="caseOpts" style="display:grid;gap:6px"></div>
+    <textarea id="caseWhy" placeholder="Perché, con i numeri (anche a spanne)" style="min-height:90px"></textarea>
+    <div class="q"><h3>Quanto sei sicuro?</h3><div class="chips" id="caseConf"></div></div>
+    <button class="btn" id="caseSend" disabled>Consegna la risposta</button>
+    <div id="caseOut"></div>
+  </section>
+
+  <!-- 05 -->
+  <section class="st" id="s5">
+    <div class="st-head"><span class="num">05</span><h2>Registro: cosa puoi dire in un colloquio</h2></div>
+    <p>Per ogni frase scegli dove sta oggi. Regola: al colloquio dici con sicurezza solo ciò che è nella prima colonna, e lo dici mostrando la prova.</p>
+    <div class="reg" id="reg"></div>
+    <div class="row"><button class="btn" id="regSave">Salva il registro</button><span class="note" id="regNote"></span></div>
+  </section>
+
+  <!-- 06 -->
+  <section class="st" id="s6">
+    <div class="st-head"><span class="num">06</span><h2>Scale: dieci minuti, a distanza di giorni</h2></div>
+    <p>Come le scale sull'handpan: noiose, brevi, ripetute. Rispondi a voce o a mente <i>prima</i> di aprire la risposta, poi dichiara com'è andata.</p>
+    <p class="note" id="dueDates"></p>
+    <div class="cards" id="cards"></div>
+  </section>
+
+  <!-- 07 -->
+  <section class="st" id="s7">
+    <div class="st-head"><span class="num">··</span><h2>Cosa misuro su di te</h2></div>
+    <p>Quattro misure. Ci dicono se questo metodo funziona per te, non quanto sei bravo.</p>
+    <div class="tbl"><table class="meas"><thead><tr><th>Misura</th><th>Cosa dice</th><th>Tuo dato</th></tr></thead><tbody id="meas"></tbody></table></div>
+    <div class="row"><button class="btn ghost" id="copy">Copia i risultati</button><span class="note" id="copyNote">Se il salvataggio non è attivo, incolla i risultati in chat.</span></div>
+  </section>
+</div>
+
+<script>
+const $=s=>document.querySelector(s);
+const fmt=(x,d=1)=>Number.isFinite(x)?x.toLocaleString('it-IT',{maximumFractionDigits:d}):'∞';
+const NAMES={gruppi:'gruppi della macchina',vapore:'lance vapore',mani:'mani del barista'};
+
+const P0={lam:5,dpc:1.2,T:30,bar:1,grp:3,tEstr:25,lance:2,tVap:40,brocca:2,latte:60,tMani:20};
+const PC={lam:4,dpc:1.3,T:30,bar:1,grp:3,tEstr:25,lance:2,tVap:40,brocca:2,latte:60,tMani:25};
+let P={...P0};
+
+function model(p){
+  const caps={gruppi:p.grp*2*60/p.tEstr,vapore:p.latte>0?(p.lance*p.brocca*60/p.tVap)/(p.latte/100):Infinity,mani:p.bar*60/p.tMani};
+  let b='gruppi';for(const k in caps)if(caps[k]<caps[b])b=k;
+  const mu=caps[b],d=p.lam*p.dpc,rho=d/mu;
+  let Qend=0,waitLast=0,wq=0;
+  if(rho>=1){Qend=(d-mu)*p.T;waitLast=Qend/mu}else{wq=rho/(2*mu*(1-rho))}
+  return{caps,b,mu,d,rho,Qend,waitLast,wq,clear:waitLast};
+}
+const waitOf=m=>m.rho>=1?m.waitLast:m.wq;
+
+function givenText(p,measured){
+  const t=measured?'misurato':'ipotesi mia';
+  return `Clienti al minuto nel picco ....... ${fmt(p.lam)}   ${measured?'(misurato)':'(tua stima, CV-10)'}
+Prodotti di caffetteria per cliente  ${fmt(p.dpc)}   (${t})
+Durata del picco .................. ${p.T} min
+Baristi alla macchina ............. ${p.bar}
+Gruppi, doppia tazza .............. ${p.grp}   ${measured?'':'(tuo dato, CV-10)'}
+Estrazione ........................ ${p.tEstr} s
+Lance vapore ...................... ${p.lance}, ${p.brocca} cappuccini a brocca, ${p.tVap} s
+Prodotti col latte ................ ${p.latte}%
+Lavoro manuale per prodotto ....... ${p.tMani} s   (${t}${measured?'':': da cronometrare'})`;
+}
+$('#givens').textContent=givenText(P0,false);
+$('#caseGiven').textContent=givenText(PC,true);
+
+/* ---------- db ---------- */
+let db=null;const store={};
+function setStatus(t){$('#status').textContent=t}
+async function save(k,data){
+  store[k]=data;renderMeasures();markSteps();
+  if(!db)return false;
+  const ref=db.doc('unita1/'+k);
+  try{await ref.set(data);return true}catch(e){
+    if(e&&e.code==='unavailable'){await new Promise(r=>setTimeout(r,700+Math.random()*900));try{await ref.set(data);return true}catch(_){}}
+    setStatus('Ultimo salvataggio non riuscito: usa "Copia i risultati".');return false}
+}
+async function initDb(){
+  try{db=window.claude&&window.claude.use?await window.claude.use('db'):null}catch(e){db=null}
+  if(!db){setStatus('Salvataggio non attivo in questa vista. Alla fine usa "Copia i risultati".');return}
+  setStatus('Salvataggio attivo: le tue risposte restano qui e Claude può leggerle.');
+  for(const k of['scommessa','spiegazione','interrogatorio','registro','ripasso','giro']){
+    try{const s=await db.doc('unita1/'+k).get();if(s.exists)store[k]=JSON.parse(JSON.stringify(s.data()))}catch(e){}
+  }
+  restore();
+}
+const now=()=>new Date().toISOString();
+
+/* ---------- chips helper ---------- */
+function chipGroup(el,opts,onPick){
+  el.innerHTML='';const state={v:null};
+  opts.forEach(o=>{const b=document.createElement('button');b.className='chip';b.type='button';b.textContent=o.t;b.dataset.id=o.id;b.setAttribute('aria-pressed','false');
+    b.onclick=()=>{if(b.disabled)return;state.v=o.id;el.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));onPick&&onPick(o.id)};el.appendChild(b)});
+  state.set=id=>{state.v=id;el.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed',x.dataset.id===id?'true':'false'))};
+  state.lock=(right)=>{el.querySelectorAll('.chip').forEach(x=>{x.disabled=true;if(right!=null){if(x.dataset.id===right)x.classList.add('right');else if(x.dataset.id===state.v)x.classList.add('wrong')}})};
+  return state;
+}
+const CONF=[1,2,3,4,5].map(n=>({id:String(n),t:String(n)}));
+
+/* ---------- 01 scommessa ---------- */
+const BUCKETS=[{id:'a',t:'meno di 2 minuti',lo:0,hi:2},{id:'b',t:'2–5 minuti',lo:2,hi:5},{id:'c',t:'5–15 minuti',lo:5,hi:15},{id:'d',t:'più di 15 minuti',lo:15,hi:1e9}];
+const BNS=[{id:'gruppi',t:'I gruppi della macchina'},{id:'vapore',t:'Le lance vapore'},{id:'mani',t:'Le mani del barista'}];
+const m0=model(P0);const rightWait=BUCKETS.find(b=>waitOf(m0)>=b.lo&&waitOf(m0)<b.hi).id;
+const bw=chipGroup($('#betWait'),BUCKETS,checkBet),bb=chipGroup($('#betBn'),BNS,checkBet),bc=chipGroup($('#betConf'),CONF,checkBet);
+function checkBet(){$('#betLock').disabled=!(bw.v&&bb.v&&bc.v)}
+function unlockSim(){const s=$('#simBox');s.classList.remove('locked');s.removeAttribute('aria-hidden')}
+function showBet(r){
+  bw.set(r.attesa);bb.set(r.collo);bc.set(String(r.fiducia));bw.lock(rightWait);bb.lock(m0.b);bc.lock();
+  $('#betLock').disabled=true;$('#betSkip').hidden=true;
+  const ok=(r.attesa===rightWait)+(r.collo===m0.b);
+  $('#betOut').innerHTML=`<div class="verdict ${ok===2?'good':'bad'}"><b>${ok}/2 con fiducia ${r.fiducia}/5.</b><span>Con queste ipotesi chi arriva dopo 30 minuti aspetta circa <b>${fmt(m0.waitLast,0)} minuti</b>: escono ${fmt(m0.mu)} prodotti al minuto, ne chiedono ${fmt(m0.d)}. Comanda: ${NAMES[m0.b]}. Ora vai al passo 02 e scopri perché.</span></div>`;
+  unlockSim();
+}
+$('#betLock').onclick=()=>{const r={attesa:bw.v,collo:bb.v,fiducia:+bc.v,giusto_attesa:bw.v===rightWait,giusto_collo:bb.v===m0.b,ts:now()};showBet(r);save('scommessa',r)};
+$('#betSkip').onclick=()=>{unlockSim();$('#betSkip').hidden=true;$('#betOut').innerHTML='<p class="note">Scommessa saltata: questa volta niente misura della fiducia.</p>'};
+
+/* ---------- 02 simulatore ---------- */
+const SL=[
+ ['g','Clienti'],
+ ['lam','Clienti al minuto nel picco',1,10,.5,'','tua stima (CV-10)'],
+ ['dpc','Prodotti di caffetteria per cliente',.5,2.5,.1,'','ipotesi mia'],
+ ['T','Durata del picco',10,90,5,' min',''],
+ ['g','Bancone'],
+ ['bar','Baristi alla macchina',1,3,1,'',''],
+ ['tMani','Lavoro manuale per prodotto',8,45,1,' s','ipotesi mia: da cronometrare'],
+ ['g','Macchina'],
+ ['grp','Gruppi (doppia tazza)',1,4,1,'','tuo dato (CV-10)'],
+ ['tEstr','Estrazione',18,35,1,' s',''],
+ ['lance','Lance vapore',1,3,1,'',''],
+ ['tVap','Montatura latte per brocca',20,60,1,' s','ipotesi mia'],
+ ['brocca','Cappuccini per brocca',1,4,1,'',''],
+ ['latte','Prodotti col latte',0,100,5,' %','ipotesi mia'],
+];
+function buildSliders(){
+  const box=$('#sliders');box.innerHTML='';
+  SL.forEach(s=>{
+    if(s[0]==='g'){const d=document.createElement('div');d.className='grp-title';d.textContent=s[1];box.appendChild(d);return}
+    const[k,l,mi,ma,st,u,src]=s;const w=document.createElement('div');w.className='sl';
+    w.innerHTML=`<label for="s-${k}"><span>${l}</span><output id="o-${k}"></output></label><input type="range" id="s-${k}" min="${mi}" max="${ma}" step="${st}" value="${P[k]}">${src?`<span class="src">${src}</span>`:''}`;
+    box.appendChild(w);
+    const inp=w.querySelector('input');inp.oninput=()=>{P[k]=+inp.value;update()};
+  });
+}
+function syncSliders(){SL.forEach(s=>{if(s[0]==='g')return;const k=s[0];$('#s-'+k).value=P[k];$('#o-'+k).textContent=fmt(P[k])+(s[5]||'')})}
+
+function nice(max){const raw=max/4,p=Math.pow(10,Math.floor(Math.log10(raw))),n=raw/p;return(n<=1?1:n<=2?2:n<=5?5:10)*p}
+
+function barsSVG(m){
+  const W=600,H=170,L=150,R=20,rows=['gruppi','vapore','mani'];
+  const vals=rows.map(r=>Number.isFinite(m.caps[r])?m.caps[r]:0);
+  const max=Math.max(...vals,m.d)*1.12||1,sx=v=>L+(W-L-R)*v/max;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Capacità delle stazioni contro la domanda">`;
+  const st=nice(max);for(let v=0;v<=max;v+=st){s+=`<line class="ax" x1="${sx(v)}" x2="${sx(v)}" y1="8" y2="${H-26}"/><text class="tx" x="${sx(v)}" y="${H-10}" text-anchor="middle">${fmt(v)}</text>`}
+  rows.forEach((r,i)=>{const y=14+i*42,v=m.caps[r];const vv=Number.isFinite(v)?v:max;
+    s+=`<text class="tx strong" x="${L-10}" y="${y+18}" text-anchor="end">${NAMES[r]}</text><rect class="bar ${r===m.b?'bn':''}" x="${L}" y="${y}" width="${Math.max(0,sx(vv)-L)}" height="26" rx="3"/><text class="tx strong" x="${Math.min(sx(vv)+6,W-R-40)}" y="${y+18}">${Number.isFinite(v)?fmt(v):'—'}</text>`});
+  s+=`<line class="dem" x1="${sx(m.d)}" x2="${sx(m.d)}" y1="4" y2="${H-26}"/><text class="tx strong" x="${Math.min(sx(m.d)+4,W-110)}" y="${H-30}">domanda ${fmt(m.d)}/min</text>`;
+  return s+'</svg>';
+}
+function queueSVG(p,m){
+  const W=600,H=220,L=44,R=16,T=12,B=30;const tmax=p.T+Math.max(m.clear,6);
+  const w=t=>{if(m.rho<1)return m.wq;return t<=p.T?(m.d-m.mu)*t/m.mu:Math.max(0,m.Qend-m.mu*(t-p.T))/m.mu};
+  const ymax=Math.max(m.rho>=1?m.waitLast:m.wq,1)*1.15;const sx=t=>L+(W-L-R)*t/tmax,sy=v=>H-B-(H-B-T)*v/ymax;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Attesa nel tempo">`;
+  const ys=nice(ymax);for(let v=0;v<=ymax;v+=ys)s+=`<line class="ax" x1="${L}" x2="${W-R}" y1="${sy(v)}" y2="${sy(v)}"/><text class="tx" x="${L-6}" y="${sy(v)+4}" text-anchor="end">${fmt(v)}′</text>`;
+  const xs=nice(tmax);for(let t=0;t<=tmax;t+=xs)s+=`<text class="tx" x="${sx(t)}" y="${H-10}" text-anchor="middle">${fmt(t,0)}</text>`;
+  s+=`<line class="ax" x1="${sx(p.T)}" x2="${sx(p.T)}" y1="${T}" y2="${H-B}" stroke-dasharray="3 3"/><text class="tx" x="${sx(p.T)+4}" y="${T+10}">fine picco</text>`;
+  let d='';const N=80;for(let i=0;i<=N;i++){const t=tmax*i/N;d+=(i?'L':'M')+sx(t).toFixed(1)+','+sy(w(t)).toFixed(1)}
+  s+=`<path class="area" d="${d}L${sx(tmax)},${sy(0)}L${sx(0)},${sy(0)}Z"/><path class="ln ${m.rho>=1?'warn':''}" d="${d}"/>`;
+  s+=`<text class="tx" x="${W-R}" y="${H-10}" text-anchor="end">minuto in cui arrivi</text>`;
+  return s+'</svg>';
+}
+function hockeySVG(m){
+  const W=600,H=200,L=44,R=16,T=12,B=30;const f=r=>r/(2*m.mu*(1-r));const ymax=f(.95)*1.1;
+  const sx=r=>L+(W-L-R)*(r-.2)/(.99-.2),sy=v=>H-B-(H-B-T)*Math.min(v,ymax)/ymax;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Attesa media in funzione del carico">`;
+  const ys=nice(ymax);for(let v=0;v<=ymax;v+=ys)s+=`<line class="ax" x1="${L}" x2="${W-R}" y1="${sy(v)}" y2="${sy(v)}"/><text class="tx" x="${L-6}" y="${sy(v)+4}" text-anchor="end">${fmt(v)}′</text>`;
+  [.2,.4,.6,.8,.9].forEach(r=>s+=`<text class="tx" x="${sx(r)}" y="${H-10}" text-anchor="middle">${Math.round(r*100)}%</text>`);
+  let d='';for(let r=.2;r<=.985;r+=.005){const v=f(r);if(v>ymax)break;d+=(d?'L':'M')+sx(r).toFixed(1)+','+sy(v).toFixed(1)}
+  s+=`<path class="ln" d="${d}"/>`;
+  if(m.rho<1&&f(m.rho)<=ymax&&m.rho>=.2)s+=`<circle class="dot" cx="${sx(m.rho)}" cy="${sy(f(m.rho))}" r="6"/><text class="tx strong" x="${sx(m.rho)-8}" y="${sy(f(m.rho))-10}" text-anchor="end">tu, ${Math.round(m.rho*100)}%</text>`;
+  else if(m.rho>=1)s+=`<text class="tx strong" x="${W-R}" y="${T+12}" text-anchor="end">tu: ${Math.round(m.rho*100)}%, fuori scala</text>`;
+  s+=`<text class="tx" x="${W-R}" y="${H-10}" text-anchor="end">carico = domanda ÷ capacità</text>`;
+  return s+'</svg>';
+}
+function update(){
+  syncSliders();const m=model(P);
+  const k=[
+    {v:fmt(m.d),l:'prodotti chiesti al minuto'},
+    {v:fmt(m.mu),l:'prodotti che escono al minuto ('+NAMES[m.b]+')'},
+    {v:Math.round(m.rho*100)+'%',l:'carico della stazione più lenta',a:m.rho>=.85},
+    m.rho>=1?{v:fmt(m.waitLast,0)+'′',l:'attesa di chi arriva a fine picco',a:true}:{v:fmt(m.wq*60,0)+'″',l:'attesa media in coda (stima)',a:m.rho>=.85},
+  ];
+  $('#kpis').innerHTML=k.map(x=>`<div class="kpi ${x.a?'alert':''}"><b>${x.v}</b><span>${x.l}</span></div>`).join('');
+  $('#claim').innerHTML=`<b>La tua frase alla prova.</b><span>La macchina regge ${fmt(m.caps.gruppi)} prodotti al minuto, il vapore ${fmt(m.caps.vapore)}, il barista ${fmt(m.caps.mani)}. «Sei cappuccini al minuto» ${m.caps.gruppi>=6&&m.caps.vapore>=6?'è vero per la macchina':'qui non regge nemmeno per la macchina'}${m.caps.mani>=6?' e anche per chi ci lavora.':`, ma con ${P.bar} ${P.bar>1?'baristi':'barista'} a ${P.tMani} secondi di lavoro manuale ne escono ${fmt(m.caps.mani)}. Per sostenerla davanti a un titolare ti serve il tempo manuale misurato.`}</span>`;
+  renderGiro();
+  $('#chBars').innerHTML=barsSVG(m);$('#chQueue').innerHTML=queueSVG(P,m);$('#chHockey').innerHTML=hockeySVG(m);
+  $('#hockeyNote').textContent=m.rho<1?`Sotto il 100% la coda si smaltisce, ma gli arrivi a ondate fanno attendere: all'${Math.round(m.rho*100)}% l'attesa media stimata è ${fmt(m.wq*60,0)} secondi, al 95% sarebbe ${fmt(.95/(2*m.mu*.05)*60,0)}.`:'Sopra il 100% non esiste un equilibrio: la coda cresce per tutto il picco e si smaltisce solo dopo.';
+}
+/* ---------- il giro di Matteo ---------- */
+const G0={batch:6,estr:25,pers:1,tasks:[
+ {id:'carico',n:'Caricare i 3 gruppi',s:20,p:'A'},
+ {id:'latte1',n:'Montare il latte, brocca 1',s:20,p:'B'},
+ {id:'latte2',n:'Montare il latte, brocca 2',s:20,p:'B'},
+ {id:'piattini',n:'Preparare i piattini',s:20,p:'A'},
+ {id:'versare',n:'Versare i cappuccini',s:20,p:'B'}]};
+const G=JSON.parse(JSON.stringify(G0));
+const gp=chipGroup($('#gPers'),[{id:'1',t:'1 persona'},{id:'2',t:'2 persone, A e B'}],v=>{G.pers=+v;buildGiroTasks();renderGiro()});
+function buildGiroTasks(){
+  $('#gTasks').innerHTML=G.tasks.map((t,i)=>`<div class="gt"><label for="gs${i}">${t.n}</label><span><input type="number" class="num-in" id="gs${i}" min="0" max="120" value="${t.s}"> s</span>${G.pers===2?`<select id="gp${i}" aria-label="Chi lo fa"><option value="A"${t.p==='A'?' selected':''}>A</option><option value="B"${t.p==='B'?' selected':''}>B</option></select>`:'<span></span>'}</div>`).join('');
+  G.tasks.forEach((t,i)=>{$('#gs'+i).oninput=e=>{t.s=Math.max(0,+e.target.value||0);renderGiro()};const sel=$('#gp'+i);if(sel)sel.onchange=e=>{t.p=e.target.value;renderGiro()}});
+  $('#gBatch').value=G.batch;$('#gEstr').value=G.estr;gp.set(String(G.pers));
+}
+$('#gBatch').oninput=e=>{G.batch=Math.max(1,+e.target.value||1);renderGiro()};
+$('#gEstr').oninput=e=>{G.estr=Math.max(0,+e.target.value||0);renderGiro()};
+function schedule(g){
+  const who=t=>g.pers===1?'A':t.p;const free={A:0,B:0},busy={A:0,B:0},end={},bars=[];
+  for(const t of g.tasks){
+    const w=who(t);let st=free[w];
+    if(t.id==='versare')st=Math.max(st,end.estr||0,end.latte1||0,end.latte2||0);
+    end[t.id]=st+t.s;free[w]=end[t.id];busy[w]+=t.s;bars.push({row:w,x:st,w:t.s,n:t.n});
+    if(t.id==='carico'){end.estr=end.carico+g.estr;bars.push({row:'M',x:end.carico,w:g.estr,n:'estrazione'})}
+  }
+  const res={A:busy.A};if(g.pers===2)res.B=busy.B;res.M=(g.tasks.find(t=>t.id==='carico')||{s:0}).s+g.estr;
+  let bn='A';for(const k in res)if(res[k]>res[bn])bn=k;
+  return{bars,first:Math.max(...Object.values(end)),res,bn,cyc:res[bn],rate:res[bn]>0?g.batch/res[bn]*60:Infinity};
+}
+function giroSVG(g,s){
+  const rows=g.pers===2?['A','B','M']:['A','M'],lab={A:g.pers===2?'Persona A':'Tu',B:'Persona B',M:'Gruppi'};
+  const W=600,L=78,R=14,rh=34,H=rows.length*rh+30,tmax=Math.max(s.first,s.cyc)*1.04||1,sx=t=>L+(W-L-R)*t/tmax;
+  let o=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Cronologia di un giro">`;
+  const st=nice(tmax);for(let t=0;t<=tmax;t+=st)o+=`<line class="ax" x1="${sx(t)}" x2="${sx(t)}" y1="4" y2="${H-22}"/><text class="tx" x="${sx(t)}" y="${H-8}" text-anchor="middle">${fmt(t,0)} s</text>`;
+  rows.forEach((r,i)=>{o+=`<text class="tx strong" x="${L-8}" y="${8+i*rh+17}" text-anchor="end">${lab[r]}</text>`});
+  s.bars.forEach(b=>{const i=rows.indexOf(b.row);if(i<0||b.w<=0)return;const x=sx(b.x),w=sx(b.x+b.w)-x,y=8+i*rh;
+    o+=`<rect class="g${b.row}" x="${x}" y="${y}" width="${Math.max(1,w-2)}" height="${rh-10}" rx="3"><title>${b.n}: ${b.w} s</title></rect>`;
+    if(w>46)o+=`<text class="gl ${b.row==='M'?'m':''}" x="${x+5}" y="${y+16}">${b.n.split(',')[0].replace('Montare il latte','latte').replace('Caricare i 3 gruppi','carico').replace('Preparare i piattini','piattini').replace('Versare i cappuccini','versare')}${/brocca (\d)/.test(b.n)?' '+b.n.match(/brocca (\d)/)[1]:''}</text>`});
+  return o+'</svg>';
+}
+function renderGiro(){
+  const s=schedule(G),m=model(P),d=m.d,rho=d/s.rate;
+  const nm={A:G.pers===2?'la persona A':'le tue mani',B:'la persona B',M:'i gruppi della macchina'};
+  const idle=Math.max(0,s.cyc-s.res.M);
+  const wait=rho>=1?(d-s.rate)*P.T/s.rate:rho/(2*s.rate*(1-rho));
+  $('#chGiro').innerHTML=giroSVG(G,s);
+  $('#gKpis').innerHTML=[
+    {v:fmt(s.cyc,0)+' s',l:'un giro a regime ('+nm[s.bn]+')'},
+    {v:fmt(s.rate),l:'tazze al minuto'},
+    {v:Math.round(rho*100)+'%',l:'carico con '+fmt(d)+' tazze chieste al minuto',a:rho>=.85},
+    Math.abs(rho-1)<.01?{v:'instabile',l:'al 100% esatto ogni ondata di clienti resta in coda fino a fine picco',a:true}:rho>=1?{v:fmt(wait,0)+'′',l:'attesa di chi arriva a fine picco',a:true}:{v:fmt(wait*60,0)+'″',l:'attesa media in coda (stima)',a:rho>=.85}
+  ].map(x=>`<div class="kpi ${x.a?'alert':''}"><b>${x.v}</b><span>${x.l}</span></div>`).join('');
+  $('#gVerdict').innerHTML=s.bn==='M'
+    ?`<b>Qui comandano davvero i gruppi.</b><span>Le persone finiscono prima che la macchina si liberi: un gruppo in più accorcerebbe il giro.</span>`
+    :`<b>Collo di bottiglia: ${nm[s.bn]}, con ${fmt(s.res[s.bn],0)} secondi di lavoro per giro.</b><span>I gruppi decidono quante tazze escono per giro (${G.batch}). Quanto dura il giro lo decide chi ha più lavoro da fare. La macchina è occupata ${fmt(s.res.M,0)} s su ${fmt(s.cyc,0)}: per ${fmt(idle,0)} s aspetta. Prova: metti 8 tazze per giro e aumenta i secondi di carico, piattini e versare (crescono con le tazze). Poi prova 2 persone.</span>`;
+}
+$('#gSave').onclick=async()=>{const s=schedule(G);const ok=await save('giro',{batch:G.batch,estr:G.estr,pers:G.pers,tasks:G.tasks,giro_s:s.cyc,tazze_min:+s.rate.toFixed(2),collo:s.bn,ts:now()});$('#gNote').textContent=ok?'Salvato.':'Tenuto in questa pagina.'};
+buildGiroTasks();
+
+buildSliders();update();
+$('#reset').onclick=()=>{P={...P0};update()};
+
+/* ---------- 03 spiegazione ---------- */
+const TERMS=[
+ {k:'collo di bottiglia',re:/coll[oi] di bottiglia/i},{k:'capacità',re:/capacit/i},{k:'domanda',re:/domand/i},
+ {k:'carico / utilizzo',re:/carico|utilizz|saturaz|100\s?%/i},{k:'misura di base',re:/misur|cronometr|baseline|dati/i}];
+$('#terms').innerHTML=TERMS.map((t,i)=>`<span class="chip" id="t${i}">${t.k}</span>`).join('');
+function termCheck(){const v=$('#spieg').value;let n=0;TERMS.forEach((t,i)=>{const on=t.re.test(v);n+=on;$('#t'+i).classList.toggle('on',on)});
+  const fr=v.split(/[.!?]+\s/).filter(x=>x.trim().length>3).length;$('#spiegNote').textContent=`${fr} frasi · ${n}/5 termini`;return n}
+$('#spieg').oninput=termCheck;
+$('#spiegSave').onclick=async()=>{const n=termCheck();const ok=await save('spiegazione',{testo:$('#spieg').value,termini:n,ts:now()});$('#spiegNote').textContent+=ok?' · salvata':' · tenuta in questa pagina'};
+
+/* ---------- 04 interrogatorio ---------- */
+const mc=model(PC);
+const OPTS=[
+ {id:'a',t:'Sì: più gruppi, più capacità, meno coda.'},
+ {id:'b',t:'No: il limite è il lavoro del barista. Serve agire sulle persone o sul tempo manuale.'},
+ {id:'c',t:'Sì, ma solo se aggiunge anche lance vapore.'},
+ {id:'d',t:'Non si può dire senza altri dati.'}];
+const co=chipGroup($('#caseOpts'),OPTS,checkCase),cc=chipGroup($('#caseConf'),CONF,checkCase);
+function checkCase(){$('#caseSend').disabled=!(co.v&&cc.v)}
+function showCase(r){
+  co.set(r.scelta);cc.set(String(r.fiducia));co.lock('b');cc.lock();$('#caseWhy').value=r.perche||'';$('#caseWhy').readOnly=true;$('#caseSend').disabled=true;
+  const two=2*60/PC.tMani,twoFast=2*60/22;
+  $('#caseOut').innerHTML=`<div class="verdict ${r.scelta==='b'?'good':'bad'}"><b>${r.scelta==='b'?'Giusto':'Non regge'}, con fiducia ${r.fiducia}/5.</b>
+  <span>Domanda: ${fmt(PC.lam)} × ${fmt(PC.dpc)} = <b>${fmt(mc.d)}</b> prodotti al minuto. Macchina ${fmt(mc.caps.gruppi)}, vapore ${fmt(mc.caps.vapore)}, barista 60 ÷ ${PC.tMani} = <b>${fmt(mc.caps.mani)}</b>. La seconda macchina alza una capacità che è già il triplo del necessario: 6.000 euro fermi.</span>
+  <span>La parte che ti fa fare bella figura: anche con <b>due</b> baristi si arriva a ${fmt(two)} al minuto, ancora sotto ${fmt(mc.d)}. Serve anche portare il lavoro manuale a circa 22 secondi (${fmt(twoFast)} al minuto): ricette più semplici, menù più corto, preparazioni anticipate. La tua idea del menù snello (CV-09) qui diventa un numero.</span>
+  <span>Il cercapersone (CV-08) non cambia nessuno di questi numeri: sposta dove il cliente aspetta, non quanti prodotti escono.</span>
+  <span class="note">Prossima domanda del titolare, che sarà l'Unità 2: «Un secondo barista per due ore al giorno, sette giorni: quanto mi costa e quanto mi rende?»</span></div>`;
+}
+$('#caseSend').onclick=()=>{const r={scelta:co.v,giusto:co.v==='b',fiducia:+cc.v,perche:$('#caseWhy').value,ts:now()};showCase(r);save('interrogatorio',r)};
+
+/* ---------- 05 registro ---------- */
+const REG=[
+ {id:'r1',t:'Con tre gruppi e doppia tazza escono sei cappuccini al minuto.',src:'tua frase, CV-10'},
+ {id:'r2',t:'Con un solo barista, nel picco il limite sono le sue mani, non la macchina.',src:'da questa unità'},
+ {id:'r3',t:'Quando una stazione lavora vicino al 100%, l\'attesa cresce di colpo.',src:'da questa unità'},
+ {id:'r4',t:'Il cercapersone aumenta i prodotti serviti al minuto.',src:'tua proposta, CV-08'},
+ {id:'r5',t:'Il test col cronometro dice se formare la persona o aggiungerne una.',src:'tua proposta, CV-09'},
+ {id:'r6',t:'Posso stimare l\'attesa nel picco partendo da tre numeri misurati.',src:'da questa unità'}];
+const COLS=[{id:'prova',t:'Posso provarlo'},{id:'spiego',t:'Lo spiego, non lo provo'},{id:'no',t:'Non lo so ancora'}];
+const regState={};
+$('#reg').innerHTML=REG.map(r=>`<div class="reg-item"><div><div>${r.t}</div><small>${r.src}</small></div><div class="seg" role="group" aria-label="Dove sta">${COLS.map(c=>`<button type="button" data-r="${r.id}" data-c="${c.id}" aria-pressed="false">${c.t}</button>`).join('')}</div></div>`).join('');
+function setReg(rid,cid){regState[rid]=cid;document.querySelectorAll(`.seg button[data-r="${rid}"]`).forEach(b=>b.setAttribute('aria-pressed',b.dataset.c===cid?'true':'false'))}
+document.querySelectorAll('.seg button').forEach(b=>b.onclick=()=>setReg(b.dataset.r,b.dataset.c));
+$('#regSave').onclick=async()=>{const ok=await save('registro',{voci:{...regState},ts:now()});$('#regNote').textContent=ok?'Salvato.':'Tenuto in questa pagina.'};
+
+/* ---------- 06 scale ---------- */
+const CARDS=[
+ {id:'c1',q:'Cos\'è il collo di bottiglia, in una frase?',a:'Il passaggio più lento: decide quanti prodotti escono al minuto per tutto il bancone, qualunque cosa facciano gli altri.'},
+ {id:'c2',q:'Carico di una stazione: come si calcola e cosa succede sopra il 100%?',a:'Domanda ÷ capacità. Sopra 1 la coda cresce per tutto il picco; vicino a 1 l\'attesa esplode anche se "in teoria ce la fai".'},
+ {id:'c3',q:'Perché una macchina con più gruppi può non servire a niente?',a:'Se il limite è il tempo manuale del barista, la capacità in più della macchina resta ferma.'},
+ {id:'c4',q:'Cosa cambia davvero il cercapersone?',a:'Dove e come il cliente aspetta (ressa, percezione), non quanti prodotti escono al minuto.'},
+ {id:'c5',q:'Come provi in un colloquio un\'affermazione sui tempi?',a:'Con una misura di base: cronometro su ordini reali o simulati, prima e dopo l\'intervento, stesse condizioni.'}];
+const ESITI=[{id:'si',t:'Sapevo'},{id:'quasi',t:'Quasi'},{id:'no',t:'Non sapevo'}];
+function rip(){return store.ripasso||{inizio:null,tentativi:[]}}
+function renderCards(){
+  const r=rip();const base=r.inizio?new Date(r.inizio):new Date();const dd=n=>{const d=new Date(base);d.setDate(d.getDate()+n);return d.toLocaleDateString('it-IT',{weekday:'short',day:'numeric',month:'short'})};
+  $('#dueDates').textContent=`Ripassi suggeriti: ${dd(1)}, ${dd(3)}, ${dd(7)}. ${r.tentativi.length?`Finora ${r.tentativi.length} risposte registrate.`:''}`;
+  $('#cards').innerHTML=CARDS.map(c=>{const last=[...r.tentativi].reverse().find(t=>t.card===c.id);return `<div class="card"><b>${c.q}</b><details><summary class="note">Mostra la risposta</summary><div class="ans">${c.a}</div><div class="chips" style="margin-top:8px">${ESITI.map(e=>`<button class="chip" type="button" data-card="${c.id}" data-e="${e.id}">${e.t}</button>`).join('')}</div></details>${last?`<span class="note">Ultima volta: ${ESITI.find(e=>e.id===last.esito).t.toLowerCase()} (${new Date(last.ts).toLocaleDateString('it-IT')})</span>`:''}</div>`}).join('');
+  document.querySelectorAll('#cards .chip').forEach(b=>b.onclick=()=>{const r=JSON.parse(JSON.stringify(rip()));if(!r.inizio)r.inizio=now();r.tentativi.push({card:b.dataset.card,esito:b.dataset.e,ts:now()});save('ripasso',r).then(renderCards);store.ripasso=r;renderCards()});
+}
+renderCards();
+
+/* ---------- misure ---------- */
+function renderMeasures(){
+  const s=store.scommessa,i=store.interrogatorio,sp=store.spiegazione,r=store.ripasso,g=store.registro;
+  const calib=(ok,conf)=>ok?(conf>=4?'sicuro e giusto: fiducia meritata':'giusto ma insicuro: ti sottostimi'):(conf>=4?'sicuro e sbagliato: il segnale da allenare':'sbagliato e dubbioso: sapevi di non sapere');
+  const rows=[
+    ['Calibrazione','Quanto la tua fiducia corrisponde ai risultati. È la misura della confidence vera.',s?`Scommessa ${(s.giusto_attesa?1:0)+(s.giusto_collo?1:0)}/2, fiducia ${s.fiducia}/5 · `+calib(s.giusto_attesa&&s.giusto_collo,s.fiducia)+(i?`<br>Interrogatorio ${i.giusto?'giusto':'sbagliato'}, fiducia ${i.fiducia}/5 · ${calib(i.giusto,i.fiducia)}`:''):'—'],
+    ['Trasferimento','Se usi il concetto su un caso nuovo, senza cursori.',i?(i.giusto?'Sì':'Non ancora'):'—'],
+    ['Lessico','Se lo dici con le parole che il titolare riconosce.',sp?`${sp.termini}/5 termini`:'—'],
+    ['Memoria','Se resta dopo giorni senza riguardare.',r&&r.tentativi.length?(()=>{const t=r.tentativi;const ok=t.filter(x=>x.esito==='si').length;return `${ok}/${t.length} "sapevo"`})():'—'],
+    ['Copertura','Quante frasi puoi dire con prova.',g?`${Object.values(g.voci).filter(v=>v==='prova').length}/${REG.length} nella colonna "posso provarlo"`:'—'],
+  ];
+  $('#meas').innerHTML=rows.map(r=>`<tr><td><b>${r[0]}</b></td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+}
+function markSteps(){document.querySelectorAll('.cycle a[data-step]').forEach(a=>a.classList.toggle('done',!!store[a.dataset.step]))}
+renderMeasures();
+
+$('#copy').onclick=async()=>{const t=JSON.stringify({unita:1,...store,registro_bozza:regState,spiegazione_bozza:$('#spieg').value},null,1);
+  try{await navigator.clipboard.writeText(t);$('#copyNote').textContent='Copiato: incollalo in chat.'}catch(e){const ta=document.createElement('textarea');ta.value=t;ta.style.minHeight='160px';$('#copyNote').replaceWith(ta);ta.select()}};
+
+function restore(){
+  if(store.scommessa)showBet(store.scommessa);
+  if(store.giro){const g=store.giro;Object.assign(G,{batch:g.batch,estr:g.estr,pers:g.pers,tasks:JSON.parse(JSON.stringify(g.tasks||G.tasks))});buildGiroTasks();renderGiro()}
+  if(store.spiegazione){$('#spieg').value=store.spiegazione.testo||'';termCheck()}
+  if(store.interrogatorio)showCase(store.interrogatorio);
+  if(store.registro)Object.entries(store.registro.voci||{}).forEach(([k,v])=>setReg(k,v));
+  renderCards();renderMeasures();markSteps();
+}
+initDb();
+</script>

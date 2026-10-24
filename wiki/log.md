@@ -182,3 +182,8 @@
 - Disposition: Update
 - Raw: raw/conversazioni/2026-10-22-autorizzazioni-insieme.md; raw/sessioni/2026-10-22-vercel-e-prova-aiuto.md
 - Updated: Lavorare con gli agenti (autorizzazioni chieste in un solo messaggio)
+
+## [2026-10-24] ingest | Lezioni con artefatti da giocare (Banco di Prova, Unità 1)
+- Disposition: Update
+- Raw: raw/conversazioni/2026-10-24-lezioni-con-artefatti-giocabili.md; raw/artefatti/2026-10-24-banco-di-prova-unita-01.html
+- Updated: Come apprende Matteo (regola delle lezioni con artefatto, colonna «posso provarlo», prima misura); Formazione Operations Food & AI (voti dell'Unità 1, protocollo)
