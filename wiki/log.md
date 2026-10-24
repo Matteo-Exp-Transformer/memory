@@ -187,3 +187,8 @@
 - Disposition: Update
 - Raw: raw/conversazioni/2026-10-24-lezioni-con-artefatti-giocabili.md; raw/artefatti/2026-10-24-banco-di-prova-unita-01.html
 - Updated: Come apprende Matteo (regola delle lezioni con artefatto, colonna «posso provarlo», prima misura); Formazione Operations Food & AI (voti dell'Unità 1, protocollo)
+
+## [2026-10-25] ingest | Feedback sul ripasso «Operazione 08:45»
+- Disposition: Update
+- Raw: raw/conversazioni/2026-10-25-feedback-ripasso-operazione-0845.md
+- Updated: Come apprende Matteo (format investigativo promosso; evitare domande ovvie, esigere confronto di opzioni plausibili e prove)
