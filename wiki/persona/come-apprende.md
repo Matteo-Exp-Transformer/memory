@@ -1,8 +1,8 @@
 # Come apprende Matteo e il metodo che si è dato
 
-> Sources: Io-Claude, 2026-10-10; Io-Claude, 2026-10-12; ChatGPT, 2026-10-24; Claude, 2026-10-24
-> Raw: [05-metodo-di-apprendimento](../../raw/crescita-professionale/05-metodo-di-apprendimento.md); [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [11-valutazioni-didattiche](../../raw/crescita-professionale/11-valutazioni-didattiche.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [formazione-operativa-food-ai](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md); [lezioni-con-artefatti-giocabili](../../raw/conversazioni/2026-10-24-lezioni-con-artefatti-giocabili.md)
-> Updated: 2026-10-24
+> Sources: Io-Claude, 2026-10-10; Io-Claude, 2026-10-12; ChatGPT, 2026-10-24; Claude, 2026-10-24; ChatGPT, 2026-10-25
+> Raw: [05-metodo-di-apprendimento](../../raw/crescita-professionale/05-metodo-di-apprendimento.md); [00-profilo-matteo](../../raw/crescita-professionale/00-profilo-matteo.md); [11-valutazioni-didattiche](../../raw/crescita-professionale/11-valutazioni-didattiche.md); [13-roadmap-complessiva](../../raw/crescita-professionale/13-roadmap-complessiva.md); [formazione-operativa-food-ai](../../raw/conversazioni/2026-10-24-formazione-operativa-food-ai.md); [lezioni-con-artefatti-giocabili](../../raw/conversazioni/2026-10-24-lezioni-con-artefatti-giocabili.md); [feedback-ripasso-operazione-0845](../../raw/conversazioni/2026-10-25-feedback-ripasso-operazione-0845.md)
+> Updated: 2026-10-25
 
 ## Overview
 
@@ -59,6 +59,14 @@ Richiesta di Matteo: «fai in modo che se chiedo di fare una lezione venga usato
 **Colonna «posso provarlo»:** solo con una misura o un calcolo da dati misurati. Una stima, anche sua, sta in «lo spiego, non lo provo».
 
 **Prima misura:** scommessa 0/2 con fiducia 5/5, poi caso nuovo giusto con fiducia 4/5. Ha corretto da solo il modello dell'agente sul lavoro in parallelo, e da lì è nata la sezione col suo giro. Il contatore di parole chiave dava 5/5; il lessico reale era 3 su 5.
+
+## Aggiornamento 25/10/2026 — ripasso «Operazione 08:45», idea piaciuta; alzare il livello delle domande
+
+Matteo ha apprezzato il nuovo **artefatto investigativo interattivo «Operazione 08:45 — Il fascicolo del picco»** come modalità di ripasso alternativa a «Banco di Prova». **Conservarlo fra i formati promossi**, non come dimostrazione di competenza raggiunta: non ha ancora restituito risposte da valutare.
+
+**Correzione esplicita:** non proporre domande facili solo in apparenza aperte. Ha citato «lo consigli per tutte le pasticcerie?» come esempio di risposta ovvia, insufficiente per allenare il suo ragionamento.
+
+**Regola per i prossimi artefatti:** una domanda impegnativa mette in competizione interventi **plausibili** dentro vincoli concreti; richiede di confrontare numeri e conseguenze, esplicitare ipotesi, identificare dati mancanti e stabilire **quale verifica potrebbe ribaltare la scelta**. Conservare fiducia iniziale, prova dei numeri e controesame, ma evitare falso approfondimento e domande retoriche. Pochi concetti per volta; più profondità nella decisione, non più nozioni tutte insieme.
 
 ## Come deve condurre una sessione un agente
 
