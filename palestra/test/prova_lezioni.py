@@ -67,25 +67,58 @@ with sync_playwright() as pw:
     br.close()
 print("LEZIONI OK")
 
-# --- Rivedere i passi già fatti durante una seduta (aggiunto 25/10/2026)
+# --- Tornare ai passi precedenti: pagina intera, non riassunto (aggiunto 25/10/2026)
 with sync_playwright() as pw:
     br = pw.chromium.launch()
     ctx, p, err = P.nuova_pagina(br, P.finto_db(semina))
     t = lambda n: P.t(p, n)
-    t("btn-lezioni").click()
-    t("riprendi-" + APERTA).click()
-    expect(t("btn-rivedi")).to_have_count(0)           # primo passo: niente da rivedere
-    p.goto(P.URL); t("btn-lezioni").click(); t("riprendi-" + APERTA2).click()
-    expect(t("btn-rivedi")).to_be_visible()
-    t("btn-rivedi").click()
-    expect(t("rivedi")).to_contain_text("Passo 1 di %d" % len(blocchi))
-    expect(t("rivedi-risposta")).to_contain_text("ok")
-    expect(t("btn-avanti")).to_be_hidden()
-    p.screenshot(path="/tmp/rivedi390.png")
-    t("rivedi-chiudi").click()
-    expect(t("blocco")).to_be_visible()
-    expect(t("btn-avanti")).to_be_visible()
-    P.passo("rivedi i passi già fatti in sola lettura e torna al passo in corso")
+    t("apri-" + C["id"]).click()
+    t("seduta-finito").fill("So spiegarlo")
+    t("btn-inizia").click()
+    expect(t("btn-precedente")).to_have_count(0)            # primo passo: niente prima
+    t("btn-avanti").click()                                  # racconto
+    sim = blocchi[1]; q = sim["parametri"][0]
+    t("param-" + q["id"]).evaluate("(el, v) => { el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})); el.dispatchEvent(new Event('change', {bubbles: true})); }", str(q["max"]))
+    t("btn-avanti").click()                                  # simulatore
+    t("aperta-testo").fill("La coda nasce dove il lavoro si accumula.")
+    t("btn-avanti").click()                                  # aperta
+    d = blocchi[3]
+    t("opzione-" + d["opzioni"][0]["id"]).click()
+    t("duello-motivo").fill("Costa meno.")
+    t("duello-ribalta").fill("Se pesa troppo cambio.")
+    t("fiducia-2").click(); t("btn-conferma").click()
+    expect(t("rivela")).to_be_visible()
+    t("btn-avanti").click()                                  # duello
+    expect(t("blocco")).to_have_attribute("data-id", blocchi[4]["id"])
+    # sul passo vivo (carte) scrivo qualcosa che non deve perdersi: giro la prima carta
+    t("btn-gira").click()
+    # indietro: duello com'era (opzione scelta, testi, fiducia, rivelazione), non un riassunto
+    t("btn-precedente").click()
+    expect(t("blocco")).to_have_attribute("data-id", d["id"])
+    expect(t("duello-motivo")).to_have_value("Costa meno.")
+    expect(t("duello-ribalta")).to_have_value("Se pesa troppo cambio.")
+    expect(t("opzione-" + d["opzioni"][0]["id"])).to_have_attribute("aria-pressed", "true")
+    expect(t("rivela")).to_be_visible()
+    expect(t("btn-conferma")).to_have_count(0)
+    P.passo("indietro: il duello riappare intero, con le tue risposte e la rivelazione")
+    t("btn-precedente").click(); t("btn-precedente").click()  # aperta, poi simulatore
+    expect(t("blocco")).to_have_attribute("data-id", sim["id"])
+    expect(t("param-" + q["id"])).to_have_value(str(q["max"]))
+    P.passo("indietro: il cursore del simulatore è dov'era")
+    # modifico il cursore e riparto: deve salvare
+    minimo = str(q["min"])
+    t("param-" + q["id"]).evaluate("(el, v) => { el.value = v; el.dispatchEvent(new Event('input', {bubbles: true})); el.dispatchEvent(new Event('change', {bubbles: true})); }", minimo)
+    t("btn-successivo").click()
+    expect(t("aperta-testo")).to_have_value("La coda nasce dove il lavoro si accumula.")
+    saved = [v for k, v in P.archivio(p)["sedute"].items() if v["fine"] is None and sim["id"] in v["blocchi"] and k.startswith(C["id"] + "__20261025-1")]
+    assert saved and saved[0]["blocchi"][sim["id"]]["risposta"]["parametri"][q["id"]] == q["min"], saved
+    P.passo("modifica di un passo rivisto salvata")
+    t("btn-successivo").click(); t("btn-successivo").click()
+    expect(t("blocco")).to_have_attribute("data-id", blocchi[4]["id"])
+    expect(t("btn-gira")).to_have_count(0)                   # la carta girata è ancora girata
+    expect(t("carta-retro")).to_be_visible()
+    P.passo("ritorno al passo in corso: lo trovi com'era (carta già girata)")
+    P.senza_scroll_orizzontale(p, "passi")
     assert not err, err
     br.close()
-print("RIVEDI OK")
+print("INDIETRO OK")

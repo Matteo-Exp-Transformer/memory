@@ -6,7 +6,7 @@ Aggiornato: 2026-10-25 (sera: menù «Lezioni archiviate»)
 - Test `python palestra/test/prova_pagina.py` → TUTTO OK (17 controlli), 2026-10-25, anche dopo i ritocchi grafici.
 - Screenshot a 390×844, chiaro e scuro, guardati: Home, duello, cronometro in corsa, Fascicolo, Sensore.
 - Nuovo: menù «Lezioni archiviate» (da completare / completate, riprendi e rileggi). Test `python palestra/test/prova_lezioni.py` → LEZIONI OK; `prova_pagina.py` ancora TUTTO OK (17).
-- Nuovo: durante una seduta, «Rivedi i passi già fatti» mostra in sola lettura le risposte dei passi precedenti, senza perdere il passo in corso.
+- Nuovo: durante una seduta «Passo precedente» riapre i passi già fatti interi (cursori, testi, scelte, rivelazione) con le tue risposte; se modifichi un passo rivisto si salva; il passo in corso resta com è.
 - Database della pagina: 3 cartucce caricate e verificate con `list` (u1-ripasso-collo-di-bottiglia, missione-cronometro-bar, campo-code-ovunque); `sedute` vuota (normale).
 
 ## Cosa funziona

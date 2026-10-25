@@ -923,68 +923,93 @@ function iniziaSeduta(c, cond) {
 
 function nodoAvanzamento(s) {
   var n = s.c.blocchi.length;
+  var k = s.vista !== undefined && s.vista !== null ? s.vista : s.i;
   return el("div", { class: "stack", testid: "seduta-avanzamento" }, [
-    el("span", { class: "dati muted", text: (s.i + 1) + " / " + n }),
-    el("div", { class: "avanz" }, el("i", { style: "width:" + Math.round(((s.i + 1) / n) * 100) + "%" }))
+    el("span", { class: "dati muted", text: (k + 1) + " / " + n }),
+    el("div", { class: "avanz" }, el("i", { style: "width:" + Math.round(((k + 1) / n) * 100) + "%" }))
   ]);
 }
 
-function mostraBloccoCorrente() {
-  var s = S, c = s.c, b = c.blocchi[s.i];
-  var rec = { risposta: null, fiducia: null, esito: null };
-  var ctx = { s: s, c: c, b: b, rec: rec, zona: c.zona, completo: false, finalizza: null };
+function costruisciBlocco(s, idx, prev) {
+  var c = s.c, b = c.blocchi[idx];
+  var rec = prev ? { risposta: clona(prev.risposta), fiducia: prev.fiducia, esito: prev.esito } : { risposta: null, fiducia: null, esito: null };
+  var ctx = { s: s, c: c, b: b, rec: rec, zona: c.zona, completo: false, finalizza: null, prev: prev || null, sola: !!prev };
   ctx.avanti = btn("Avanti", { class: "btn primario grande", testid: "btn-avanti", props: { disabled: true } }, function () { finisciBlocco(ctx); });
   ctx.setCompleto = function (v) { ctx.completo = v; ctx.avanti.disabled = !v; };
   ctx.commit = function () {
+    if (ctx.sola) return Promise.resolve();
     s.doc.blocchi[b.id] = { tipo: b.tipo, risposta: rec.risposta, fiducia: rec.fiducia, esito: rec.esito, quando: adesso().toISOString() };
     return Archivio.scrivi("sedute", s.id, s.doc);
   };
   var corpo = el("div", { class: "stack" });
-  var nodo = el("section", { class: "card", testid: "blocco", data: { tipo: b.tipo, id: b.id } }, [
-    el("div", { class: "riga" }, [el("span", { class: "tag", text: b.dominio })]),
+  var nodo = el("section", { class: "card", testid: "blocco", data: { tipo: b.tipo, id: b.id, rivisto: prev ? "si" : "no" } }, [
+    el("div", { class: "riga" }, [el("span", { class: "tag", text: b.dominio }), prev ? el("span", { class: "muted", text: "passo già fatto" }) : null]),
     b.titolo ? el("h2", { text: b.titolo }) : null,
     par(b.testo),
     corpo,
     correzioneUI(ctx)
   ]);
   RENDER[b.tipo](ctx, corpo);
-  var fatti = [];
-  c.blocchi.forEach(function (x, k) { if (k !== s.i && s.doc.blocchi[x.id]) fatti.push(k); });
-  var parti = [nodoAvanzamento(s), nodo, ctx.avanti];
-  if (fatti.length) {
-    var rivedi = pannelloRivedi(s, fatti);
-    var apri = btn("Rivedi i passi già fatti (" + fatti.length + ")", { class: "btn", testid: "btn-rivedi" }, function () {
-      rivedi.mostra(function (aperto) { nodo.hidden = aperto; ctx.avanti.hidden = aperto; apri.hidden = aperto; });
-    });
-    parti = [nodoAvanzamento(s), apri, rivedi.nodo, nodo, ctx.avanti];
-  }
-  mostra(parti);
+  if (prev) { ripristina(ctx, nodo); ctx.sola = false; }
+  return { ctx: ctx, nodo: nodo, idx: idx };
 }
 
-/* Sola lettura: il passo in corso resta nascosto ma intatto (niente si perde di ciò che hai scritto). */
-function pannelloRivedi(s, fatti) {
-  var pos = fatti.length - 1, nascondi = null;
-  var corpo = el("div", { class: "stack" });
-  var nodo = el("section", { class: "card", testid: "rivedi", hidden: true }, corpo);
-  function disegna() {
-    var k = fatti[pos], b = s.c.blocchi[k], r = s.doc.blocchi[b.id] || {};
-    corpo.replaceChildren(
-      el("div", { class: "riga" }, [el("span", { class: "tag", text: "Passo " + (k + 1) + " di " + s.c.blocchi.length }), el("span", { class: "muted", text: "sola lettura" })]),
-      b.titolo ? el("h2", { text: b.titolo }) : null,
-      par(b.testo),
-      el("div", { class: "opz scelta-mia", testid: "rivedi-risposta" }, [
-        el("span", { class: "etichetta", text: "La tua risposta" }),
-        par(r.risposta === null || r.risposta === undefined ? "—" : testoRisposta(b, r.risposta)),
-        r.fiducia ? par("Fiducia " + r.fiducia + (s.c.zona === "banco" && r.esito ? " · esito " + (PAROLE_ESITO[r.esito] || "—") : ""), "muted") : null
-      ]),
-      el("div", { class: "riga" }, [
-        btn("Passo prima", { class: "btn", testid: "rivedi-indietro", props: { disabled: pos === 0 } }, function () { pos--; disegna(); }),
-        btn("Passo dopo", { class: "btn", testid: "rivedi-avanti", props: { disabled: pos === fatti.length - 1 } }, function () { pos++; disegna(); })
-      ]),
-      btn("Torna al passo in corso", { class: "btn primario", testid: "rivedi-chiudi" }, function () { nodo.hidden = true; nascondi(false); })
-    );
+function scrivi(nodo, testid, valore) {
+  var x = nodo.querySelector("[data-testid=" + testid + "]");
+  if (!x) return;
+  x.value = valore;
+  x.dispatchEvent(new Event("input", { bubbles: true }));
+  x.dispatchEvent(new Event("change", { bubbles: true }));
+}
+function premi(nodo, testid) {
+  var x = nodo.querySelector("[data-testid=" + testid + "]");
+  if (x && !x.disabled) x.click();
+}
+
+/* Rimette il passo com'era quando l'hai chiuso: stesso aspetto, cursori e testi compresi. */
+function ripristina(ctx, nodo) {
+  var b = ctx.b, r = ctx.prev.risposta;
+  try {
+    if (b.tipo === "stima" || b.tipo === "previsione") scrivi(nodo, b.tipo + "-valore", String(r));
+    if (b.tipo === "scelta") premi(nodo, "opzione-" + r);
+    if (b.tipo === "duello") { premi(nodo, "opzione-" + r.opzione); scrivi(nodo, "duello-motivo", r.motivo); scrivi(nodo, "duello-ribalta", r.ribalta); }
+    if (b.tipo === "simulatore" && r && r.parametri) Object.keys(r.parametri).forEach(function (k) { scrivi(nodo, "param-" + k, r.parametri[k]); });
+    if (b.tipo === "spiega") scrivi(nodo, "spiega-testo", r || "");
+    if (b.tipo === "aperta") scrivi(nodo, "aperta-testo", r || "");
+    if (ctx.prev.fiducia && ["stima", "scelta", "duello", "ordina", "previsione"].indexOf(b.tipo) >= 0) {
+      premi(nodo, "fiducia-" + ctx.prev.fiducia);
+      premi(nodo, "btn-conferma");
+    }
+  } catch (e) { /* mostra comunque il passo */ }
+}
+
+/* Uscendo da un passo rivisto che si può modificare (cursori, testi), salva solo se è cambiato. */
+function lascia(voce) {
+  if (!voce || !voce.ctx.prev) return;
+  var x = voce.ctx;
+  if (["simulatore", "mio_modello", "spiega", "aperta", "fascicolo", "carte"].indexOf(x.b.tipo) < 0) return;
+  if (x.completo && JSON.stringify(x.rec.risposta) !== JSON.stringify(x.prev.risposta)) x.commit();
+}
+
+function mostraBloccoCorrente(idx) {
+  var s = S, c = s.c;
+  if (idx === undefined || idx > s.i) idx = s.i;
+  if (idx < 0) idx = 0;
+  var rivedo = idx < s.i;
+  var voce;
+  if (!rivedo && s.vivo && s.vivo.idx === idx) voce = s.vivo;
+  else {
+    voce = costruisciBlocco(s, idx, rivedo ? s.doc.blocchi[c.blocchi[idx].id] : null);
+    if (!rivedo) s.vivo = voce;
   }
-  return { nodo: nodo, mostra: function (fn) { nascondi = fn; pos = fatti.length - 1; disegna(); nodo.hidden = false; fn(true); window.scrollTo(0, 0); } };
+  s.vista = idx;
+  var parti = [nodoAvanzamento(s), voce.nodo];
+  var barra = [];
+  if (idx > 0) barra.push(btn("← Passo precedente", { class: "btn", testid: "btn-precedente" }, function () { lascia(voce); mostraBloccoCorrente(idx - 1); }));
+  if (rivedo) barra.push(btn(idx + 1 === s.i ? "Torna al passo in corso →" : "Passo successivo →", { class: "btn primario", testid: "btn-successivo" }, function () { lascia(voce); mostraBloccoCorrente(idx + 1); }));
+  else parti.push(voce.ctx.avanti);
+  if (barra.length) parti.push(el("div", { class: "riga", testid: "navigazione-passi" }, barra));
+  mostra(parti);
 }
 
 async function finisciBlocco(ctx) {
@@ -993,6 +1018,7 @@ async function finisciBlocco(ctx) {
   await ctx.commit();
   if (S !== ctx.s) return;
   ctx.s.i++;
+  ctx.s.vivo = null;
   if (ctx.s.i >= ctx.c.blocchi.length) mostraFine(ctx.s); else mostraBloccoCorrente();
 }
 
@@ -1169,6 +1195,7 @@ RENDER.ordina = function (ctx, corpo) {
   var testi = {}; b.elementi.forEach(function (x) { testi[x.id] = x.testo; });
   var ordine = giusto.slice().sort();
   if (ordine.join("|") === giusto.join("|")) ordine.reverse();
+  if (ctx.prev && Array.isArray(ctx.prev.risposta) && ctx.prev.risposta.length === giusto.length) ordine = ctx.prev.risposta.slice();
   var bloccato = false;
   var lista = el("ol", { class: "pulita", testid: "ordina-lista" });
   corpo.appendChild(lista);
@@ -1257,6 +1284,7 @@ RENDER.simulatore = function (ctx, corpo) {
 RENDER.mio_modello = function (ctx, corpo) {
   var b = ctx.b;
   var righe = (b.righe_iniziali || []).map(function (r) { return { nome: r.nome, valore: String(r.valore) }; });
+  if (ctx.prev && ctx.prev.risposta && Array.isArray(ctx.prev.risposta.righe)) righe = ctx.prev.risposta.righe.map(function (r) { return { nome: r.nome, valore: String(r.valore) }; });
   var costanti = {};
   (b.costanti || []).forEach(function (k) { costanti[k.id] = k.valore; });
   var box = el("div", { class: "stack" });
@@ -1347,6 +1375,7 @@ RENDER.carte = function (ctx, corpo) {
   var b = ctx.b, k = 0, voti = {};
   var box = el("div", { class: "stack" });
   corpo.appendChild(box);
+  if (ctx.prev && ctx.prev.risposta && typeof ctx.prev.risposta === "object") { voti = clona(ctx.prev.risposta); k = b.carte.length; }
   ctx.rec.risposta = voti;
   function disegna() {
     box.replaceChildren();
@@ -1354,6 +1383,9 @@ RENDER.carte = function (ctx, corpo) {
     if (k >= n) {
       box.appendChild(el("span", { class: "dati muted", testid: "carte-progresso", text: n + " / " + n }));
       box.appendChild(par("Fatto: hai giudicato tutte le carte."));
+      if (ctx.prev) box.appendChild(el("ul", { class: "pulita", testid: "carte-voti" }, b.carte.map(function (x) {
+        return el("li", { class: "riga-sensore testo-lungo", text: x.fronte + " — " + ({ si: "Sì", quasi: "Quasi", no: "No" }[voti[x.id]] || "non giudicata") });
+      })));
       ctx.setCompleto(true);
       ctx.commit();
       return;
@@ -1610,6 +1642,16 @@ RENDER.cronometro = function (ctx, corpo) {
   stato.pulisci.push(function () { clearInterval(timer); rilascia(); });
 
   corpo.appendChild(el("p", { class: "testo-lungo", testid: "crono-consegna", text: b.consegna }));
+  if (ctx.prev) {
+    var riep = el("p", { class: "testo-lungo", testid: "crono-riepilogo", text: "Misura già salvata." });
+    corpo.appendChild(riep);
+    ctx.setCompleto(true);
+    Promise.resolve(s.misure[b.id] || Archivio.leggi("misure", ctx.prev.risposta)).then(function (m) {
+      if (!m) return;
+      riep.textContent = "Misura salvata: " + m.giri.length + " giri, media " + sec(m.media_giro_ms) + (m.nota ? "\nNota: " + m.nota : "") + (m.completa ? "" : "\n(giri insufficienti per il confronto)");
+    }, function () { /* resta il testo semplice */ });
+    return;
+  }
   var vecchia = leggiBozza();
   if (vecchia && vecchia.seduta === s.id && vecchia.blocco === b.id) {
     var rip = btn("Riprendi i giri salvati (" + (vecchia.giri ? vecchia.giri.length : 0) + ")", { class: "btn", testid: "crono-riprendi" }, function () {
