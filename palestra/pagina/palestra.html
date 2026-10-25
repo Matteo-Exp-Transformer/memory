@@ -1,0 +1,1969 @@
+<title>La Palestra</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: una colonna stretta da quaderno di lavoro, vista singola, barra di navigazione in basso (pollice).
+   Colori: carta verde-grigia, inchiostro scuro, un solo accento verde-acqua; ambra per "non ancora", verde per "giusto".
+   Tipi: titoli con serif di sistema, testo e pulsanti con sans di sistema, numeri con monospazio (nessun font esterno). */
+:root {
+  --bg: #eef1ef;
+  --surface: #fbfcfb;
+  --surface2: #e3e9e6;
+  --ink: #172022;
+  --ink2: #4d5e62;
+  --line: #c6cfcc;
+  --accent: #0e6a68;
+  --accent-ink: #ffffff;
+  --accent-soft: #d5e9e7;
+  --ok: #17643d;
+  --ok-bg: #dbeee2;
+  --warn: #8f4208;
+  --warn-bg: #f7e4cf;
+  --focus: #0b57d0;
+  --f-titolo: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", serif;
+  --f-testo: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --f-dati: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+  --nav-h: 64px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #111719;
+    --surface: #192124;
+    --surface2: #232d31;
+    --ink: #e5ecea;
+    --ink2: #a3b3b6;
+    --line: #35444a;
+    --accent: #58c2bb;
+    --accent-ink: #082120;
+    --accent-soft: #1d3a3a;
+    --ok: #74d49e;
+    --ok-bg: #1a3427;
+    --warn: #f0a967;
+    --warn-bg: #3a2a19;
+    --focus: #8ab4f8;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #111719;
+  --surface: #192124;
+  --surface2: #232d31;
+  --ink: #e5ecea;
+  --ink2: #a3b3b6;
+  --line: #35444a;
+  --accent: #58c2bb;
+  --accent-ink: #082120;
+  --accent-soft: #1d3a3a;
+  --ok: #74d49e;
+  --ok-bg: #1a3427;
+  --warn: #f0a967;
+  --warn-bg: #3a2a19;
+  --focus: #8ab4f8;
+  color-scheme: dark;
+}
+[hidden] { display: none !important; }
+*, *::before, *::after { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-testo); font-size: 16px; line-height: 1.5; -webkit-text-size-adjust: 100%; }
+#app { max-width: 680px; margin: 0 auto; padding-block: 16px calc(var(--nav-h) + 24px); padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+#vista { display: flex; flex-direction: column; gap: 16px; min-width: 0; outline: none; }
+h1, h2, h3 { font-family: var(--f-titolo); font-weight: 600; line-height: 1.2; margin: 0; text-wrap: balance; }
+h1 { font-size: 1.6rem; }
+h2 { font-size: 1.25rem; }
+h3 { font-size: 1.05rem; }
+p { margin: 0; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+
+/* barra di navigazione */
+#nav { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+.nav-in { max-width: 680px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); padding-left: max(8px, env(safe-area-inset-left, 0px)); padding-right: max(8px, env(safe-area-inset-right, 0px)); }
+.nav-b { min-height: var(--nav-h); background: none; border: 0; border-top: 3px solid transparent; padding: 6px 2px; font-size: 0.8rem; font-weight: 600; color: var(--ink2); cursor: pointer; overflow-wrap: anywhere; }
+.nav-b[aria-current="page"] { color: var(--accent); border-top-color: var(--accent); }
+
+/* componenti base */
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.riga { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-width: 0; }
+.stack { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.muted { color: var(--ink2); font-size: 0.9rem; }
+.dati { font-family: var(--f-dati); font-variant-numeric: tabular-nums; }
+.etichetta { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink2); }
+.testo-lungo { white-space: pre-wrap; overflow-wrap: anywhere; }
+.tag { display: inline-block; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.04em; padding: 2px 8px; border-radius: 99px; background: var(--surface2); color: var(--ink2); }
+.tag.banco { background: var(--accent-soft); color: var(--accent); }
+.btn { min-height: 48px; padding: 10px 16px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); font-weight: 600; cursor: pointer; text-align: center; overflow-wrap: anywhere; }
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn.primario { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.grande { min-height: 64px; font-size: 1.1rem; }
+.btn.piccolo { min-height: 44px; padding: 6px 12px; font-size: 0.9rem; }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.scelta { text-align: left; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; width: 100%; font-weight: 500; }
+.btn.scelta .t { font-weight: 600; }
+.btn.scelta .s { font-size: 0.88rem; color: inherit; opacity: 0.85; }
+.campo { width: 100%; min-height: 48px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); font-size: 16px; }
+textarea.campo { min-height: 96px; resize: vertical; }
+label.lab { display: flex; flex-direction: column; gap: 6px; font-weight: 600; font-size: 0.95rem; }
+.banner { font-size: 0.85rem; padding: 8px 12px; border-radius: 8px; background: var(--surface2); color: var(--ink2); }
+.banner[data-backend="db"] { background: var(--ok-bg); color: var(--ok); }
+.banner[data-backend="memoria"] { background: var(--warn-bg); color: var(--warn); }
+.banner.ripresa { background: var(--warn-bg); color: var(--warn); display: flex; flex-direction: column; gap: 8px; font-size: 0.95rem; }
+.avanz { height: 6px; background: var(--surface2); border-radius: 99px; overflow: hidden; }
+.avanz > i { display: block; height: 100%; background: var(--accent); }
+.rivela { border-radius: 8px; padding: 12px; background: var(--surface2); display: flex; flex-direction: column; gap: 8px; border-left: 5px solid var(--line); }
+.rivela[data-esito="giusto"] { background: var(--ok-bg); border-left-color: var(--ok); }
+.rivela[data-esito="sbagliato"] { background: var(--warn-bg); border-left-color: var(--warn); }
+.rivela[data-esito="in_attesa"], .rivela[data-esito="aperto"] { border-left-color: var(--accent); }
+.rivela .esito { font-weight: 700; }
+.opz { border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 4px; background: var(--surface); }
+.opz.scelta-mia { border-color: var(--accent); }
+ul.pulita { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
+.fid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px; }
+.crono-tempo { font-family: var(--f-dati); font-size: 2.6rem; text-align: center; font-variant-numeric: tabular-nums; }
+.crono-fasi { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.carta { border: 1px dashed var(--line); border-radius: 10px; padding: 18px 14px; min-height: 120px; font-size: 1.1rem; font-family: var(--f-titolo); }
+.uscita { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; padding: 8px 0; border-top: 1px solid var(--line); }
+.uscita strong { font-family: var(--f-dati); font-size: 1.15rem; text-align: right; }
+.param { display: flex; flex-direction: column; gap: 4px; }
+.param input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--accent); }
+.colonna { border: 1px solid var(--line); border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 10px; background: var(--surface); min-width: 0; }
+.voce { border: 1px solid var(--line); border-radius: 8px; padding: 10px; display: flex; flex-direction: column; gap: 8px; background: var(--bg); min-width: 0; }
+.voce[data-segnata="si"] { border-color: var(--warn); }
+.sposta { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.err { color: var(--warn); font-weight: 600; }
+.ok-txt { color: var(--ok); font-weight: 600; }
+.chip { display: inline-block; padding: 2px 10px; border-radius: 99px; border: 1px solid var(--line); font-size: 0.85rem; }
+.chip[data-presente="si"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.tab-sensore { display: flex; flex-direction: column; gap: 6px; }
+.riga-sensore { padding: 8px 10px; border-radius: 8px; background: var(--surface2); font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: no-preference) { .avanz > i { transition: width .2s; } }
+</style>
+<div id="app">
+  <main id="vista" tabindex="-1"></main>
+</div>
+<nav id="nav" aria-label="Sezioni">
+  <div class="nav-in">
+    <button type="button" class="nav-b" data-testid="nav-home" data-v="home">Palestra</button>
+    <button type="button" class="nav-b" data-testid="nav-scale" data-v="scale">Scale</button>
+    <button type="button" class="nav-b" data-testid="nav-sensore" data-v="sensore">Sensore</button>
+    <button type="button" class="nav-b" data-testid="nav-fascicolo" data-v="fascicolo">Fascicolo</button>
+    <button type="button" class="nav-b" data-testid="nav-quaderno" data-v="quaderno">Quaderno</button>
+  </div>
+</nav>
+<script>
+/* Palestra — calcolatore di espressioni sicuro (niente eval).
+ * Da copiare TALE E QUALE dentro palestra.html, in un <script>, prima del codice della pagina.
+ *
+ * Uso:
+ *   Espressioni.calcola("ceil(domanda / capacita * 60)", {domanda: 90, capacita: 4})  -> numero
+ *   Espressioni.variabili("min(a, b) + 2")                                             -> ["a", "b"]
+ *   Espressioni.formatta(3.14159, 1)                                                   -> "3,1"
+ *
+ * Linguaggio: numeri (3, 2.5), variabili (lettere, cifre, _), + - * / ( ) ,
+ * confronti < <= > >= == != (danno 1 o 0), funzioni: min max ceil floor round abs se(cond, a, b).
+ * Divisione per zero = Infinity (la pagina la mostra come «∞»).
+ * Errori: lancia Error con messaggio in italiano.
+ */
+(function (radice) {
+  "use strict";
+
+  var FUNZIONI = {
+    min: { n: -1, f: function (a) { return Math.min.apply(null, a); } },
+    max: { n: -1, f: function (a) { return Math.max.apply(null, a); } },
+    ceil: { n: 1, f: function (a) { return Math.ceil(a[0]); } },
+    floor: { n: 1, f: function (a) { return Math.floor(a[0]); } },
+    round: { n: 1, f: function (a) { return Math.round(a[0]); } },
+    abs: { n: 1, f: function (a) { return Math.abs(a[0]); } },
+    se: { n: 3, f: function (a) { return a[0] !== 0 ? a[1] : a[2]; } }
+  };
+
+  function tokenizza(testo) {
+    if (typeof testo !== "string") throw new Error("l'espressione deve essere un testo");
+    var t = [], i = 0, c;
+    while (i < testo.length) {
+      c = testo[i];
+      if (c === " " || c === "\t" || c === "\n") { i++; continue; }
+      if (/[0-9.]/.test(c)) {
+        var j = i;
+        while (j < testo.length && /[0-9.]/.test(testo[j])) j++;
+        var s = testo.slice(i, j);
+        if (!/^(\d+\.?\d*|\.\d+)$/.test(s)) throw new Error("numero non valido: " + s);
+        t.push({ k: "num", v: parseFloat(s) }); i = j; continue;
+      }
+      if (/[A-Za-z_]/.test(c)) {
+        var k = i;
+        while (k < testo.length && /[A-Za-z0-9_]/.test(testo[k])) k++;
+        t.push({ k: "id", v: testo.slice(i, k) }); i = k; continue;
+      }
+      var due = testo.slice(i, i + 2);
+      if (due === "<=" || due === ">=" || due === "==" || due === "!=") { t.push({ k: "op", v: due }); i += 2; continue; }
+      if ("+-*/(),<>".indexOf(c) >= 0) { t.push({ k: "op", v: c }); i++; continue; }
+      throw new Error("carattere non ammesso: «" + c + "»");
+    }
+    return t;
+  }
+
+  // Grammatica:  confronto := somma (opConfronto somma)?
+  //              somma := prodotto (('+'|'-') prodotto)*
+  //              prodotto := unario (('*'|'/') unario)*
+  //              unario := '-' unario | primario
+  //              primario := num | id | id '(' args ')' | '(' confronto ')'
+  function analizza(testo) {
+    var t = tokenizza(testo), p = 0;
+    function guarda() { return t[p]; }
+    function prendi(v) {
+      var x = t[p];
+      if (!x || x.v !== v) throw new Error("atteso «" + v + "»" + (x ? " invece di «" + x.v + "»" : " alla fine"));
+      p++;
+    }
+    function confronto() {
+      var a = somma(), x = guarda();
+      if (x && x.k === "op" && ["<", "<=", ">", ">=", "==", "!="].indexOf(x.v) >= 0) {
+        p++; return { k: "cmp", op: x.v, a: a, b: somma() };
+      }
+      return a;
+    }
+    function somma() {
+      var a = prodotto(), x;
+      while ((x = guarda()) && x.k === "op" && (x.v === "+" || x.v === "-")) { p++; a = { k: "bin", op: x.v, a: a, b: prodotto() }; }
+      return a;
+    }
+    function prodotto() {
+      var a = unario(), x;
+      while ((x = guarda()) && x.k === "op" && (x.v === "*" || x.v === "/")) { p++; a = { k: "bin", op: x.v, a: a, b: unario() }; }
+      return a;
+    }
+    function unario() {
+      var x = guarda();
+      if (x && x.k === "op" && x.v === "-") { p++; return { k: "neg", a: unario() }; }
+      return primario();
+    }
+    function primario() {
+      var x = guarda();
+      if (!x) throw new Error("espressione incompleta");
+      if (x.k === "num") { p++; return { k: "num", v: x.v }; }
+      if (x.k === "id") {
+        p++;
+        var y = guarda();
+        if (y && y.v === "(") {
+          var fn = FUNZIONI[x.v];
+          if (!fn) throw new Error("funzione sconosciuta: " + x.v);
+          p++;
+          var args = [];
+          if (guarda() && guarda().v !== ")") {
+            args.push(confronto());
+            while (guarda() && guarda().v === ",") { p++; args.push(confronto()); }
+          }
+          prendi(")");
+          if (fn.n >= 0 && args.length !== fn.n) throw new Error(x.v + " vuole " + fn.n + " argomenti");
+          if (fn.n < 0 && args.length < 1) throw new Error(x.v + " vuole almeno un argomento");
+          return { k: "fn", nome: x.v, args: args };
+        }
+        if (FUNZIONI[x.v]) throw new Error(x.v + " è una funzione: usala con le parentesi");
+        return { k: "var", nome: x.v };
+      }
+      if (x.v === "(") { p++; var e = confronto(); prendi(")"); return e; }
+      throw new Error("simbolo inatteso: «" + x.v + "»");
+    }
+    var albero = confronto();
+    if (p < t.length) throw new Error("simbolo in più: «" + t[p].v + "»");
+    return albero;
+  }
+
+  function valuta(n, vars) {
+    switch (n.k) {
+      case "num": return n.v;
+      case "var":
+        if (!Object.prototype.hasOwnProperty.call(vars, n.nome)) throw new Error("variabile sconosciuta: " + n.nome);
+        var v = Number(vars[n.nome]);
+        if (isNaN(v)) throw new Error("la variabile " + n.nome + " non è un numero");
+        return v;
+      case "neg": return -valuta(n.a, vars);
+      case "bin":
+        var a = valuta(n.a, vars), b = valuta(n.b, vars);
+        if (n.op === "+") return a + b;
+        if (n.op === "-") return a - b;
+        if (n.op === "*") return a * b;
+        return b === 0 ? (a === 0 ? 0 : Infinity) : a / b;
+      case "cmp":
+        var x = valuta(n.a, vars), y = valuta(n.b, vars), r;
+        if (n.op === "<") r = x < y; else if (n.op === "<=") r = x <= y;
+        else if (n.op === ">") r = x > y; else if (n.op === ">=") r = x >= y;
+        else if (n.op === "==") r = x === y; else r = x !== y;
+        return r ? 1 : 0;
+      case "fn":
+        if (n.nome === "se") { return valuta(n.args[0], vars) !== 0 ? valuta(n.args[1], vars) : valuta(n.args[2], vars); }
+        return FUNZIONI[n.nome].f(n.args.map(function (q) { return valuta(q, vars); }));
+    }
+    throw new Error("nodo sconosciuto");
+  }
+
+  function raccogli(n, out) {
+    if (n.k === "var" && out.indexOf(n.nome) < 0) out.push(n.nome);
+    if (n.a) raccogli(n.a, out);
+    if (n.b) raccogli(n.b, out);
+    if (n.args) n.args.forEach(function (q) { raccogli(q, out); });
+    return out;
+  }
+
+  radice.Espressioni = {
+    calcola: function (testo, variabili) { return valuta(analizza(testo), variabili || {}); },
+    variabili: function (testo) { return raccogli(analizza(testo), []); },
+    controlla: function (testo) { analizza(testo); return true; },
+    formatta: function (numero, decimali) {
+      if (numero === Infinity) return "∞";
+      if (numero === -Infinity) return "-∞";
+      if (typeof numero !== "number" || isNaN(numero)) return "—";
+      var d = typeof decimali === "number" ? decimali : 1;
+      return numero.toFixed(d).replace(".", ",");
+    }
+  };
+})(typeof window !== "undefined" ? window : globalThis);
+</script>
+<script>
+(function () {
+"use strict";
+/* ===== Palestra: nucleo (tempo, archivio, validatore) ===== */
+var Esp = window.Espressioni;
+
+function pad(n) { return (n < 10 ? "0" : "") + n; }
+function adesso() { return window.__PALESTRA_ORA ? new Date(window.__PALESTRA_ORA) : new Date(); }
+function dataLocale(d) { d = d || adesso(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function oraLocale(d) { return pad(d.getHours()) + ":" + pad(d.getMinutes()); }
+function stampa(d) { return d.getFullYear() + pad(d.getMonth() + 1) + pad(d.getDate()) + "-" + pad(d.getHours()) + pad(d.getMinutes()) + pad(d.getSeconds()); }
+function piuGiorni(s, n) { var p = s.split("-"); return dataLocale(new Date(+p[0], +p[1] - 1, +p[2] + n)); }
+function tre() { return ("00" + Math.floor(Math.random() * 1000)).slice(-3); }
+function clona(o) { return JSON.parse(JSON.stringify(o)); }
+function dataDaIso(iso) { var d = new Date(iso); return isNaN(d.getTime()) ? "" : dataLocale(d); }
+function dataOraDaIso(iso) { var d = new Date(iso); return isNaN(d.getTime()) ? "—" : dataLocale(d) + " " + oraLocale(d); }
+function aspetta(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+
+/* ---------- archivio: db di claude.ai, poi localStorage, poi memoria ---------- */
+var backend = null;       // "db" | "locale" | "memoria"
+var dbRef = null;
+var memoria = {};         // contenuto per locale e memoria
+var coda = Promise.resolve();
+var cacheCartucce = null; // solo con db: ultimo elenco ricevuto dall'iscrizione
+var avvisaCartucce = [];  // funzioni da chiamare quando cambiano le cartucce
+var annullaIscrizione = null;
+
+var TESTI_BANNER = {
+  db: "Archivio su claude.ai: Claude può leggere i tuoi risultati",
+  locale: "Solo su questo dispositivo: per il debrief usa \"Copia risultati\"",
+  memoria: "Attenzione: i dati si perdono chiudendo la pagina"
+};
+var bannerNodo = null;
+var bannerExtra = "";
+function aggiornaBanner() {
+  if (!bannerNodo) return;
+  if (backend) bannerNodo.setAttribute("data-backend", backend);
+  var base = backend ? TESTI_BANNER[backend] : "Collegamento all'archivio…";
+  bannerNodo.textContent = base + (bannerExtra ? " · " + bannerExtra : "");
+}
+function erroreArchivio(e) {
+  var codice = e && e.code;
+  if (codice === "quota_exceeded") bannerExtra = "spazio dell'archivio esaurito: non riesco a salvare";
+  else if (codice === "unavailable") bannerExtra = "archivio non raggiungibile ora, riprova tra poco";
+  else if (codice === "revoked") bannerExtra = "accesso all'archivio non più disponibile";
+  else bannerExtra = "errore dell'archivio" + (codice ? " (" + codice + ")" : "");
+  aggiornaBanner();
+}
+async function conRiprova(fn) {
+  try { return await fn(); }
+  catch (e) {
+    if (e && e.code === "unavailable") {
+      await aspetta(1200 + Math.floor(Math.random() * 800));
+      try { return await fn(); } catch (e2) { erroreArchivio(e2); throw e2; }
+    }
+    erroreArchivio(e); throw e;
+  }
+}
+function salvaLocale() {
+  try { window.localStorage.setItem("palestra:v1", JSON.stringify(memoria)); return true; } catch (e) { return false; }
+}
+function corpoDa(snapDoc) { return Object.assign({ id: snapDoc.id }, clona(snapDoc.data() || {})); }
+
+var Archivio = {
+  get tipo() { return backend; },
+  leggiTutti: async function (c) {
+    if (backend === "db") {
+      var snap = await conRiprova(function () { return dbRef.collection(c).get(); });
+      return snap.docs.map(corpoDa);
+    }
+    var col = memoria[c] || {};
+    return Object.keys(col).map(function (k) { return Object.assign({ id: k }, clona(col[k])); });
+  },
+  leggi: async function (c, id) {
+    if (backend === "db") {
+      var s = await conRiprova(function () { return dbRef.collection(c).doc(id).get(); });
+      return s.exists ? clona(s.data()) : null;
+    }
+    var col = memoria[c];
+    return col && col[id] ? clona(col[id]) : null;
+  },
+  scrivi: function (c, id, corpo) {
+    var copia = clona(corpo);
+    if (backend === "db") {
+      var p = coda.then(function () { return conRiprova(function () { return dbRef.collection(c).doc(id).set(copia); }); });
+      coda = p.catch(function () {});
+      return p.then(function () { return true; }, function () { return false; });
+    }
+    (memoria[c] = memoria[c] || {})[id] = copia;
+    if (backend === "locale" && !salvaLocale()) { backend = "memoria"; aggiornaBanner(); }
+    return Promise.resolve(true);
+  }
+};
+
+async function elencoCartucce() {
+  if (backend === "db" && cacheCartucce) return cacheCartucce;
+  return Archivio.leggiTutti("cartucce");
+}
+
+async function avviaArchivio() {
+  var db = null;
+  try {
+    if (window.claude && typeof window.claude.use === "function") {
+      db = await Promise.race([window.claude.use("db"), aspetta(10000).then(function () { return null; })]);
+    }
+  } catch (e) { db = null; }
+  if (db) {
+    dbRef = db; backend = "db";
+    try {
+      annullaIscrizione = db.collection("cartucce").onSnapshot(function (snap) {
+        cacheCartucce = snap.docs.map(corpoDa);
+        avvisaCartucce.forEach(function (f) { f(); });
+      }, function (e) { erroreArchivio(e); });
+    } catch (e) { erroreArchivio(e); }
+  } else {
+    try {
+      var t = window.localStorage.getItem("palestra:v1");
+      memoria = t ? JSON.parse(t) : {};
+      if (!memoria || typeof memoria !== "object") memoria = {};
+      backend = "locale";
+    } catch (e) { memoria = {}; backend = "memoria"; }
+  }
+  aggiornaBanner();
+}
+
+/* ---------- validatore: stessa logica di strumenti/valida_cartuccia.py ---------- */
+var RE_ID = /^[a-z0-9][a-z0-9-]{1,59}$/;
+var RE_VAR = /^[a-z_][a-z0-9_]*$/;
+var TIPI_CON_FIDUCIA = ["stima", "scelta", "duello", "ordina", "previsione"];
+var COMUNI = ["id", "tipo", "titolo", "testo", "dominio", "concetti"];
+var CAMPI = {
+  racconto: [[], []],
+  stima: [["unita", "risposta", "tolleranza", "spiegazione"], []],
+  scelta: [["opzioni", "giusta", "spiegazione"], []],
+  duello: [["vincoli", "opzioni", "migliore", "spiegazione", "domanda_ribalta"], []],
+  ordina: [["elementi", "spiegazione"], []],
+  previsione: [["unita", "collegata_a", "tolleranza_percento"], []],
+  simulatore: [["parametri", "uscite"], ["nota"]],
+  mio_modello: [["unita_riga", "uscite"], ["righe_iniziali", "costanti"]],
+  spiega: [["parole_chiave", "max_frasi"], []],
+  aperta: [[], ["suggerimento"]],
+  carte: [["carte", "ripasso"], []],
+  cronometro: [["fasi", "consegna", "min_giri"], []],
+  fascicolo: [["voci"], []]
+};
+var RADICE_OBBL = ["formato", "id", "versione", "titolo", "zona", "creata", "autore", "concetti", "durata_minuti", "blocchi"];
+var RADICE_FAC = ["finito_suggerito", "note_per_agenti"];
+var FUNZIONI_NOMI = ["min", "max", "ceil", "floor", "round", "abs", "se"];
+
+function isObj(v) { return v !== null && typeof v === "object" && !Array.isArray(v); }
+function testoOk(v) { return typeof v === "string" && v.trim() !== ""; }
+function intero(v) { return typeof v === "number" && Number.isInteger(v); }
+function numero(v) { return typeof v === "number" && !isNaN(v); }
+function ha(o, k) { return Object.prototype.hasOwnProperty.call(o, k); }
+function stesseChiavi(o, chiavi) {
+  var k = Object.keys(o);
+  return k.length === chiavi.length && chiavi.every(function (x) { return ha(o, x); });
+}
+function stringaId(v) { return typeof v === "string" && RE_ID.test(v); }
+function dataValida(s) {
+  if (typeof s !== "string" || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  var p = s.split("-").map(Number);
+  var d = new Date(p[0], p[1] - 1, p[2]);
+  return d.getFullYear() === p[0] && d.getMonth() === p[1] - 1 && d.getDate() === p[2];
+}
+
+function controllaUscite(b, dove, permesse, e) {
+  var us = b.uscite;
+  if (!(Array.isArray(us) && us.length)) { e.push(dove + ": «uscite» deve avere almeno un'uscita"); return; }
+  var viste = {};
+  us.forEach(function (u, j) {
+    if (!(isObj(u) && stesseChiavi(u, ["id", "nome", "formula", "decimali", "unita"]))) {
+      e.push(dove + ": uscite[" + j + "] deve avere id, nome, formula, decimali, unita"); return;
+    }
+    if (!stringaId(u.id) || viste[u.id]) e.push(dove + ": uscite[" + j + "].id non valido o ripetuto");
+    viste[u.id] = true;
+    if (!testoOk(u.nome) || typeof u.unita !== "string") e.push(dove + ": uscite[" + j + "]: nome non vuoto, unita testo (anche vuoto)");
+    if (!(intero(u.decimali) && u.decimali >= 0 && u.decimali <= 4)) e.push(dove + ": uscite[" + j + "].decimali tra 0 e 4");
+    try {
+      if (typeof u.formula !== "string") throw new Error("la formula deve essere un testo");
+      var usate = Esp.variabili(u.formula);
+      var ignote = usate.filter(function (v) { return permesse.indexOf(v) < 0; });
+      if (ignote.length) e.push(dove + ": uscite[" + j + "].formula usa variabili sconosciute " + JSON.stringify(ignote));
+    } catch (err) { e.push(dove + ": uscite[" + j + "].formula non valida: " + err.message); }
+  });
+}
+
+function listaOpzioni(b, dove, campi, e) {
+  var ops = b.opzioni, viste = [];
+  if (!(Array.isArray(ops) && ops.length >= 2)) { e.push(dove + ": «opzioni» deve avere almeno 2 opzioni"); return []; }
+  ops.forEach(function (o, j) {
+    if (!(isObj(o) && stesseChiavi(o, campi))) { e.push(dove + ": opzioni[" + j + "] deve avere esattamente " + JSON.stringify(campi.slice().sort())); return; }
+    if (!stringaId(o.id)) e.push(dove + ": opzioni[" + j + "].id in minuscole e trattini");
+    else if (viste.indexOf(o.id) >= 0) e.push(dove + ": opzioni[" + j + "].id ripetuto");
+    viste.push(o.id);
+    campi.forEach(function (k) { if (k !== "id" && !testoOk(o[k])) e.push(dove + ": opzioni[" + j + "]." + k + " deve essere un testo non vuoto"); });
+  });
+  return viste;
+}
+
+function controllaTipo(tipo, b, dove, cronometri) {
+  var e = [];
+  if (tipo === "stima") {
+    if (!numero(b.risposta)) e.push(dove + ": «risposta» deve essere un numero");
+    if (!(numero(b.tolleranza) && b.tolleranza >= 0)) e.push(dove + ": «tolleranza» deve essere un numero ≥ 0");
+    if (typeof b.unita !== "string") e.push(dove + ": «unita» deve essere un testo (anche vuoto)");
+    if (!testoOk(b.spiegazione)) e.push(dove + ": «spiegazione» non vuota");
+  } else if (tipo === "scelta") {
+    var ids = listaOpzioni(b, dove, ["id", "testo", "conseguenza"], e);
+    if (ids.indexOf(b.giusta) < 0) e.push(dove + ": «giusta» deve essere l'id di un'opzione");
+    if (!testoOk(b.spiegazione)) e.push(dove + ": «spiegazione» non vuota");
+  } else if (tipo === "duello") {
+    var idd = listaOpzioni(b, dove, ["id", "testo", "perche_plausibile", "conseguenza"], e);
+    if (!(b.migliore === null || b.migliore === undefined || idd.indexOf(b.migliore) >= 0)) e.push(dove + ": «migliore» deve essere null o l'id di un'opzione");
+    var v = b.vincoli;
+    if (!(Array.isArray(v) && v.length && v.every(testoOk))) e.push(dove + ": «vincoli» deve avere almeno un vincolo testuale");
+    ["spiegazione", "domanda_ribalta"].forEach(function (k) { if (!testoOk(b[k])) e.push(dove + ": «" + k + "» non vuota"); });
+  } else if (tipo === "ordina") {
+    var el = b.elementi;
+    if (!(Array.isArray(el) && el.length >= 3)) e.push(dove + ": «elementi» deve avere almeno 3 elementi, nell'ordine giusto");
+    else {
+      var vi = {};
+      el.forEach(function (x, j) {
+        if (!(isObj(x) && stesseChiavi(x, ["id", "testo"]) && stringaId(x.id) && testoOk(x.testo)) || vi[x && x.id]) e.push(dove + ": elementi[" + j + "] deve essere {id, testo} con id unico");
+        else vi[x.id] = true;
+      });
+    }
+    if (!testoOk(b.spiegazione)) e.push(dove + ": «spiegazione» non vuota");
+  } else if (tipo === "previsione") {
+    if (cronometri.indexOf(b.collegata_a) < 0) e.push(dove + ": «collegata_a» deve essere l'id di un blocco cronometro di questa cartuccia");
+    if (!(numero(b.tolleranza_percento) && b.tolleranza_percento > 0 && b.tolleranza_percento <= 100)) e.push(dove + ": «tolleranza_percento» tra 0 e 100");
+    if (typeof b.unita !== "string") e.push(dove + ": «unita» deve essere un testo");
+  } else if (tipo === "simulatore") {
+    var ps = b.parametri, nomi = [];
+    if (!(Array.isArray(ps) && ps.length)) e.push(dove + ": «parametri» deve avere almeno un parametro");
+    else ps.forEach(function (q, j) {
+      var chiavi = ["id", "nome", "min", "max", "passo", "valore", "unita"];
+      if (!(isObj(q) && stesseChiavi(q, chiavi))) { e.push(dove + ": parametri[" + j + "] deve avere " + JSON.stringify(chiavi.slice().sort())); return; }
+      if (!(typeof q.id === "string" && RE_VAR.test(q.id)) || nomi.indexOf(q.id) >= 0 || FUNZIONI_NOMI.indexOf(q.id) >= 0) e.push(dove + ": parametri[" + j + "].id: minuscole, cifre e _ (niente trattini: è una variabile)");
+      nomi.push(q.id);
+      if (!["min", "max", "passo", "valore"].every(function (k) { return numero(q[k]); })) e.push(dove + ": parametri[" + j + "]: min, max, passo, valore numerici");
+      else if (!(q.min < q.max && q.passo > 0 && q.min <= q.valore && q.valore <= q.max)) e.push(dove + ": parametri[" + j + "]: serve min < max, passo > 0, min ≤ valore ≤ max");
+      if (!testoOk(q.nome) || typeof q.unita !== "string") e.push(dove + ": parametri[" + j + "]: nome non vuoto, unita testo");
+    });
+    controllaUscite(b, dove, nomi, e);
+    if (ha(b, "nota") && !testoOk(b.nota)) e.push(dove + ": «nota» non vuota");
+  } else if (tipo === "mio_modello") {
+    var permesse = ["somma", "righe"];
+    var cost = ha(b, "costanti") ? b.costanti : [];
+    if (Array.isArray(cost)) cost.forEach(function (q, j) {
+      if (!(isObj(q) && stesseChiavi(q, ["id", "nome", "valore"]) && typeof q.id === "string" && RE_VAR.test(q.id) && permesse.indexOf(q.id) < 0 && numero(q.valore) && testoOk(q.nome))) e.push(dove + ": costanti[" + j + "] deve essere {id (variabile), nome, valore numerico}");
+      else permesse.push(q.id);
+    });
+    else e.push(dove + ": «costanti» deve essere una lista");
+    var ri = ha(b, "righe_iniziali") ? b.righe_iniziali : [];
+    if (!(Array.isArray(ri) && ri.every(function (r) { return isObj(r) && stesseChiavi(r, ["nome", "valore"]) && testoOk(r.nome) && numero(r.valore); }))) e.push(dove + ": «righe_iniziali» deve essere una lista di {nome, valore numerico}");
+    if (!testoOk(b.unita_riga)) e.push(dove + ": «unita_riga» non vuota");
+    controllaUscite(b, dove, permesse, e);
+  } else if (tipo === "spiega") {
+    var pk = b.parole_chiave;
+    if (!(Array.isArray(pk) && pk.length && pk.every(testoOk))) e.push(dove + ": «parole_chiave» deve avere almeno una parola");
+    if (!(intero(b.max_frasi) && b.max_frasi >= 1 && b.max_frasi <= 10)) e.push(dove + ": «max_frasi» intero tra 1 e 10");
+  } else if (tipo === "aperta") {
+    if (ha(b, "suggerimento") && !testoOk(b.suggerimento)) e.push(dove + ": «suggerimento» non vuoto");
+  } else if (tipo === "carte") {
+    var cs = b.carte;
+    if (!(Array.isArray(cs) && cs.length)) e.push(dove + ": «carte» deve avere almeno una carta");
+    else {
+      var vc = {};
+      cs.forEach(function (x, j) {
+        if (!(isObj(x) && stesseChiavi(x, ["id", "fronte", "retro"]) && stringaId(x.id) && testoOk(x.fronte) && testoOk(x.retro)) || vc[x && x.id]) e.push(dove + ": carte[" + j + "] deve essere {id unico, fronte, retro}");
+        else vc[x.id] = true;
+      });
+    }
+    if (typeof b.ripasso !== "boolean") e.push(dove + ": «ripasso» deve essere true o false");
+  } else if (tipo === "cronometro") {
+    var f = b.fasi;
+    if (!(Array.isArray(f) && f.length >= 1 && f.length <= 8 && f.every(testoOk) && new Set(f).size === f.length)) e.push(dove + ": «fasi» da 1 a 8 nomi diversi");
+    if (!testoOk(b.consegna)) e.push(dove + ": «consegna» non vuota");
+    if (!(intero(b.min_giri) && b.min_giri >= 1 && b.min_giri <= 20)) e.push(dove + ": «min_giri» intero tra 1 e 20");
+  } else if (tipo === "fascicolo") {
+    var vs = b.voci;
+    if (!(Array.isArray(vs) && vs.length)) e.push(dove + ": «voci» deve avere almeno una voce");
+    else {
+      var vv = {};
+      vs.forEach(function (x, j) {
+        if (!(isObj(x) && stesseChiavi(x, ["id", "testo"]) && stringaId(x.id) && testoOk(x.testo)) || vv[x && x.id]) e.push(dove + ": voci[" + j + "] deve essere {id unico, testo}");
+        else vv[x.id] = true;
+      });
+    }
+  }
+  return e;
+}
+
+function valida(c) {
+  var e = [];
+  if (!isObj(c)) return ["la cartuccia deve essere un oggetto JSON"];
+  RADICE_OBBL.forEach(function (k) { if (!ha(c, k)) e.push("manca il campo «" + k + "»"); });
+  Object.keys(c).forEach(function (k) { if (RADICE_OBBL.indexOf(k) < 0 && RADICE_FAC.indexOf(k) < 0) e.push("campo sconosciuto «" + k + "»"); });
+  if (c.formato !== 1) e.push("«formato» deve essere 1");
+  if (!stringaId(c.id)) e.push("«id»: solo minuscole, cifre e trattini, da 2 a 60 caratteri");
+  if (!(intero(c.versione) && c.versione >= 1)) e.push("«versione» deve essere un intero ≥ 1");
+  ["titolo", "autore"].forEach(function (k) { if (ha(c, k) && !testoOk(c[k])) e.push("«" + k + "» deve essere un testo non vuoto"); });
+  if (c.zona !== "banco" && c.zona !== "campo") e.push("«zona» deve essere «banco» o «campo»");
+  if (!dataValida(c.creata)) e.push("«creata» deve essere una data AAAA-MM-GG");
+  if (!(intero(c.durata_minuti) && c.durata_minuti >= 1 && c.durata_minuti <= 120)) e.push("«durata_minuti» deve essere un intero tra 1 e 120");
+  RADICE_FAC.forEach(function (k) { if (ha(c, k) && !testoOk(c[k])) e.push("«" + k + "» deve essere un testo non vuoto"); });
+  var concetti = [];
+  if (!(Array.isArray(c.concetti) && c.concetti.length)) e.push("«concetti» deve essere una lista con almeno un concetto");
+  else c.concetti.forEach(function (x, i) {
+    if (!(isObj(x) && stesseChiavi(x, ["id", "nome"]) && stringaId(x.id) && testoOk(x.nome))) e.push("concetti[" + i + "]: serve {\"id\", \"nome\"} con id in minuscole e trattini");
+    else if (concetti.indexOf(x.id) >= 0) e.push("concetti[" + i + "]: id ripetuto «" + x.id + "»");
+    else concetti.push(x.id);
+  });
+  var blocchi = c.blocchi;
+  if (!(Array.isArray(blocchi) && blocchi.length >= 1 && blocchi.length <= 25)) { e.push("«blocchi» deve essere una lista da 1 a 25 blocchi"); return e; }
+  var ids = {}, domini = {}, tipi = [];
+  var cronometri = blocchi.filter(function (b) { return isObj(b) && b.tipo === "cronometro"; }).map(function (b) { return b.id; });
+  blocchi.forEach(function (b, i) {
+    var dove = "blocchi[" + i + "]";
+    if (!isObj(b)) { e.push(dove + ": deve essere un oggetto"); return; }
+    var tipo = b.tipo;
+    if (!ha(CAMPI, tipo)) { e.push(dove + ": tipo sconosciuto «" + tipo + "»"); return; }
+    tipi.push(tipo);
+    dove = "blocchi[" + i + "] (" + tipo + " «" + b.id + "»)";
+    var obbl = CAMPI[tipo][0], fac = CAMPI[tipo][1];
+    obbl.concat(["id", "tipo", "testo", "dominio"]).forEach(function (k) { if (!ha(b, k)) e.push(dove + ": manca «" + k + "»"); });
+    Object.keys(b).forEach(function (k) { if (obbl.indexOf(k) < 0 && fac.indexOf(k) < 0 && COMUNI.indexOf(k) < 0) e.push(dove + ": campo sconosciuto «" + k + "»"); });
+    if (!stringaId(b.id)) e.push(dove + ": «id» in minuscole, cifre e trattini");
+    else if (ids[b.id]) e.push(dove + ": id ripetuto");
+    else ids[b.id] = true;
+    ["testo", "dominio"].forEach(function (k) { if (ha(b, k) && !testoOk(b[k])) e.push(dove + ": «" + k + "» deve essere un testo non vuoto"); });
+    if (testoOk(b.dominio)) domini[b.dominio.trim().toLowerCase()] = true;
+    if (ha(b, "titolo") && !testoOk(b.titolo)) e.push(dove + ": «titolo» deve essere un testo non vuoto");
+    if (ha(b, "concetti")) {
+      if (!(Array.isArray(b.concetti) && b.concetti.every(function (x) { return concetti.indexOf(x) >= 0; }))) e.push(dove + ": «concetti» deve elencare id presenti nei concetti della cartuccia");
+    }
+    controllaTipo(tipo, b, dove, cronometri).forEach(function (x) { e.push(x); });
+  });
+  if (c.zona === "banco") {
+    if (Object.keys(domini).length < 2) e.push("zona banco: servono blocchi in almeno 2 domini diversi (trasferimento)");
+    if (!tipi.some(function (t) { return TIPI_CON_FIDUCIA.indexOf(t) >= 0; })) e.push("zona banco: serve almeno un blocco stima, scelta, duello, ordina o previsione");
+  }
+  return e;
+}
+
+window.Palestra = { valida: valida, adesso: adesso, Archivio: Archivio };
+
+/* ===== Palestra: strumenti di interfaccia, navigazione, Home, importazione ===== */
+function el(tag, a, kids) {
+  var n = document.createElement(tag);
+  if (a) Object.keys(a).forEach(function (k) {
+    var v = a[k];
+    if (v === null || v === undefined || v === false) return;
+    if (k === "testid") n.setAttribute("data-testid", v);
+    else if (k === "class") n.className = v;
+    else if (k === "text") n.textContent = v;
+    else if (k === "data") Object.keys(v).forEach(function (d) { n.setAttribute("data-" + d, v[d]); });
+    else if (k === "props") Object.keys(v).forEach(function (d) { n[d] = v[d]; });
+    else if (k.slice(0, 2) === "on") n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? "" : v);
+  });
+  aggiungi(n, kids);
+  return n;
+}
+function aggiungi(n, kids) {
+  if (kids === null || kids === undefined || kids === false) return;
+  if (!Array.isArray(kids)) kids = [kids];
+  kids.forEach(function (k) {
+    if (k === null || k === undefined || k === false) return;
+    if (Array.isArray(k)) aggiungi(n, k);
+    else n.appendChild(typeof k === "object" ? k : document.createTextNode(String(k)));
+  });
+}
+function btn(testo, opzioni, onclick) {
+  var o = Object.assign({ type: "button", class: "btn" }, opzioni || {});
+  o.text = testo;
+  if (onclick) o.onclick = onclick;
+  return el("button", o);
+}
+
+var vistaNodo = document.getElementById("vista");
+var stato = { vista: "home", token: 0, ripresaIgnorata: false, pulisci: [] };
+var VISTE = {};
+
+function pulisciSeduta() {
+  var f = stato.pulisci; stato.pulisci = [];
+  f.forEach(function (fn) { try { fn(); } catch (e) { /* niente */ } });
+}
+function nuovaVista(nome) {
+  stato.token++;
+  pulisciSeduta();
+  stato.vista = nome;
+  Array.prototype.forEach.call(document.querySelectorAll("#nav .nav-b"), function (b) {
+    if (b.getAttribute("data-v") === nome) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current");
+  });
+  return stato.token;
+}
+function mostra(nodi) {
+  vistaNodo.replaceChildren();
+  aggiungi(vistaNodo, nodi);
+  window.scrollTo(0, 0);
+}
+function vai(nome) { VISTE[nome](); }
+
+function inRipresa() {
+  if (stato.ripresaIgnorata) return false;
+  var h = adesso().getHours();
+  return h >= 1 && h <= 5;
+}
+
+/* ---------- Home ---------- */
+var home = { cartucce: [], ultime: {}, lista: null, pannello: null, caricato: false };
+
+function disegnaLista() {
+  var lista = home.lista;
+  if (!lista) return;
+  lista.replaceChildren();
+  if (!home.caricato) { lista.appendChild(el("p", { class: "muted", text: "Carico le cartucce…" })); return; }
+  if (!home.cartucce.length) {
+    lista.appendChild(el("p", { class: "muted", text: "Nessuna cartuccia: importane una o chiedi a Claude di caricarla" }));
+    return;
+  }
+  var ord = home.cartucce.slice().sort(function (a, b) {
+    var ua = home.ultime[a.id] || "", ub = home.ultime[b.id] || "";
+    if (!ua && ub) return -1;
+    if (ua && !ub) return 1;
+    return ua < ub ? -1 : ua > ub ? 1 : String(a.id).localeCompare(String(b.id));
+  });
+  ord.forEach(function (c) {
+    var errori = valida(c), ok = errori.length === 0;
+    var ult = home.ultime[c.id];
+    lista.appendChild(el("div", { class: "card", testid: "cartuccia-" + c.id, data: { valida: ok ? "si" : "no", zona: c.zona === "campo" ? "campo" : "banco" } }, [
+      el("div", { class: "riga" }, [
+        el("span", { class: "tag " + (c.zona === "banco" ? "banco" : ""), text: c.zona === "campo" ? "Campo giochi" : "Banco" }),
+        el("span", { class: "muted dati", text: (c.durata_minuti || "?") + " min" })
+      ]),
+      el("h3", { text: c.titolo || String(c.id) }),
+      el("p", { class: "muted", text: ult ? "Ultima seduta: " + ult : "Mai giocata" }),
+      ok ? null : el("p", { class: "err", text: "Cartuccia non valida: " + errori[0] }),
+      btn("Apri", { class: "btn primario", testid: "apri-" + c.id, props: { disabled: !ok || inRipresa() } }, function () { mostraAvvio(c); })
+    ]));
+  });
+}
+
+async function mostraHome() {
+  var tk = nuovaVista("home");
+  if (!bannerNodo) bannerNodo = el("div", { class: "banner", testid: "banner-archivio", role: "status" });
+  aggiornaBanner();
+  var conta = el("span", { class: "dati", testid: "conta-scale-oggi", text: "…" });
+  home.lista = el("div", { class: "stack", testid: "lista-cartucce" });
+  home.pannello = el("div", { class: "stack" });
+  home.caricato = false;
+  var ripresa = null;
+  function disegnaRipresa() {
+    if (ripresa) { ripresa.remove(); ripresa = null; }
+    if (!inRipresa()) return;
+    ripresa = el("div", { class: "banner ripresa", testid: "banner-ripresa", role: "status" }, [
+      el("span", { text: "È passata l'una: solo Scale, al massimo 5 carte" }),
+      btn("Ho deciso io: è urgente", { class: "btn piccolo", testid: "btn-ripresa-ignora" }, function () {
+        stato.ripresaIgnorata = true; disegnaRipresa(); disegnaLista();
+      })
+    ]);
+    bannerNodo.after(ripresa);
+  }
+  mostra([
+    el("h1", { text: "La Palestra" }),
+    bannerNodo,
+    el("div", { class: "riga" }, [el("span", { text: "Carte delle Scale in scadenza oggi:" }), conta]),
+    btn("Importa cartuccia", { class: "btn", testid: "btn-importa" }, function () { apriImporta(); }),
+    home.pannello,
+    home.lista
+  ]);
+  disegnaRipresa();
+  disegnaLista();
+  if (!backend) return;
+  try {
+    var r = await Promise.all([elencoCartucce(), Archivio.leggiTutti("sedute"), Archivio.leggiTutti("ripassi")]);
+    if (tk !== stato.token) return;
+    home.cartucce = r[0];
+    home.ultime = {};
+    r[1].forEach(function (s) {
+      var d = dataDaIso(s.inizio);
+      if (d && (!home.ultime[s.cartuccia] || d > home.ultime[s.cartuccia])) home.ultime[s.cartuccia] = d;
+    });
+    var oggi = dataLocale(adesso());
+    conta.textContent = String(r[2].filter(function (x) { return x.prossima && x.prossima <= oggi; }).length);
+  } catch (e) {
+    if (tk !== stato.token) return;
+    conta.textContent = "—";
+  }
+  home.caricato = true;
+  disegnaLista();
+}
+VISTE.home = mostraHome;
+
+avvisaCartucce.push(function () {
+  if (stato.vista !== "home" || !home.lista) return;
+  home.cartucce = cacheCartucce || [];
+  home.caricato = true;
+  disegnaLista();
+});
+
+/* ---------- importazione ---------- */
+function apriImporta() {
+  var campo = home.pannello.querySelector("[data-testid=campo-importa]");
+  if (campo) {
+    campo.value = "";
+    var vecchio = home.pannello.querySelector("[data-testid=esito-importa]");
+    if (vecchio) vecchio.remove();
+    campo.focus();
+    return;
+  }
+  campo = el("textarea", { class: "campo dati", id: "campo-importa", testid: "campo-importa", rows: "8", placeholder: "Incolla qui il JSON della cartuccia", spellcheck: "false", "aria-label": "JSON della cartuccia" });
+  campo.addEventListener("input", function () {
+    var v = home.pannello.querySelector("[data-testid=esito-importa]");
+    if (v) v.remove();
+  });
+  var conferma = btn("Importa", { class: "btn primario", testid: "btn-importa-conferma" }, async function () {
+    var vecchio = home.pannello.querySelector("[data-testid=esito-importa]");
+    if (vecchio) vecchio.remove();
+    var esito = await eseguiImporta(campo.value);
+    var nodo = el("div", { class: esito.ok ? "ok-txt testo-lungo" : "err testo-lungo", testid: "esito-importa", role: "status", data: { esito: esito.ok ? "ok" : "errore" } });
+    nodo.textContent = esito.messaggio;
+    home.pannello.appendChild(nodo);
+  });
+  home.pannello.appendChild(el("div", { class: "card" }, [
+    el("label", { class: "lab", for: "campo-importa" }, "Cartuccia (JSON)"),
+    campo,
+    conferma
+  ]));
+  home.pannello.querySelector(".card").dataset.pannello = "importa";
+}
+
+async function eseguiImporta(testo) {
+  var t = String(testo || "").trim().replace(/^```[a-zA-Z]*\s*/, "").replace(/\s*```$/, "");
+  var c;
+  try { c = JSON.parse(t); } catch (e) { return { ok: false, messaggio: "JSON non leggibile: " + e.message }; }
+  var errori = valida(c);
+  if (errori.length) return { ok: false, messaggio: errori.join("\n") };
+  var esiste = await Archivio.leggi("cartucce", c.id);
+  if (esiste && esiste.versione >= c.versione) return { ok: false, messaggio: "Versione già presente: alza \"versione\"" };
+  var scritto = await Archivio.scrivi("cartucce", c.id, c);
+  if (!scritto) return { ok: false, messaggio: "Non sono riuscito a salvare la cartuccia nell'archivio." };
+  if (backend !== "db") { home.cartucce = await elencoCartucce(); home.caricato = true; disegnaLista(); }
+  return { ok: true, messaggio: "Cartuccia importata: " + c.titolo };
+}
+
+/* ===== Palestra: la seduta (il giocatore) ===== */
+var S = null;           // seduta in corso
+var RENDER = {};        // un disegnatore per tipo di blocco
+
+function par(testo, classe) { return el("p", { class: classe || "testo-lungo", text: testo }); }
+function fmtN(n) { return String(n).replace(".", ","); }
+function leggiNumero(t) {
+  var s = String(t).trim().replace(",", ".");
+  return /^-?\d+(\.\d+)?$/.test(s) ? Number(s) : null;
+}
+function trovaOpzione(b, id) { return (b.opzioni || []).filter(function (o) { return o.id === id; })[0]; }
+
+function mostraAvvio(c) {
+  nuovaVista("home");
+  var campo = el("textarea", { class: "campo", id: "seduta-finito", testid: "seduta-finito", rows: "3", placeholder: c.finito_suggerito || "Ho finito quando…" });
+  var inizia = btn("Inizia", { class: "btn primario grande", testid: "btn-inizia", props: { disabled: c.zona === "banco" } }, function () { iniziaSeduta(c, campo.value.trim()); });
+  campo.addEventListener("input", function () { inizia.disabled = c.zona === "banco" && campo.value.trim() === ""; });
+  mostra([
+    el("div", { class: "riga" }, [
+      el("span", { class: "tag " + (c.zona === "banco" ? "banco" : ""), text: c.zona === "campo" ? "Campo giochi" : "Banco" }),
+      el("span", { class: "muted dati", text: c.durata_minuti + " min" })
+    ]),
+    el("h1", { text: c.titolo }),
+    el("div", { class: "card" }, [
+      el("span", { class: "etichetta", text: "Concetti" }),
+      el("ul", { class: "pulita" }, c.concetti.map(function (x) { return el("li", { text: x.nome }); }))
+    ]),
+    el("div", { class: "card" }, [
+      el("label", { class: "lab", for: "seduta-finito" }, c.zona === "banco" ? "Ho finito quando… (obbligatorio al banco)" : "Ho finito quando… (facoltativo)"),
+      campo,
+      inizia
+    ]),
+    btn("Indietro", { class: "btn" }, function () { vai("home"); })
+  ]);
+}
+
+function iniziaSeduta(c, cond) {
+  var inizio = adesso();
+  var s = {
+    c: c, i: 0, id: c.id + "__" + stampa(inizio),
+    doc: { cartuccia: c.id, versione: c.versione, titolo: c.titolo, zona: c.zona, inizio: inizio.toISOString(), fine: null, finito_condizione: cond, finito_esito: null, blocchi: {} },
+    misure: {}
+  };
+  S = s;
+  stato.pulisci.push(function () { if (S === s) S = null; });
+  Archivio.scrivi("sedute", s.id, s.doc);
+  mostraBloccoCorrente();
+}
+
+function nodoAvanzamento(s) {
+  var n = s.c.blocchi.length;
+  return el("div", { class: "stack", testid: "seduta-avanzamento" }, [
+    el("span", { class: "dati muted", text: (s.i + 1) + " / " + n }),
+    el("div", { class: "avanz" }, el("i", { style: "width:" + Math.round(((s.i + 1) / n) * 100) + "%" }))
+  ]);
+}
+
+function mostraBloccoCorrente() {
+  var s = S, c = s.c, b = c.blocchi[s.i];
+  var rec = { risposta: null, fiducia: null, esito: null };
+  var ctx = { s: s, c: c, b: b, rec: rec, zona: c.zona, completo: false, finalizza: null };
+  ctx.avanti = btn("Avanti", { class: "btn primario grande", testid: "btn-avanti", props: { disabled: true } }, function () { finisciBlocco(ctx); });
+  ctx.setCompleto = function (v) { ctx.completo = v; ctx.avanti.disabled = !v; };
+  ctx.commit = function () {
+    s.doc.blocchi[b.id] = { tipo: b.tipo, risposta: rec.risposta, fiducia: rec.fiducia, esito: rec.esito, quando: adesso().toISOString() };
+    return Archivio.scrivi("sedute", s.id, s.doc);
+  };
+  var corpo = el("div", { class: "stack" });
+  var nodo = el("section", { class: "card", testid: "blocco", data: { tipo: b.tipo, id: b.id } }, [
+    el("div", { class: "riga" }, [el("span", { class: "tag", text: b.dominio })]),
+    b.titolo ? el("h2", { text: b.titolo }) : null,
+    par(b.testo),
+    corpo,
+    correzioneUI(ctx)
+  ]);
+  RENDER[b.tipo](ctx, corpo);
+  mostra([nodoAvanzamento(s), nodo, ctx.avanti]);
+}
+
+async function finisciBlocco(ctx) {
+  ctx.avanti.disabled = true;
+  if (ctx.finalizza) ctx.finalizza();
+  await ctx.commit();
+  if (S !== ctx.s) return;
+  ctx.s.i++;
+  if (ctx.s.i >= ctx.c.blocchi.length) mostraFine(ctx.s); else mostraBloccoCorrente();
+}
+
+function correzioneUI(ctx) {
+  var cont = el("div", { class: "stack" });
+  var form = null, ok = null;
+  var b1 = btn("Il gioco sbaglia?", { class: "btn piccolo", testid: "btn-correggi" }, function () {
+    if (form) return;
+    var campo = el("textarea", { class: "campo", id: "campo-correzione", testid: "campo-correzione", rows: "3", "aria-label": "Cosa non torna" });
+    var invia = btn("Segnala", { class: "btn piccolo primario", testid: "btn-correzione-invia" }, async function () {
+      var testo = campo.value.trim();
+      if (!testo) return;
+      var quando = adesso();
+      await Archivio.scrivi("correzioni", "c-" + stampa(quando) + "-" + tre(), { cartuccia: ctx.c.id, versione: ctx.c.versione, blocco: ctx.b.id, testo: testo, quando: quando.toISOString() });
+      if (ok) ok.remove();
+      ok = el("p", { class: "ok-txt", testid: "correzione-ok", role: "status", text: "Segnalato: Claude lo vedrà nel debrief" });
+      form.remove(); form = null;
+      cont.appendChild(ok);
+    });
+    form = el("div", { class: "stack" }, [el("label", { class: "lab", for: "campo-correzione" }, "Cosa non torna?"), campo, invia]);
+    cont.appendChild(form);
+    campo.focus();
+  });
+  cont.appendChild(b1);
+  return cont;
+}
+
+/* ---------- pezzi comuni ---------- */
+function compFiducia(onChange) {
+  var valore = null, bottoni = [];
+  var riga = el("div", { class: "fid" });
+  for (var n = 1; n <= 5; n++) {
+    (function (n) {
+      var b = btn(String(n), { class: "btn", testid: "fiducia-" + n, "aria-pressed": "false" }, function () {
+        valore = n;
+        bottoni.forEach(function (x, i) { x.setAttribute("aria-pressed", i + 1 === n ? "true" : "false"); });
+        onChange();
+      });
+      bottoni.push(b); riga.appendChild(b);
+    })(n);
+  }
+  return {
+    nodo: el("div", { class: "stack" }, [el("span", { class: "etichetta", text: "Quanto sei sicuro?" }), riga, par("1 = tiro a indovinare · 5 = ci scommetto", "muted")]),
+    valore: function () { return valore; },
+    blocca: function () { bottoni.forEach(function (x) { x.disabled = true; }); }
+  };
+}
+
+function nodoRivela(ctx, esito, nodi) {
+  var titolo;
+  if (ctx.zona === "campo") titolo = "Ecco cosa succede";
+  else if (esito === "giusto") titolo = "Giusto";
+  else if (esito === "sbagliato") titolo = "Non ancora";
+  else if (esito === "aperto") titolo = "Domanda aperta: la valuta Claude nel debrief";
+  else titolo = "Scommessa registrata";
+  return el("div", { class: "rivela", testid: "rivela", role: "status", data: { esito: esito } }, [el("p", { class: "esito", text: titolo }), nodi]);
+}
+
+/* cfg: pronto() -> bool; blocca(); risultato() -> {risposta, esito, nodi}. Restituisce la funzione da chiamare a ogni modifica. */
+function confermabile(ctx, corpo, cfg) {
+  var fid = compFiducia(aggiorna);
+  var bc = btn("Conferma", { class: "btn primario", testid: "btn-conferma", props: { disabled: true } }, fai);
+  function aggiorna() { bc.disabled = !(cfg.pronto() && fid.valore() !== null); }
+  function fai() {
+    if (bc.disabled) return;
+    var r = cfg.risultato();
+    ctx.rec.risposta = r.risposta; ctx.rec.fiducia = fid.valore(); ctx.rec.esito = r.esito;
+    cfg.blocca(); fid.blocca(); bc.remove();
+    corpo.appendChild(nodoRivela(ctx, r.esito, r.nodi));
+    ctx.setCompleto(true);
+    ctx.commit();
+  }
+  corpo.appendChild(fid.nodo);
+  corpo.appendChild(bc);
+  return aggiorna;
+}
+
+function nodoOpzioniRivelate(ctx, b, sceltaId) {
+  return b.opzioni.map(function (o) {
+    var marche = [];
+    if (o.id === sceltaId) marche.push("la tua scelta");
+    if (ctx.zona === "banco" && b.tipo === "scelta" && o.id === b.giusta) marche.push("risposta indicata");
+    if (ctx.zona === "banco" && b.tipo === "duello" && b.migliore && o.id === b.migliore) marche.push("risposta indicata");
+    return el("div", { class: "opz" + (o.id === sceltaId ? " scelta-mia" : "") }, [
+      marche.length ? el("span", { class: "etichetta", text: marche.join(" · ") }) : null,
+      el("strong", { class: "testo-lungo", text: o.testo }),
+      par(o.conseguenza)
+    ]);
+  });
+}
+
+/* ---------- i tipi di blocco ---------- */
+RENDER.racconto = function (ctx) { ctx.setCompleto(true); };
+
+RENDER.stima = function (ctx, corpo) {
+  var b = ctx.b;
+  var inp = el("input", { class: "campo dati", id: "stima-valore", testid: "stima-valore", type: "text", inputmode: "decimal", autocomplete: "off", "aria-label": "La tua stima" });
+  corpo.appendChild(el("div", { class: "riga" }, [inp, b.unita ? el("span", { class: "muted", text: b.unita }) : null]));
+  var ag = confermabile(ctx, corpo, {
+    pronto: function () { return leggiNumero(inp.value) !== null; },
+    blocca: function () { inp.disabled = true; },
+    risultato: function () {
+      var v = leggiNumero(inp.value);
+      var ok = Math.abs(v - b.risposta) <= b.tolleranza + 1e-9;
+      return { risposta: v, esito: ok ? "giusto" : "sbagliato", nodi: [
+        par("Risposta indicata: " + fmtN(b.risposta) + (b.unita ? " " + b.unita : "") + " (margine ±" + fmtN(b.tolleranza) + ")"),
+        par("La tua stima: " + fmtN(v) + (b.unita ? " " + b.unita : "")),
+        par(b.spiegazione)
+      ] };
+    }
+  });
+  inp.addEventListener("input", ag);
+};
+
+RENDER.scelta = function (ctx, corpo) {
+  var b = ctx.b, scelta = null, bott = {};
+  var box = el("div", { class: "stack" });
+  b.opzioni.forEach(function (o) {
+    bott[o.id] = btn("", { class: "btn scelta", testid: "opzione-" + o.id, "aria-pressed": "false" }, function () {
+      scelta = o.id;
+      Object.keys(bott).forEach(function (k) { bott[k].setAttribute("aria-pressed", k === o.id ? "true" : "false"); });
+      ag();
+    });
+    bott[o.id].appendChild(el("span", { class: "t testo-lungo", text: o.testo }));
+    box.appendChild(bott[o.id]);
+  });
+  corpo.appendChild(box);
+  var ag = confermabile(ctx, corpo, {
+    pronto: function () { return scelta !== null; },
+    blocca: function () { Object.keys(bott).forEach(function (k) { bott[k].disabled = true; }); },
+    risultato: function () {
+      return { risposta: scelta, esito: scelta === b.giusta ? "giusto" : "sbagliato", nodi: [nodoOpzioniRivelate(ctx, b, scelta), par(b.spiegazione)] };
+    }
+  });
+};
+
+RENDER.duello = function (ctx, corpo) {
+  var b = ctx.b, scelta = null, bott = {};
+  corpo.appendChild(el("div", { class: "stack" }, [
+    el("span", { class: "etichetta", text: "Vincoli" }),
+    el("ul", { class: "pulita" }, b.vincoli.map(function (v) { return el("li", { class: "testo-lungo", text: "• " + v }); }))
+  ]));
+  var box = el("div", { class: "stack" });
+  b.opzioni.forEach(function (o) {
+    bott[o.id] = btn("", { class: "btn scelta", testid: "opzione-" + o.id, "aria-pressed": "false" }, function () {
+      scelta = o.id;
+      Object.keys(bott).forEach(function (k) { bott[k].setAttribute("aria-pressed", k === o.id ? "true" : "false"); });
+      ag();
+    });
+    bott[o.id].appendChild(el("span", { class: "t testo-lungo", text: o.testo }));
+    bott[o.id].appendChild(el("span", { class: "s testo-lungo" }, [el("em", { text: "Plausibile perché: " }), el("span", { text: o.perche_plausibile })]));
+    box.appendChild(bott[o.id]);
+  });
+  corpo.appendChild(box);
+  var motivo = el("textarea", { class: "campo", id: "duello-motivo", testid: "duello-motivo", rows: "3" });
+  var ribalta = el("textarea", { class: "campo", id: "duello-ribalta", testid: "duello-ribalta", rows: "3" });
+  corpo.appendChild(el("label", { class: "lab", for: "duello-motivo" }, ["Perché questa?", motivo]));
+  corpo.appendChild(el("label", { class: "lab", for: "duello-ribalta" }, [b.domanda_ribalta, ribalta]));
+  var ag = confermabile(ctx, corpo, {
+    pronto: function () { return scelta !== null && motivo.value.trim() !== "" && ribalta.value.trim() !== ""; },
+    blocca: function () { motivo.disabled = true; ribalta.disabled = true; Object.keys(bott).forEach(function (k) { bott[k].disabled = true; }); },
+    risultato: function () {
+      var esito = b.migliore === null || b.migliore === undefined ? "aperto" : (scelta === b.migliore ? "giusto" : "sbagliato");
+      return { risposta: { opzione: scelta, motivo: motivo.value.trim(), ribalta: ribalta.value.trim() }, esito: esito, nodi: [nodoOpzioniRivelate(ctx, b, scelta), par(b.spiegazione)] };
+    }
+  });
+  motivo.addEventListener("input", ag);
+  ribalta.addEventListener("input", ag);
+};
+
+RENDER.ordina = function (ctx, corpo) {
+  var b = ctx.b;
+  var giusto = b.elementi.map(function (x) { return x.id; });
+  var testi = {}; b.elementi.forEach(function (x) { testi[x.id] = x.testo; });
+  var ordine = giusto.slice().sort();
+  if (ordine.join("|") === giusto.join("|")) ordine.reverse();
+  var bloccato = false;
+  var lista = el("ol", { class: "pulita", testid: "ordina-lista" });
+  corpo.appendChild(lista);
+  function disegna() {
+    lista.replaceChildren();
+    ordine.forEach(function (id, i) {
+      lista.appendChild(el("li", { class: "opz", testid: "ordina-el", data: { id: id } }, [
+        el("span", { class: "testo-lungo", text: testi[id] }),
+        el("div", { class: "riga" }, [
+          btn("Su", { class: "btn piccolo", testid: "su-" + id, "aria-label": "Sposta su", props: { disabled: bloccato || i === 0 } }, function () { muovi(i, -1); }),
+          btn("Giù", { class: "btn piccolo", testid: "giu-" + id, "aria-label": "Sposta giù", props: { disabled: bloccato || i === ordine.length - 1 } }, function () { muovi(i, 1); })
+        ])
+      ]));
+    });
+  }
+  function muovi(i, d) {
+    var x = ordine[i]; ordine[i] = ordine[i + d]; ordine[i + d] = x; disegna();
+  }
+  disegna();
+  confermabile(ctx, corpo, {
+    pronto: function () { return true; },
+    blocca: function () { bloccato = true; disegna(); },
+    risultato: function () {
+      var uguale = ordine.join("|") === giusto.join("|");
+      return { risposta: ordine.slice(), esito: uguale ? "giusto" : "sbagliato", nodi: [
+        el("span", { class: "etichetta", text: "L'ordine previsto" }),
+        el("ol", { class: "pulita" }, giusto.map(function (id, i) { return el("li", { class: "testo-lungo", text: (i + 1) + ". " + testi[id] }); })),
+        par(b.spiegazione)
+      ] };
+    }
+  })();
+};
+
+RENDER.previsione = function (ctx, corpo) {
+  var b = ctx.b;
+  var inp = el("input", { class: "campo dati", id: "previsione-valore", testid: "previsione-valore", type: "text", inputmode: "decimal", autocomplete: "off", "aria-label": "La tua previsione" });
+  corpo.appendChild(el("div", { class: "riga" }, [inp, b.unita ? el("span", { class: "muted", text: b.unita }) : null]));
+  var ag = confermabile(ctx, corpo, {
+    pronto: function () { return leggiNumero(inp.value) !== null; },
+    blocca: function () { inp.disabled = true; },
+    risultato: function () {
+      var v = leggiNumero(inp.value);
+      return { risposta: v, esito: "in_attesa", nodi: [par("Hai scommesso " + fmtN(v) + (b.unita ? " " + b.unita : "") + ". Il confronto arriva dopo la misura.")] };
+    }
+  });
+  inp.addEventListener("input", ag);
+};
+
+function decimaliDi(passo) { var t = String(passo); return t.indexOf(".") >= 0 ? t.length - t.indexOf(".") - 1 : 0; }
+
+RENDER.simulatore = function (ctx, corpo) {
+  var b = ctx.b, valori = {}, outs = {};
+  b.parametri.forEach(function (q) { valori[q.id] = q.valore; });
+  function calcola() {
+    b.uscite.forEach(function (u) {
+      var t;
+      try { t = Esp.formatta(Esp.calcola(u.formula, valori), u.decimali) + (u.unita ? " " + u.unita : ""); } catch (e) { t = "—"; }
+      outs[u.id].textContent = t;
+    });
+    ctx.rec.risposta = { parametri: clona(valori) };
+  }
+  b.parametri.forEach(function (q) {
+    var dec = decimaliDi(q.passo);
+    var vis = el("strong", { class: "dati", testid: "valore-" + q.id, text: Esp.formatta(q.valore, dec) + (q.unita ? " " + q.unita : "") });
+    var cur = el("input", { type: "range", id: "param-" + q.id, testid: "param-" + q.id, min: String(q.min), max: String(q.max), step: String(q.passo), value: String(q.valore), "aria-label": q.nome });
+    var ascolta = function () {
+      valori[q.id] = Number(cur.value);
+      vis.textContent = Esp.formatta(valori[q.id], dec) + (q.unita ? " " + q.unita : "");
+      calcola();
+    };
+    cur.addEventListener("input", ascolta);
+    cur.addEventListener("change", ascolta);
+    corpo.appendChild(el("div", { class: "param" }, [el("div", { class: "riga", style: "justify-content:space-between" }, [el("span", { text: q.nome }), vis]), cur]));
+  });
+  var boxU = el("div", { class: "stack" });
+  b.uscite.forEach(function (u) {
+    outs[u.id] = el("strong", { text: "…" });
+    boxU.appendChild(el("div", { class: "uscita", testid: "uscita-" + u.id }, [el("span", { text: u.nome }), outs[u.id]]));
+  });
+  corpo.appendChild(boxU);
+  if (b.nota) corpo.appendChild(par(b.nota, "muted testo-lungo"));
+  calcola();
+  ctx.setCompleto(true);
+};
+
+RENDER.mio_modello = function (ctx, corpo) {
+  var b = ctx.b;
+  var righe = (b.righe_iniziali || []).map(function (r) { return { nome: r.nome, valore: String(r.valore) }; });
+  var costanti = {};
+  (b.costanti || []).forEach(function (k) { costanti[k.id] = k.valore; });
+  var box = el("div", { class: "stack" });
+  var outs = {};
+  function ricalcola() {
+    var num = righe.filter(function (r) { return leggiNumero(r.valore) !== null; });
+    var vars = { somma: 0, righe: num.length };
+    num.forEach(function (r) { vars.somma += leggiNumero(r.valore); });
+    Object.keys(costanti).forEach(function (k) { vars[k] = costanti[k]; });
+    var uscite = {};
+    b.uscite.forEach(function (u) {
+      var t, v = null;
+      try { v = Esp.calcola(u.formula, vars); t = Esp.formatta(v, u.decimali) + (u.unita ? " " + u.unita : ""); } catch (e) { t = "—"; }
+      outs[u.id].textContent = t;
+      uscite[u.id] = typeof v === "number" && isFinite(v) ? v : null;
+    });
+    ctx.rec.risposta = { righe: num.map(function (r) { return { nome: r.nome, valore: leggiNumero(r.valore) }; }), uscite: uscite };
+    ctx.setCompleto(num.length > 0);
+  }
+  function disegna() {
+    box.replaceChildren();
+    righe.forEach(function (r, n) {
+      var nome = el("input", { class: "campo", id: "riga-nome-" + n, testid: "riga-nome-" + n, type: "text", value: r.nome, placeholder: "Fase", "aria-label": "Nome della fase " + (n + 1) });
+      var val = el("input", { class: "campo dati", id: "riga-valore-" + n, testid: "riga-valore-" + n, type: "text", inputmode: "decimal", value: r.valore, placeholder: b.unita_riga, "aria-label": "Valore in " + b.unita_riga });
+      nome.addEventListener("input", function () { r.nome = nome.value; ricalcola(); });
+      val.addEventListener("input", function () { r.valore = val.value; ricalcola(); });
+      box.appendChild(el("div", { class: "riga", style: "flex-wrap:nowrap" }, [
+        el("div", { style: "flex:2 1 0;min-width:0" }, nome),
+        el("div", { style: "flex:1 1 0;min-width:0" }, val),
+        btn("Togli", { class: "btn piccolo", testid: "btn-togli-riga-" + n, "aria-label": "Togli la riga " + (n + 1) }, function () { righe.splice(n, 1); disegna(); ricalcola(); })
+      ]));
+    });
+  }
+  corpo.appendChild(par("Una riga per fase, valori in " + b.unita_riga + ".", "muted"));
+  corpo.appendChild(box);
+  corpo.appendChild(btn("Aggiungi una riga", { class: "btn", testid: "btn-aggiungi-riga" }, function () { righe.push({ nome: "", valore: "" }); disegna(); ricalcola(); }));
+  if (b.costanti && b.costanti.length) corpo.appendChild(par(b.costanti.map(function (k) { return k.nome + ": " + fmtN(k.valore); }).join(" · "), "muted"));
+  var boxU = el("div", { class: "stack" });
+  b.uscite.forEach(function (u) {
+    outs[u.id] = el("strong", { text: "…" });
+    boxU.appendChild(el("div", { class: "uscita", testid: "uscita-" + u.id }, [el("span", { text: u.nome }), outs[u.id]]));
+  });
+  corpo.appendChild(boxU);
+  disegna();
+  ricalcola();
+};
+
+function contaFrasi(t) {
+  return t.split(/[.!?]+/).filter(function (x) { return x.trim() !== ""; }).length;
+}
+RENDER.spiega = function (ctx, corpo) {
+  var b = ctx.b;
+  var area = el("textarea", { class: "campo", id: "spiega-testo", testid: "spiega-testo", rows: "6", "aria-label": "La tua spiegazione" });
+  var chips = el("div", { class: "riga" });
+  var chipNodi = b.parole_chiave.map(function (p, i) {
+    var c = el("span", { class: "chip", testid: "parola-" + i, text: p, data: { presente: "no" } });
+    chips.appendChild(c); return c;
+  });
+  var conta = el("span", { class: "dati", testid: "conta-frasi" });
+  var avviso = el("p", { class: "err", testid: "spiega-avviso", role: "status" });
+  function agg() {
+    var t = area.value, basso = t.toLowerCase();
+    b.parole_chiave.forEach(function (p, i) { chipNodi[i].setAttribute("data-presente", basso.indexOf(p.toLowerCase()) >= 0 ? "si" : "no"); });
+    var n = contaFrasi(t);
+    conta.textContent = n + " frasi (massimo " + b.max_frasi + ")";
+    avviso.textContent = n > b.max_frasi ? "Sei oltre il massimo di frasi: prova a stringere." : "";
+    ctx.rec.risposta = t;
+    ctx.setCompleto(t.trim() !== "");
+  }
+  area.addEventListener("input", agg);
+  corpo.appendChild(area);
+  corpo.appendChild(el("div", { class: "stack" }, [el("span", { class: "etichetta", text: "Parole chiave" }), chips]));
+  corpo.appendChild(conta);
+  corpo.appendChild(avviso);
+  agg();
+  ctx.setCompleto(false);
+};
+
+RENDER.aperta = function (ctx, corpo) {
+  var b = ctx.b;
+  var area = el("textarea", { class: "campo", id: "aperta-testo", testid: "aperta-testo", rows: "6", "aria-label": "La tua risposta" });
+  area.addEventListener("input", function () { ctx.rec.risposta = area.value; ctx.setCompleto(area.value.trim() !== ""); });
+  if (b.suggerimento) corpo.appendChild(el("p", { class: "muted testo-lungo", testid: "suggerimento", text: "Suggerimento: " + b.suggerimento }));
+  corpo.appendChild(area);
+};
+
+RENDER.carte = function (ctx, corpo) {
+  var b = ctx.b, k = 0, voti = {};
+  var box = el("div", { class: "stack" });
+  corpo.appendChild(box);
+  ctx.rec.risposta = voti;
+  function disegna() {
+    box.replaceChildren();
+    var n = b.carte.length;
+    if (k >= n) {
+      box.appendChild(el("span", { class: "dati muted", testid: "carte-progresso", text: n + " / " + n }));
+      box.appendChild(par("Fatto: hai giudicato tutte le carte."));
+      ctx.setCompleto(true);
+      ctx.commit();
+      return;
+    }
+    var carta = b.carte[k], girata = false;
+    box.appendChild(el("span", { class: "dati muted", testid: "carte-progresso", text: (k + 1) + " / " + n }));
+    box.appendChild(el("div", { class: "carta testo-lungo", testid: "carta-fronte", text: carta.fronte }));
+    var gira = btn("Gira la carta", { class: "btn primario", testid: "btn-gira" }, function () {
+      if (girata) return;
+      girata = true; gira.remove();
+      box.appendChild(el("div", { class: "carta testo-lungo", testid: "carta-retro", text: carta.retro }));
+      box.appendChild(el("div", { class: "stack" }, [
+        el("span", { class: "etichetta", text: "Come è andata?" }),
+        el("div", { class: "fid", style: "grid-template-columns:repeat(3,minmax(0,1fr))" }, [
+          btn("Sì", { class: "btn", testid: "voto-si" }, function () { vota("si"); }),
+          btn("Quasi", { class: "btn", testid: "voto-quasi" }, function () { vota("quasi"); }),
+          btn("No", { class: "btn", testid: "voto-no" }, function () { vota("no"); })
+        ])
+      ]));
+    });
+    box.appendChild(gira);
+    function vota(v) {
+      voti[carta.id] = v;
+      if (b.ripasso) creaRipasso(ctx, b, carta, v);
+      k++;
+      disegna();
+    }
+  }
+  disegna();
+};
+
+async function creaRipasso(ctx, b, carta, voto) {
+  var chiave = ctx.c.id + "__" + b.id + "__" + carta.id;
+  var esiste = await Archivio.leggi("ripassi", chiave);
+  if (esiste) return;
+  var oggi = dataLocale(adesso());
+  await Archivio.scrivi("ripassi", chiave, { cartuccia: ctx.c.id, blocco: b.id, carta: carta.id, fronte: carta.fronte, retro: carta.retro, passo: 0, prossima: piuGiorni(oggi, 1), storia: [{ data: oggi, voto: voto }] });
+}
+
+/* ---------- fine seduta, riepilogo, copia ---------- */
+function testoRisposta(b, r) {
+  if (r === null || r === undefined) return "—";
+  try {
+    if (b.tipo === "stima" || b.tipo === "previsione") return fmtN(r) + (b.unita ? " " + b.unita : "");
+    if (b.tipo === "scelta") { var o = trovaOpzione(b, r); return o ? o.testo + " (" + r + ")" : String(r); }
+    if (b.tipo === "duello") { var d = trovaOpzione(b, r.opzione); return (d ? d.testo : r.opzione) + " | perché: " + r.motivo + " | mi farebbe cambiare idea: " + r.ribalta; }
+    if (b.tipo === "ordina") return r.join(" > ");
+    if (b.tipo === "simulatore") return Object.keys(r.parametri).map(function (k) { return k + "=" + r.parametri[k]; }).join(", ");
+    if (b.tipo === "mio_modello") return r.righe.map(function (x) { return x.nome + "=" + x.valore; }).join("; ") + " | " + Object.keys(r.uscite).map(function (k) { return k + "=" + (r.uscite[k] === null ? "—" : r.uscite[k]); }).join(", ");
+    if (b.tipo === "carte") return Object.keys(r).map(function (k) { return k + ": " + r[k]; }).join(", ");
+    if (b.tipo === "cronometro") return "misura " + r;
+    if (b.tipo === "fascicolo") return Object.keys(r).map(function (k) { return k + ": colonna " + r[k]; }).join(", ");
+  } catch (e) { /* ripiega sul testo grezzo */ }
+  return typeof r === "string" ? r : JSON.stringify(r);
+}
+function testoRisultati(s) {
+  var c = s.c, d = s.doc;
+  var righe = [
+    "PALESTRA — " + c.titolo + " (" + c.id + " v" + c.versione + ", zona " + c.zona + ")",
+    "Seduta: " + dataOraDaIso(d.inizio) + " → " + (d.fine ? dataOraDaIso(d.fine) : "—"),
+    "Ho finito quando: " + (d.finito_condizione || "—") + " — rispettata: " + (d.finito_esito === "si" ? "sì" : d.finito_esito === "no" ? "no" : "—")
+  ];
+  c.blocchi.forEach(function (b) {
+    var r = d.blocchi[b.id] || {};
+    righe.push("[" + b.id + "] " + b.tipo + " · fiducia " + (r.fiducia || "—") + " · esito " + (r.esito || "—"));
+    righe.push("  risposta: " + testoRisposta(b, r.risposta));
+  });
+  return righe.join("\n");
+}
+var PAROLE_ESITO = { giusto: "giusto", sbagliato: "non ancora", aperto: "aperto", in_attesa: "in attesa della misura" };
+
+function mostraFine(s) {
+  var d = s.doc;
+  var chiudi = async function (esito) {
+    d.fine = adesso().toISOString();
+    d.finito_esito = esito;
+    await Archivio.scrivi("sedute", s.id, d);
+    if (S !== s) return;
+    mostraRiepilogo(s);
+  };
+  mostra([
+    el("section", { class: "card", testid: "fine-seduta" }, [
+      el("h2", { text: "Fine della seduta" }),
+      par("Hai scritto: " + (d.finito_condizione ? "«" + d.finito_condizione + "»" : "(nessuna condizione)")),
+      el("p", { text: "L'hai rispettata?" }),
+      el("div", { class: "riga" }, [
+        btn("Sì", { class: "btn primario", testid: "btn-finito-si" }, function () { chiudi("si"); }),
+        btn("No", { class: "btn", testid: "btn-finito-no" }, function () { chiudi("no"); })
+      ])
+    ])
+  ]);
+}
+
+function mostraRiepilogo(s) {
+  var c = s.c, d = s.doc;
+  var voci = [];
+  c.blocchi.forEach(function (b) {
+    var r = d.blocchi[b.id];
+    if (!r || !r.fiducia) return;
+    var t = (b.titolo || b.id) + ": fiducia " + r.fiducia;
+    if (c.zona === "banco") t += ", esito " + (PAROLE_ESITO[r.esito] || "—");
+    voci.push(el("li", { class: "riga-sensore testo-lungo", text: t }));
+  });
+  var area = null;
+  var copia = btn("Copia risultati", { class: "btn primario", testid: "btn-copia-risultati" }, function () {
+    var testo = testoRisultati(s);
+    if (!area) {
+      area = el("textarea", { class: "campo dati", id: "testo-risultati", testid: "testo-risultati", rows: "10", readonly: true, "aria-label": "Risultati da copiare" });
+      copia.after(area);
+    }
+    area.value = testo;
+    var nota = box.querySelector("[data-nota=copia]");
+    if (nota) nota.remove();
+    function manuale() { area.select(); box.appendChild(el("p", { class: "muted", "data-nota": "copia", text: "Seleziona e copia a mano" })); }
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(testo).then(function () { box.appendChild(el("p", { class: "ok-txt", "data-nota": "copia", text: "Copiato negli appunti" })); }, manuale);
+      } else manuale();
+    } catch (e) { manuale(); }
+  });
+  var box = el("section", { class: "card", testid: "riepilogo" }, [
+    el("h2", { text: "Riepilogo" }),
+    par("Seduta chiusa. Condizione di finito rispettata: " + (d.finito_esito === "si" ? "sì" : "no") + "."),
+    voci.length ? el("ul", { class: "pulita" }, voci) : par("Nessun blocco con fiducia in questa seduta.", "muted"),
+    copia
+  ]);
+  mostra([box, btn("Torna alla Palestra", { class: "btn" }, function () { vai("home"); })]);
+}
+
+/* ===== Palestra: il cronometro (misura giri veri) ===== */
+var CHIAVE_BOZZA = "palestra:bozza-crono";
+
+function leggiBozza() { try { var t = window.localStorage.getItem(CHIAVE_BOZZA); return t ? JSON.parse(t) : null; } catch (e) { return null; } }
+function scriviBozza(o) { try { window.localStorage.setItem(CHIAVE_BOZZA, JSON.stringify(o)); } catch (e) { /* niente */ } }
+function togliBozza() { try { window.localStorage.removeItem(CHIAVE_BOZZA); } catch (e) { /* niente */ } }
+function sec(ms) { return Esp.formatta(ms / 1000, 1) + " s"; }
+
+RENDER.cronometro = function (ctx, corpo) {
+  var b = ctx.b, s = ctx.s;
+  var st = { corre: false, t0: 0, base: 0, tocchi: [], giri: [], giroInizio: 0, ultimo: 0, fasiGiro: {}, salvato: false };
+  var wake = null;
+
+  function ora() { return st.corre ? st.base + (performance.now() - st.t0) : st.base; }
+  async function prendiWake() { try { if (navigator.wakeLock && navigator.wakeLock.request) wake = await navigator.wakeLock.request("screen"); } catch (e) { wake = null; } }
+  function rilascia() { try { if (wake) { wake.release(); wake = null; } } catch (e) { wake = null; } }
+  function bozza() {
+    scriviBozza({ seduta: s.id, blocco: b.id, tocchi: st.tocchi, giri: st.giri, fasiGiro: st.fasiGiro, base: st.base, giroInizio: st.giroInizio, ultimo: st.ultimo });
+  }
+
+  var tempo = el("div", { class: "crono-tempo", testid: "crono-tempo", role: "timer", text: "0,0 s" });
+  var contaGiri = el("span", { class: "dati", testid: "crono-conta-giri", text: "0" });
+  var elencoGiri = el("div", { class: "stack", testid: "crono-giri" });
+  var nota = el("textarea", { class: "campo", id: "crono-nota", testid: "crono-nota", rows: "3" });
+  var start = btn("Via", { class: "btn primario grande", testid: "crono-start" }, avvia);
+  var fine = btn("Fine giro", { class: "btn grande", style: "flex:2 1 0", testid: "crono-fine-giro", props: { disabled: true } }, fineGiro);
+  var stop = btn("Stop", { class: "btn grande", style: "flex:1 1 0", testid: "crono-stop", props: { disabled: true } }, ferma);
+  var salva = btn("Salva la misura", { class: "btn primario", testid: "btn-crono-salva", props: { disabled: true } }, salvaMisura);
+  var fasiBtn = b.fasi.map(function (f, i) {
+    return btn(f, { class: "btn grande", testid: "crono-fase-" + i, props: { disabled: true } }, function () { tocco(f); });
+  });
+  var esitoNodo = el("div", { class: "stack" });
+
+  function aggiornaStato() {
+    var vivo = st.corre && !st.salvato;
+    fasiBtn.forEach(function (x) { x.disabled = !vivo; });
+    fine.disabled = !vivo;
+    stop.disabled = !vivo;
+    start.disabled = st.corre || st.salvato;
+    start.textContent = st.tocchi.length || st.giri.length || st.base > 0 ? "Continua" : "Via";
+    salva.disabled = !(st.base > 0 || st.giri.length > 0) || st.corre || st.salvato;
+  }
+  function disegnaGiri() {
+    contaGiri.textContent = String(st.giri.length);
+    elencoGiri.replaceChildren();
+    st.giri.forEach(function (g, i) {
+      var parti = Object.keys(g.fasi).map(function (k) { return k + " " + sec(g.fasi[k]); }).join(" · ");
+      elencoGiri.appendChild(el("div", { class: "riga-sensore testo-lungo" }, [
+        el("strong", { class: "dati", text: "Giro " + (i + 1) + ": " + sec(g.totale_ms) }),
+        parti ? el("div", { class: "muted", text: parti }) : null
+      ]));
+    });
+  }
+  function avvia() {
+    if (st.corre || st.salvato) return;
+    st.corre = true; st.t0 = performance.now();
+    prendiWake();
+    aggiornaStato();
+  }
+  function tocco(fase) {
+    if (!st.corre) return;
+    var ms = ora();
+    st.fasiGiro[fase] = (st.fasiGiro[fase] || 0) + (ms - st.ultimo);
+    st.ultimo = ms;
+    st.tocchi.push({ fase: fase, ms: Math.round(ms) });
+    bozza();
+  }
+  function fineGiro() {
+    if (!st.corre) return;
+    var ms = ora(), fasi = {};
+    Object.keys(st.fasiGiro).forEach(function (k) { fasi[k] = Math.round(st.fasiGiro[k]); });
+    st.giri.push({ totale_ms: Math.round(ms - st.giroInizio), fasi: fasi });
+    st.giroInizio = ms; st.ultimo = ms; st.fasiGiro = {};
+    disegnaGiri();
+    bozza();
+  }
+  function ferma() {
+    if (!st.corre) return;
+    st.base = ora(); st.corre = false;
+    rilascia();
+    bozza();
+    aggiornaStato();
+  }
+  async function salvaMisura() {
+    if (salva.disabled) return;
+    st.salvato = true;
+    salva.disabled = true;
+    aggiornaStato();
+    nota.disabled = true;
+    var giri = st.giri;
+    var media = giri.length ? Math.round(giri.reduce(function (a, g) { return a + g.totale_ms; }, 0) / giri.length) : 0;
+    var completa = giri.length >= b.min_giri;
+    var id = s.id + "__" + b.id;
+    var misura = { cartuccia: ctx.c.id, seduta: s.id, blocco: b.id, fasi: b.fasi.slice(), tocchi: st.tocchi, giri: giri, media_giro_ms: media, completa: completa, nota: nota.value.trim(), quando: adesso().toISOString() };
+    await Archivio.scrivi("misure", id, misura);
+    togliBozza();
+    s.misure[b.id] = misura;
+    ctx.rec.risposta = id;
+    var righe = [];
+    ctx.c.blocchi.forEach(function (p) {
+      if (p.tipo !== "previsione" || p.collegata_a !== b.id) return;
+      var r = s.doc.blocchi[p.id];
+      if (!r || typeof r.risposta !== "number") return;
+      if (!completa) return;
+      var misurato = media / 1000;
+      r.esito = Math.abs(r.risposta - misurato) <= misurato * p.tolleranza_percento / 100 + 1e-9 ? "giusto" : "sbagliato";
+      righe.push("Avevi detto " + fmtN(r.risposta) + " s con fiducia " + r.fiducia + ": misurato " + Esp.formatta(misurato, 1) + " s");
+    });
+    esitoNodo.appendChild(par(completa
+      ? "Misura salvata: " + giri.length + " giri, media " + sec(media) + "."
+      : "Misura salvata con " + giri.length + " giri su " + b.min_giri + " richiesti: non basta per confrontarla con la tua scommessa, che resta in attesa.", "ok-txt testo-lungo"));
+    if (righe.length) esitoNodo.appendChild(el("p", { class: "testo-lungo", testid: "crono-confronto", role: "status", text: righe.join("\n") }));
+    ctx.setCompleto(true);
+    await ctx.commit();
+  }
+
+  var timer = setInterval(function () {
+    if (!tempo.isConnected) return;
+    tempo.textContent = sec(Math.max(0, ora() - st.giroInizio));
+  }, 100);
+  stato.pulisci.push(function () { clearInterval(timer); rilascia(); });
+
+  corpo.appendChild(el("p", { class: "testo-lungo", testid: "crono-consegna", text: b.consegna }));
+  var vecchia = leggiBozza();
+  if (vecchia && vecchia.seduta === s.id && vecchia.blocco === b.id) {
+    var rip = btn("Riprendi i giri salvati (" + (vecchia.giri ? vecchia.giri.length : 0) + ")", { class: "btn", testid: "crono-riprendi" }, function () {
+      st.tocchi = vecchia.tocchi || []; st.giri = vecchia.giri || []; st.fasiGiro = vecchia.fasiGiro || {};
+      st.base = vecchia.base || 0; st.giroInizio = vecchia.giroInizio || 0; st.ultimo = vecchia.ultimo || 0;
+      rip.remove(); disegnaGiri(); aggiornaStato();
+    });
+    corpo.appendChild(rip);
+  }
+  corpo.appendChild(tempo);
+  corpo.appendChild(start);
+  corpo.appendChild(el("div", { class: "crono-fasi" }, fasiBtn));
+  corpo.appendChild(el("div", { class: "riga", style: "flex-wrap:nowrap" }, [fine, stop]));
+  corpo.appendChild(el("div", { class: "riga" }, [el("span", { text: "Giri chiusi:" }), contaGiri, el("span", { class: "muted", text: "(servono almeno " + b.min_giri + ")" })]));
+  corpo.appendChild(elencoGiri);
+  corpo.appendChild(el("label", { class: "lab", for: "crono-nota" }, ["Nota: cosa è andato storto?", nota]));
+  corpo.appendChild(salva);
+  corpo.appendChild(esitoNodo);
+  aggiornaStato();
+};
+
+/* ===== Palestra: Fascicolo, Scale, Sensore, Quaderno, avvio ===== */
+
+/* ---------- Fascicolo: componente condiviso tra la vista e il blocco di una seduta ---------- */
+var NOMI_COLONNE = { 1: "Posso provarlo", 2: "Lo spiego, non lo provo", 3: "Non lo so ancora" };
+var NOMI_BREVI = { 1: "Provo", 2: "Spiego", 3: "Non so" };
+var TIPI_PROVA = { misura: "Una misura", ripasso_distanza: "Un ripasso a distanza superato", artefatto: "Un mio artefatto" };
+
+/* opzioni: {voci: [{chiave, ...doc}], seduta: bool, cartuccia, onCambio(), copia: bool}
+   Ogni voce ha colonna 1|2|3 oppure null (da sistemare). */
+function compFascicolo(opz) {
+  var voci = opz.voci;
+  var aperti = {};   // chiave -> true se il modulo della prova è aperto
+  var radice = el("div", { class: "stack" });
+  var testoCopia = null;
+
+  function scrivi(v) {
+    var doc = { testo: v.testo, colonna: v.colonna, prova: v.prova || null, origine: v.origine, creata: v.creata, aggiornata: v.aggiornata, segnata: !!v.segnata, storia: v.storia };
+    return Archivio.scrivi("fascicolo", v.chiave, doc);
+  }
+  async function sposta(v, col, prova) {
+    var oggi = dataLocale(adesso());
+    v.colonna = col;
+    v.prova = col === 1 ? prova : null;
+    v.aggiornata = adesso().toISOString();
+    if (!v.creata) v.creata = v.aggiornata;
+    v.storia = (v.storia || []).concat([{ data: oggi, colonna: col }]);
+    delete aperti[v.chiave];
+    await scrivi(v);
+    disegna();
+    if (opz.onCambio) opz.onCambio();
+  }
+  function nodoVoce(v) {
+    var k = v.chiave;
+    var nodo = el("div", { class: "voce", testid: "voce-" + k, data: { segnata: v.segnata ? "si" : "no" } }, [
+      par(v.testo),
+      el("div", { class: "muted" }, "Origine: " + (v.origine === "mia" ? "mia" : v.origine) + (v.aggiornata ? " · aggiornata il " + dataDaIso(v.aggiornata) : "")),
+      v.prova ? el("div", { class: "muted testo-lungo" }, "Prova (" + (TIPI_PROVA[v.prova.tipo] || v.prova.tipo) + "): " + v.prova.testo) : null,
+      el("div", { class: "sposta" }, [1, 2, 3].map(function (n) {
+        return btn(NOMI_BREVI[n], { class: "btn piccolo", testid: "sposta-" + k + "-" + n, "aria-label": "Sposta in «" + NOMI_COLONNE[n] + "»", "aria-pressed": v.colonna === n ? "true" : "false" }, function () {
+          if (n === 1) { aperti[k] = true; disegna(); return; }
+          sposta(v, n, null);
+        });
+      }))
+    ]);
+    if (aperti[k]) {
+      var tipo = el("select", { class: "campo", id: "prova-tipo-" + k, testid: "prova-tipo-" + k, "aria-label": "Tipo di prova" },
+        Object.keys(TIPI_PROVA).map(function (t) { return el("option", { value: t, text: TIPI_PROVA[t] }); }));
+      var testo = el("textarea", { class: "campo", id: "prova-testo-" + k, testid: "prova-testo-" + k, rows: "3", "aria-label": "La prova" });
+      var errore = null;
+      var conferma = btn("Conferma la prova", { class: "btn primario piccolo", testid: "prova-conferma-" + k }, function () {
+        var t = testo.value.trim();
+        if (!t) {
+          if (!errore) {
+            errore = el("p", { class: "err", testid: "errore-prova-" + k, role: "alert", text: "Serve una prova: una misura, un ripasso a distanza superato o un tuo artefatto" });
+            conferma.before(errore);
+          }
+          return;
+        }
+        sposta(v, 1, { tipo: tipo.value, testo: t });
+      });
+      nodo.appendChild(el("div", { class: "stack" }, [
+        par("Una stima, anche tua, sta in «Lo spiego, non lo provo».", "muted"),
+        el("label", { class: "lab", for: "prova-tipo-" + k }, ["Che prova hai?", tipo]),
+        el("label", { class: "lab", for: "prova-testo-" + k }, ["Descrivila", testo]),
+        conferma
+      ]));
+    }
+    if (!opz.seduta) {
+      nodo.appendChild(btn(v.segnata ? "Tolta da «Da rivedere»" : "Da rivedere", { class: "btn piccolo", testid: "btn-segna-" + k, "aria-pressed": v.segnata ? "true" : "false" }, async function () {
+        v.segnata = !v.segnata;
+        v.aggiornata = adesso().toISOString();
+        await scrivi(v);
+        disegna();
+      }));
+    }
+    return nodo;
+  }
+  function colonna(n) {
+    var dentro = voci.filter(function (v) { return v.colonna === n; }).sort(function (a, b) { return (b.aggiornata || "") < (a.aggiornata || "") ? -1 : 1; });
+    return el("section", { class: "colonna", testid: "fascicolo-col-" + n }, [
+      el("h3", { text: NOMI_COLONNE[n] }),
+      dentro.length ? dentro.map(nodoVoce) : par("Vuota", "muted")
+    ]);
+  }
+  function disegna() {
+    radice.replaceChildren();
+    var senza = voci.filter(function (v) { return v.colonna !== 1 && v.colonna !== 2 && v.colonna !== 3; });
+    if (opz.seduta && senza.length) {
+      radice.appendChild(el("section", { class: "colonna", testid: "fascicolo-da-sistemare" }, [el("h3", { text: "Da sistemare" })].concat(senza.map(nodoVoce))));
+    }
+    radice.appendChild(colonna(1));
+    radice.appendChild(colonna(2));
+    radice.appendChild(colonna(3));
+    if (opz.copia) {
+      var copia = btn("Copia le voci che posso provare", { class: "btn", testid: "btn-copia-fascicolo" }, function () {
+        var righe = voci.filter(function (v) { return v.colonna === 1; }).map(function (v) {
+          return "• " + v.testo + (v.prova ? " — prova (" + (TIPI_PROVA[v.prova.tipo] || v.prova.tipo) + "): " + v.prova.testo : "");
+        });
+        var testo = righe.length ? righe.join("\n") : "Nessuna voce in «Posso provarlo».";
+        if (!testoCopia) {
+          testoCopia = el("textarea", { class: "campo", id: "testo-fascicolo", testid: "testo-fascicolo", rows: "8", readonly: true, "aria-label": "Voci da copiare" });
+        }
+        testoCopia.value = testo;
+        copia.after(testoCopia);
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(testo).then(function () {}, function () { testoCopia.select(); });
+          else testoCopia.select();
+        } catch (e) { testoCopia.select(); }
+      });
+      radice.appendChild(copia);
+      if (testoCopia && testoCopia.value) copia.after(testoCopia);
+    }
+  }
+  disegna();
+  return { nodo: radice, voci: voci, ridisegna: disegna };
+}
+
+function vociDaDocumenti(docs) {
+  return docs.map(function (d) {
+    return { chiave: d.id, testo: d.testo, colonna: d.colonna, prova: d.prova || null, origine: d.origine, creata: d.creata, aggiornata: d.aggiornata, segnata: !!d.segnata, storia: d.storia || [] };
+  });
+}
+
+RENDER.fascicolo = function (ctx, corpo) {
+  var b = ctx.b, s = ctx.s;
+  var box = el("div", { class: "stack" }, par("Carico le voci…", "muted"));
+  corpo.appendChild(box);
+  var comp = null;
+  function aggiorna() {
+    var risposta = {};
+    var tutte = true;
+    comp.voci.forEach(function (v) {
+      var id = v.chiave.slice(ctx.c.id.length + 2);
+      if (v.colonna === 1 || v.colonna === 2 || v.colonna === 3) risposta[id] = v.colonna; else tutte = false;
+    });
+    ctx.rec.risposta = risposta;
+    ctx.setCompleto(tutte);
+    if (tutte) ctx.commit();
+  }
+  Archivio.leggiTutti("fascicolo").then(function (docs) {
+    if (S !== s || !box.isConnected) return;
+    var esistenti = {};
+    docs.forEach(function (d) { esistenti[d.id] = d; });
+    var oggi = adesso().toISOString();
+    var voci = b.voci.map(function (v) {
+      var k = ctx.c.id + "__" + v.id;
+      if (esistenti[k]) return vociDaDocumenti([esistenti[k]])[0];
+      return { chiave: k, testo: v.testo, colonna: null, prova: null, origine: ctx.c.id, creata: oggi, aggiornata: oggi, segnata: false, storia: [] };
+    });
+    comp = compFascicolo({ voci: voci, seduta: true, cartuccia: ctx.c.id, onCambio: aggiorna });
+    box.replaceChildren(comp.nodo);
+    aggiorna();
+  }, function () {
+    box.replaceChildren(par("Non riesco a leggere il fascicolo dall'archivio.", "err"));
+  });
+};
+
+async function mostraFascicolo() {
+  var tk = nuovaVista("fascicolo");
+  var box = el("div", { class: "stack" }, par("Carico il fascicolo…", "muted"));
+  var nuovaTesto = el("input", { class: "campo", id: "fascicolo-nuova-testo", testid: "fascicolo-nuova-testo", type: "text", placeholder: "Una cosa che so fare o spiegare, con parole mie", "aria-label": "Nuova voce" });
+  var comp = null;
+  var aggiungiVoce = btn("Aggiungi (parte in «Non lo so ancora»)", { class: "btn", testid: "fascicolo-nuova-aggiungi" }, async function () {
+    var t = nuovaTesto.value.trim();
+    if (!t || !comp) return;
+    var quando = adesso();
+    var chiave = "mia-" + stampa(quando), n = 1;
+    while (comp.voci.some(function (v) { return v.chiave === chiave; })) { n++; chiave = "mia-" + stampa(quando) + "-" + n; }
+    var iso = quando.toISOString();
+    var v = { chiave: chiave, testo: t, colonna: 3, prova: null, origine: "mia", creata: iso, aggiornata: iso, segnata: false, storia: [{ data: dataLocale(quando), colonna: 3 }] };
+    await Archivio.scrivi("fascicolo", chiave, { testo: v.testo, colonna: 3, prova: null, origine: "mia", creata: iso, aggiornata: iso, segnata: false, storia: v.storia });
+    if (tk !== stato.token) return;
+    comp.voci.push(v);
+    nuovaTesto.value = "";
+    comp.ridisegna();
+  });
+  mostra([
+    el("h1", { text: "Fascicolo" }),
+    par("Tre colonne. «Posso provarlo» vuole una prova: una misura, un ripasso a distanza superato o un tuo artefatto.", "muted"),
+    el("div", { class: "card" }, [el("label", { class: "lab", for: "fascicolo-nuova-testo" }, "Nuova voce"), nuovaTesto, aggiungiVoce]),
+    box
+  ]);
+  try {
+    var docs = await Archivio.leggiTutti("fascicolo");
+    if (tk !== stato.token) return;
+    comp = compFascicolo({ voci: vociDaDocumenti(docs), seduta: false, copia: true });
+    box.replaceChildren(comp.nodo);
+  } catch (e) {
+    if (tk !== stato.token) return;
+    box.replaceChildren(par("Non riesco a leggere il fascicolo dall'archivio.", "err"));
+  }
+}
+VISTE.fascicolo = mostraFascicolo;
+
+/* ---------- Scale: il ripasso quotidiano ---------- */
+var INTERVALLI = [1, 3, 7, 14];
+
+async function mostraScale() {
+  var tk = nuovaVista("scale");
+  var box = el("div", { class: "stack" }, par("Carico le carte…", "muted"));
+  mostra([el("h1", { text: "Scale" }), box]);
+  var docs;
+  try { docs = await Archivio.leggiTutti("ripassi"); } catch (e) {
+    if (tk !== stato.token) return;
+    box.replaceChildren(par("Non riesco a leggere i ripassi dall'archivio.", "err")); return;
+  }
+  if (tk !== stato.token) return;
+  var oggi = dataLocale(adesso());
+  var dovute = docs.filter(function (d) { return d.prossima && d.prossima <= oggi; })
+    .sort(function (a, b) { return a.prossima < b.prossima ? -1 : a.prossima > b.prossima ? 1 : (a.id < b.id ? -1 : 1); });
+  if (inRipresa()) dovute = dovute.slice(0, 5);
+  var n = dovute.length, k = 0;
+  function disegna() {
+    box.replaceChildren();
+    if (k >= n) { box.appendChild(el("p", { testid: "scala-vuota", text: "Niente in scadenza oggi" })); return; }
+    var d = dovute[k], girata = false;
+    box.appendChild(el("span", { class: "dati muted", testid: "scala-progresso", text: (k + 1) + " / " + n }));
+    box.appendChild(el("div", { class: "carta testo-lungo", testid: "scala-fronte", text: d.fronte }));
+    var gira = btn("Gira la carta", { class: "btn primario", testid: "scala-gira" }, function () {
+      if (girata) return;
+      girata = true; gira.remove();
+      box.appendChild(el("div", { class: "carta testo-lungo", testid: "scala-retro", text: d.retro }));
+      box.appendChild(el("div", { class: "fid", style: "grid-template-columns:repeat(3,minmax(0,1fr))" }, [
+        btn("Sì", { class: "btn", testid: "scala-si" }, function () { vota("si"); }),
+        btn("Quasi", { class: "btn", testid: "scala-quasi" }, function () { vota("quasi"); }),
+        btn("No", { class: "btn", testid: "scala-no" }, function () { vota("no"); })
+      ]));
+    });
+    box.appendChild(gira);
+    async function vota(voto) {
+      var oggi2 = dataLocale(adesso());
+      var passo = d.passo || 0;
+      var nuovoPasso = passo, prossima;
+      if (voto === "si") { nuovoPasso = Math.min(passo + 1, 3); prossima = piuGiorni(oggi2, INTERVALLI[nuovoPasso]); }
+      else if (voto === "quasi") { prossima = piuGiorni(oggi2, 1); }
+      else { nuovoPasso = 0; prossima = piuGiorni(oggi2, 1); }
+      var corpoDoc = { cartuccia: d.cartuccia, blocco: d.blocco, carta: d.carta, fronte: d.fronte, retro: d.retro, passo: nuovoPasso, prossima: prossima, storia: (d.storia || []).concat([{ data: oggi2, voto: voto }]) };
+      await Archivio.scrivi("ripassi", d.id, corpoDoc);
+      if (tk !== stato.token) return;
+      k++;
+      disegna();
+    }
+  }
+  disegna();
+}
+VISTE.scale = mostraScale;
+
+/* ---------- Sensore: fiducia contro esito ---------- */
+async function mostraSensore() {
+  var tk = nuovaVista("sensore");
+  var box = el("div", { class: "stack" }, par("Carico i risultati…", "muted"));
+  mostra([el("h1", { text: "Sensore" }), par("Quanto la tua fiducia corrisponde all'esito, solo per le sedute al banco.", "muted"), box]);
+  var sedute;
+  try { sedute = await Archivio.leggiTutti("sedute"); } catch (e) {
+    if (tk !== stato.token) return;
+    box.replaceChildren(par("Non riesco a leggere le sedute dall'archivio.", "err")); return;
+  }
+  if (tk !== stato.token) return;
+  var tent = [];
+  sedute.filter(function (s) { return s.zona === "banco" && s.blocchi; }).forEach(function (s) {
+    Object.keys(s.blocchi).forEach(function (bid) {
+      var x = s.blocchi[bid];
+      if (x && x.fiducia && (x.esito === "giusto" || x.esito === "sbagliato")) tent.push({ quando: x.quando || s.inizio, titolo: s.titolo, blocco: bid, fiducia: x.fiducia, esito: x.esito });
+    });
+  });
+  if (!tent.length) { box.replaceChildren(el("p", { testid: "sensore-vuoto", text: "Ancora nessun dato: gioca una cartuccia al banco." })); return; }
+  var tabella = el("div", { class: "tab-sensore", testid: "sensore-tabella" });
+  for (var f = 5; f >= 1; f--) {
+    var del = tent.filter(function (t) { return t.fiducia === f; });
+    var giusti = del.filter(function (t) { return t.esito === "giusto"; }).length;
+    var testo = del.length
+      ? "Fiducia " + f + " — " + del.length + (del.length === 1 ? " tentativo, " : " tentativi, ") + giusti + (giusti === 1 ? " giusto (" : " giusti (") + Math.round(giusti / del.length * 100) + "%)"
+      : "Fiducia " + f + " — nessun tentativo";
+    tabella.appendChild(el("div", { class: "riga-sensore", testid: "sensore-riga-" + f, text: testo, data: { tentativi: del.length, giusti: giusti } }));
+  }
+  var eccesso = tent.filter(function (t) { return t.fiducia >= 4 && t.esito === "sbagliato"; }).length;
+  var difetto = tent.filter(function (t) { return t.fiducia <= 2 && t.esito === "giusto"; }).length;
+  var storia = tent.slice().sort(function (a, b) { return a.quando < b.quando ? 1 : a.quando > b.quando ? -1 : 0; }).slice(0, 20);
+  box.replaceChildren(
+    tabella,
+    el("p", { testid: "sensore-eccesso", data: { valore: eccesso }, text: "Sicuro e sbagliato (fiducia 4 o 5): " + eccesso }),
+    el("p", { testid: "sensore-difetto", data: { valore: difetto }, text: "Ti sei sottovalutato (fiducia 1 o 2, esito giusto): " + difetto }),
+    el("section", { class: "stack", testid: "sensore-storia" }, [
+      el("h3", { text: "Ultimi tentativi" }),
+      el("ul", { class: "pulita" }, storia.map(function (t) {
+        return el("li", { class: "riga-sensore testo-lungo", text: dataDaIso(t.quando) + " · " + t.titolo + " · " + t.blocco + " · fiducia " + t.fiducia + " · " + (t.esito === "giusto" ? "giusto" : "non ancora") });
+      }))
+    ])
+  );
+}
+VISTE.sensore = mostraSensore;
+
+/* ---------- Quaderno ---------- */
+async function mostraQuaderno() {
+  var tk = nuovaVista("quaderno");
+  var voci = [];
+  var elenco = el("div", { class: "stack" });
+  var filtro = el("select", { class: "campo", id: "quaderno-filtro", testid: "quaderno-filtro", "aria-label": "Filtra per materia" });
+  var materie = el("datalist", { id: "elenco-materie" });
+  var tipo = el("select", { class: "campo", id: "quaderno-tipo", testid: "quaderno-tipo", "aria-label": "Tipo" }, [el("option", { value: "nota", text: "Nota" }), el("option", { value: "parola", text: "Parola mia" })]);
+  var materia = el("input", { class: "campo", id: "quaderno-materia", testid: "quaderno-materia", type: "text", list: "elenco-materie", autocomplete: "off" });
+  var testo = el("textarea", { class: "campo", id: "quaderno-testo", testid: "quaderno-testo", rows: "3" });
+  var termine = el("input", { class: "campo", id: "quaderno-termine", testid: "quaderno-termine", type: "text", autocomplete: "off" });
+  var boxTermine = el("label", { class: "lab", for: "quaderno-termine", hidden: true }, ["Termine tecnico", termine]);
+  var etTesto = el("label", { class: "lab", for: "quaderno-testo" }, "Nota");
+  var errore = el("p", { class: "err", role: "alert" });
+  function sync() {
+    var parola = tipo.value === "parola";
+    boxTermine.hidden = !parola;
+    etTesto.firstChild.textContent = parola ? "La parola tua" : "Nota";
+  }
+  tipo.addEventListener("change", sync);
+  etTesto.appendChild(testo);
+  function disegna() {
+    var m = {};
+    voci.forEach(function (v) { if (v.materia) m[v.materia] = true; });
+    var lista = Object.keys(m).sort();
+    var corrente = filtro.value;
+    filtro.replaceChildren(el("option", { value: "", text: "Tutte le materie" }), lista.map(function (x) { return el("option", { value: x, text: x }); }));
+    filtro.value = lista.indexOf(corrente) >= 0 ? corrente : "";
+    materie.replaceChildren(lista.map(function (x) { return el("option", { value: x }); }));
+    elenco.replaceChildren();
+    var visibili = voci.filter(function (v) { return !filtro.value || v.materia === filtro.value; })
+      .sort(function (a, b) { return a.creata < b.creata ? 1 : a.creata > b.creata ? -1 : (a.id < b.id ? 1 : -1); });
+    if (!visibili.length) elenco.appendChild(par("Ancora niente qui.", "muted"));
+    visibili.forEach(function (v) {
+      elenco.appendChild(el("div", { class: "card", testid: "quaderno-voce-" + v.id }, [
+        el("div", { class: "riga" }, [el("span", { class: "tag", text: v.tipo === "parola" ? "Parola" : "Nota" }), v.materia ? el("span", { class: "muted", text: v.materia }) : null, el("span", { class: "muted dati", text: dataDaIso(v.creata) })]),
+        v.tipo === "parola" ? par(v.testo + " → " + v.termine_tecnico) : par(v.testo)
+      ]));
+    });
+  }
+  filtro.addEventListener("change", disegna);
+  var salva = btn("Salva", { class: "btn primario", testid: "quaderno-salva" }, async function () {
+    var t = testo.value.trim(), parola = tipo.value === "parola", term = termine.value.trim();
+    errore.textContent = "";
+    if (!t) { errore.textContent = parola ? "Scrivi la tua parola." : "Scrivi la nota."; return; }
+    if (parola && !term) { errore.textContent = "Scrivi il termine tecnico che corrisponde."; return; }
+    var quando = adesso();
+    var id = "q-" + stampa(quando) + "-" + tre();
+    var corpoDoc = { tipo: tipo.value, materia: materia.value.trim(), testo: t, termine_tecnico: parola ? term : null, creata: quando.toISOString() };
+    var ok = await Archivio.scrivi("quaderno", id, corpoDoc);
+    if (tk !== stato.token) return;
+    if (!ok) { errore.textContent = "Non sono riuscito a salvare."; return; }
+    voci.push(Object.assign({ id: id }, corpoDoc));
+    testo.value = ""; termine.value = "";
+    disegna();
+  });
+  mostra([
+    el("h1", { text: "Quaderno" }),
+    el("div", { class: "card" }, [
+      el("label", { class: "lab", for: "quaderno-tipo" }, ["Cosa scrivi", tipo]),
+      el("label", { class: "lab", for: "quaderno-materia" }, ["Materia", materia, materie]),
+      etTesto,
+      boxTermine,
+      errore,
+      salva
+    ]),
+    el("label", { class: "lab", for: "quaderno-filtro" }, ["Filtra", filtro]),
+    elenco
+  ]);
+  sync();
+  try {
+    voci = await Archivio.leggiTutti("quaderno");
+    if (tk !== stato.token) return;
+  } catch (e) { voci = []; }
+  disegna();
+}
+VISTE.quaderno = mostraQuaderno;
+
+/* ---------- avvio ---------- */
+Array.prototype.forEach.call(document.querySelectorAll("#nav .nav-b"), function (b) {
+  b.addEventListener("click", function () { vai(b.getAttribute("data-v")); });
+});
+mostraHome();
+avviaArchivio().then(function () {
+  if (home.lista && home.lista.isConnected && !home.caricato) mostraHome();
+});
+
+})();
+</script>

@@ -2,25 +2,24 @@
 Aggiornato: 2026-10-25
 
 ## Dove siamo
-- Piano, specifica, formato delle cartucce, calcolatore, validatore, test e 3 cartucce: scritti da
-  Claude (claude-opus-5-5) il 2026-10-25.
-- Pagina: **non ancora costruita**. La costruisce Sonnet seguendo `PIANO.md`.
-- Url della pagina pubblicata: — (lo scrive l'esecutore).
+- Pagina costruita e pubblicata: `palestra/pagina/palestra.html`, url https://claude.ai/artifact/WRiA3GcF23P1FgeZwAdyZs (privata: la apri solo tu finché non la condividi).
+- Test `python palestra/test/prova_pagina.py` → TUTTO OK (17 controlli), 2026-10-25, anche dopo i ritocchi grafici.
+- Screenshot a 390×844, chiaro e scuro, guardati: Home, duello, cronometro in corsa, Fascicolo, Sensore.
+- Database della pagina: 3 cartucce caricate e verificate con `list` (u1-ripasso-collo-di-bottiglia, missione-cronometro-bar, campo-code-ovunque); `sedute` vuota (normale).
 
-## Decisioni di Matteo (25/10/2026)
-- Soglia: «6 o 7 almeno» ripassi a distanza in 14 giorni; sotto, la Palestra si spegne.
-- Cronometro: «Si lo faccio questa settimana al bar».
-- Dispositivo: «Soprattutto telefono».
-- «Permettiamo cartucce variabili non sempre tutto ripetitivo. Agenti devono potermi trasportare
-  concetti anche in casi di vita reale o che non c'entrano con la ristorazione.»
+## Cosa funziona
+- Tutti i tipi di blocco, fiducia, rivelazione, correzioni, fine seduta, «Copia risultati».
+- Cronometro con previsione collegata, wake lock e bozza; Scale, Sensore, Fascicolo, Quaderno, modalità ripresa.
+- Archivio a tre livelli (db di claude.ai, locale, memoria) e importazione con le stesse regole del validatore Python.
 
-## Controlli già fatti
-- `node motore/prova_espressioni.mjs` → tutto ok.
-- `valida_cartuccia.py` → le 3 cartucce OK, `test/esempi/non-valida.json` NO (atteso).
-- `test/prova_pagina.py`: scritto ma mai eseguito su una pagina vera (la pagina non esiste ancora).
+## Decisioni prese dall'esecutore (non sono domande)
+- La previsione collegata al cronometro si confronta sempre in secondi, come nell'esempio della specifica.
+- Nessun font esterno: solo caratteri di sistema (nessun rischio di blocco senza rete).
+- «Importa» accetta anche il JSON dentro un blocco di codice (```json), utile con ChatGPT.
+- «Da rivedere» e «Togli riga» non cancellano dati salvati: la prima è un segno, la seconda toglie una riga del modello in costruzione.
 
 ## Dubbi per Matteo
-- (nessuno)
+- Aperto (dipende da un fatto non disponibile): la pagina è provata solo con un finto database; il primo uso vero sul telefono dirà se il db di claude.ai risponde come previsto.
 
 ## Modifiche al test
 - (nessuna)
