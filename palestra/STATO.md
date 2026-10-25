@@ -1,10 +1,11 @@
 # Palestra — stato
-Aggiornato: 2026-10-25
+Aggiornato: 2026-10-25 (sera: menù «Lezioni archiviate»)
 
 ## Dove siamo
 - Pagina costruita e pubblicata: `palestra/pagina/palestra.html`, url https://claude.ai/artifact/WRiA3GcF23P1FgeZwAdyZs (privata: la apri solo tu finché non la condividi).
 - Test `python palestra/test/prova_pagina.py` → TUTTO OK (17 controlli), 2026-10-25, anche dopo i ritocchi grafici.
 - Screenshot a 390×844, chiaro e scuro, guardati: Home, duello, cronometro in corsa, Fascicolo, Sensore.
+- Nuovo: menù «Lezioni archiviate» (da completare / completate, riprendi e rileggi). Test `python palestra/test/prova_lezioni.py` → LEZIONI OK; `prova_pagina.py` ancora TUTTO OK (17).
 - Database della pagina: 3 cartucce caricate e verificate con `list` (u1-ripasso-collo-di-bottiglia, missione-cronometro-bar, campo-code-ovunque); `sedute` vuota (normale).
 
 ## Cosa funziona
@@ -22,4 +23,4 @@ Aggiornato: 2026-10-25
 - Aperto (dipende da un fatto non disponibile): la pagina è provata solo con un finto database; il primo uso vero sul telefono dirà se il db di claude.ai risponde come previsto.
 
 ## Modifiche al test
-- (nessuna)
+- Nessuna modifica ai controlli esistenti. Aggiunto il file nuovo `test/prova_lezioni.py`.

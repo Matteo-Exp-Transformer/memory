@@ -731,7 +731,7 @@ function inRipresa() {
 }
 
 /* ---------- Home ---------- */
-var home = { cartucce: [], ultime: {}, lista: null, pannello: null, caricato: false };
+var home = { cartucce: [], ultime: {}, pendenti: {}, lista: null, pannello: null, caricato: false };
 
 function disegnaLista() {
   var lista = home.lista;
@@ -758,6 +758,7 @@ function disegnaLista() {
       ]),
       el("h3", { text: c.titolo || String(c.id) }),
       el("p", { class: "muted", text: ult ? "Ultima seduta: " + ult : "Mai giocata" }),
+      home.pendenti[c.id] ? el("p", { class: "ok-txt", text: home.pendenti[c.id] === 1 ? "Hai una lezione da completare (menù «Lezioni archiviate»)" : "Hai " + home.pendenti[c.id] + " lezioni da completare (menù «Lezioni archiviate»)" }) : null,
       ok ? null : el("p", { class: "err", text: "Cartuccia non valida: " + errori[0] }),
       btn("Apri", { class: "btn primario", testid: "apri-" + c.id, props: { disabled: !ok || inRipresa() } }, function () { mostraAvvio(c); })
     ]));
@@ -788,7 +789,10 @@ async function mostraHome() {
     el("h1", { text: "La Palestra" }),
     bannerNodo,
     el("div", { class: "riga" }, [el("span", { text: "Carte delle Scale in scadenza oggi:" }), conta]),
-    btn("Importa cartuccia", { class: "btn", testid: "btn-importa" }, function () { apriImporta(); }),
+    el("div", { class: "riga" }, [
+      btn("Lezioni archiviate", { class: "btn", testid: "btn-lezioni" }, function () { mostraLezioni(); }),
+      btn("Importa cartuccia", { class: "btn", testid: "btn-importa" }, function () { apriImporta(); })
+    ]),
     home.pannello,
     home.lista
   ]);
@@ -799,8 +803,9 @@ async function mostraHome() {
     var r = await Promise.all([elencoCartucce(), Archivio.leggiTutti("sedute"), Archivio.leggiTutti("ripassi")]);
     if (tk !== stato.token) return;
     home.cartucce = r[0];
-    home.ultime = {};
+    home.ultime = {}; home.pendenti = {};
     r[1].forEach(function (s) {
+      if (!s.fine) home.pendenti[s.cartuccia] = (home.pendenti[s.cartuccia] || 0) + 1;
       var d = dataDaIso(s.inizio);
       if (d && (!home.ultime[s.cartuccia] || d > home.ultime[s.cartuccia])) home.ultime[s.cartuccia] = d;
     });
@@ -1406,19 +1411,10 @@ function mostraFine(s) {
   ]);
 }
 
-function mostraRiepilogo(s) {
-  var c = s.c, d = s.doc;
-  var voci = [];
-  c.blocchi.forEach(function (b) {
-    var r = d.blocchi[b.id];
-    if (!r || !r.fiducia) return;
-    var t = (b.titolo || b.id) + ": fiducia " + r.fiducia;
-    if (c.zona === "banco") t += ", esito " + (PAROLE_ESITO[r.esito] || "—");
-    voci.push(el("li", { class: "riga-sensore testo-lungo", text: t }));
-  });
+function creaBottoneCopia(s, dove) {
   var area = null;
   var copia = btn("Copia risultati", { class: "btn primario", testid: "btn-copia-risultati" }, function () {
-    var testo = testoRisultati(s);
+    var testo = testoRisultati(s), box = dove();
     if (!area) {
       area = el("textarea", { class: "campo dati", id: "testo-risultati", testid: "testo-risultati", rows: "10", readonly: true, "aria-label": "Risultati da copiare" });
       copia.after(area);
@@ -1433,11 +1429,24 @@ function mostraRiepilogo(s) {
       } else manuale();
     } catch (e) { manuale(); }
   });
+  return copia;
+}
+
+function mostraRiepilogo(s) {
+  var c = s.c, d = s.doc;
+  var voci = [];
+  c.blocchi.forEach(function (b) {
+    var r = d.blocchi[b.id];
+    if (!r || !r.fiducia) return;
+    var t = (b.titolo || b.id) + ": fiducia " + r.fiducia;
+    if (c.zona === "banco") t += ", esito " + (PAROLE_ESITO[r.esito] || "—");
+    voci.push(el("li", { class: "riga-sensore testo-lungo", text: t }));
+  });
   var box = el("section", { class: "card", testid: "riepilogo" }, [
     el("h2", { text: "Riepilogo" }),
     par("Seduta chiusa. Condizione di finito rispettata: " + (d.finito_esito === "si" ? "sì" : "no") + "."),
     voci.length ? el("ul", { class: "pulita" }, voci) : par("Nessun blocco con fiducia in questa seduta.", "muted"),
-    copia
+    creaBottoneCopia(s, function () { return box; })
   ]);
   mostra([box, btn("Torna alla Palestra", { class: "btn" }, function () { vai("home"); })]);
 }
@@ -1585,6 +1594,101 @@ RENDER.cronometro = function (ctx, corpo) {
   corpo.appendChild(esitoNodo);
   aggiornaStato();
 };
+
+/* ===== Palestra: lezioni archiviate (da completare e completate) ===== */
+function senzaId(doc) { var c = clona(doc); delete c.id; c.blocchi = c.blocchi || {}; return c; }
+
+async function mostraLezioni() {
+  var tk = nuovaVista("home");
+  var box = el("div", { class: "stack" }, par("Carico le lezioni…", "muted"));
+  mostra([
+    btn("Indietro", { class: "btn", testid: "btn-lezioni-indietro" }, function () { vai("home"); }),
+    el("h1", { text: "Lezioni archiviate" }),
+    par("Quelle iniziate si riprendono dal primo blocco non ancora completato. Quelle completate si possono rileggere.", "muted"),
+    box
+  ]);
+  var sedute, cartucce;
+  try {
+    var r = await Promise.all([Archivio.leggiTutti("sedute"), elencoCartucce()]);
+    sedute = r[0]; cartucce = r[1];
+  } catch (e) {
+    if (tk !== stato.token) return;
+    box.replaceChildren(par("Non riesco a leggere le lezioni dall'archivio.", "err")); return;
+  }
+  if (tk !== stato.token) return;
+  var perId = {};
+  cartucce.forEach(function (c) { perId[c.id] = c; });
+  var ord = sedute.slice().sort(function (a, b) { return a.inizio < b.inizio ? 1 : a.inizio > b.inizio ? -1 : (a.id < b.id ? 1 : -1); });
+  var aperte = ord.filter(function (s) { return !s.fine; });
+  var chiuse = ord.filter(function (s) { return !!s.fine; });
+
+  function scheda(s, chiusa) {
+    var c = perId[s.cartuccia];
+    var fatti = Object.keys(s.blocchi || {}).length;
+    var totale = c && valida(c).length === 0 ? c.blocchi.length : null;
+    var pronta = !!c && valida(c).length === 0;
+    var azione = chiusa
+      ? btn("Rileggi", { class: "btn primario", testid: "consulta-" + s.id, props: { disabled: !pronta } }, function () { mostraConsulta(s, c); })
+      : btn("Riprendi", { class: "btn primario", testid: "riprendi-" + s.id, props: { disabled: !pronta || inRipresa() } }, function () { riprendiSeduta(s, c); });
+    return el("div", { class: "card", testid: "lezione-" + s.id, data: { stato: chiusa ? "completata" : "da_completare", cartuccia: s.cartuccia } }, [
+      el("div", { class: "riga" }, [
+        el("span", { class: "tag " + (s.zona === "banco" ? "banco" : ""), text: s.zona === "campo" ? "Campo giochi" : "Banco" }),
+        el("span", { class: "muted dati", text: dataOraDaIso(s.inizio) })
+      ]),
+      el("h3", { text: s.titolo || s.cartuccia }),
+      chiusa
+        ? par("Chiusa il " + dataOraDaIso(s.fine) + " · condizione di finito rispettata: " + (s.finito_esito === "si" ? "sì" : "no"), "muted")
+        : par("Blocchi completati: " + fatti + (totale ? " su " + totale : ""), "muted"),
+      s.finito_condizione ? par("Ho finito quando: " + s.finito_condizione, "muted testo-lungo") : null,
+      pronta ? null : par("La cartuccia non è più nell'archivio o non è valida: la lezione non si può aprire.", "err"),
+      c && pronta && s.versione !== c.versione ? par("La cartuccia è stata aggiornata dopo l'inizio (versione " + s.versione + " → " + c.versione + ").", "muted") : null,
+      azione
+    ]);
+  }
+  function sezione(titolo, testid, lista, vuoto, chiusa) {
+    return el("section", { class: "stack", testid: testid }, [
+      el("h2", { text: titolo + " (" + lista.length + ")" }),
+      lista.length ? lista.map(function (s) { return scheda(s, chiusa); }) : par(vuoto, "muted")
+    ]);
+  }
+  box.replaceChildren(
+    sezione("Da completare", "lezioni-da-completare", aperte, "Nessuna lezione da completare.", false),
+    sezione("Completate", "lezioni-completate", chiuse, "Nessuna lezione completata.", true)
+  );
+}
+
+function riprendiSeduta(doc, c) {
+  nuovaVista("home");
+  var corpo = senzaId(doc);
+  var i = c.blocchi.findIndex(function (b) { return !corpo.blocchi[b.id]; });
+  var s = { c: c, i: i < 0 ? c.blocchi.length : i, id: doc.id, doc: corpo, misure: {} };
+  S = s;
+  stato.pulisci.push(function () { if (S === s) S = null; });
+  if (i < 0) mostraFine(s); else mostraBloccoCorrente();
+}
+
+function mostraConsulta(doc, c) {
+  nuovaVista("home");
+  var s = { c: c, id: doc.id, doc: senzaId(doc) };
+  var voci = c.blocchi.map(function (b) {
+    var r = s.doc.blocchi[b.id];
+    var riga = null;
+    if (r && r.fiducia) riga = "Fiducia " + r.fiducia + (c.zona === "banco" ? " · esito " + (PAROLE_ESITO[r.esito] || "—") : "");
+    return el("div", { class: "opz", testid: "consulta-blocco-" + b.id }, [
+      el("span", { class: "etichetta", text: b.tipo + " · " + (b.titolo || b.id) }),
+      r ? par("Risposta: " + testoRisposta(b, r.risposta)) : par("Non svolto", "muted"),
+      riga ? par(riga, "muted") : null
+    ]);
+  });
+  var box = el("section", { class: "card", testid: "consulta" }, [
+    el("h2", { text: c.titolo }),
+    par("Iniziata il " + dataOraDaIso(s.doc.inizio) + (s.doc.fine ? " · chiusa il " + dataOraDaIso(s.doc.fine) : ""), "muted"),
+    s.doc.finito_condizione ? par("Ho finito quando: " + s.doc.finito_condizione, "muted testo-lungo") : null,
+    voci,
+    creaBottoneCopia(s, function () { return box; })
+  ]);
+  mostra([btn("Indietro", { class: "btn", testid: "btn-lezioni-indietro" }, function () { mostraLezioni(); }), box]);
+}
 
 /* ===== Palestra: Fascicolo, Scale, Sensore, Quaderno, avvio ===== */
 

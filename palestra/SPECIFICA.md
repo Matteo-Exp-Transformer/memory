@@ -107,7 +107,16 @@ Le date `"AAAA-MM-GG"` sono **locali** (non UTC). Ogni vista ricalcola l'ora qua
 Barra fissa in basso (comoda col pollice) con 5 voci: `nav-home` (Palestra), `nav-scale` (Scale),
 `nav-sensore` (Sensore), `nav-fascicolo` (Fascicolo), `nav-quaderno` (Quaderno). Una vista alla volta.
 Durante una seduta la barra resta; uscire dalla seduta la lascia salvata fin dove era arrivata
-(non serve riprenderla: si ricomincia da capo creando una seduta nuova).
+(modifica del 25/10/2026, su richiesta di Matteo: una seduta lasciata a metà si può riprendere dal menù «Lezioni archiviate», vedi sotto).
+
+**Lezioni archiviate** (aggiunta 25/10/2026). Pulsante `btn-lezioni` nella Home. Elenca le sedute in due sezioni:
+`lezioni-da-completare` (seduta con `fine` vuoto) e `lezioni-completate` (con `fine`). Ogni seduta è `lezione-<idSeduta>`.
+- Da completare: `riprendi-<idSeduta>` riparte dal primo blocco non ancora completato, sullo stesso documento (nessun duplicato).
+  Le risposte a un blocco non ancora confermato non erano salvate e si rifanno.
+- Completate: `consulta-<idSeduta>` apre la lettura (risposte, fiducia, esito) con «Copia risultati».
+- Se la cartuccia non c'è più o non è valida, il pulsante è disattivato; se ha cambiato versione, la scheda lo dice.
+- La Home segnala sulla cartuccia quante lezioni ha da completare. Nessun dato viene cancellato.
+- Prova: `test/prova_lezioni.py` (aggiunta, non tocca `prova_pagina.py`).
 
 ## 5. Home
 
