@@ -66,3 +66,26 @@ with sync_playwright() as pw:
     assert not err, err
     br.close()
 print("LEZIONI OK")
+
+# --- Rivedere i passi già fatti durante una seduta (aggiunto 25/10/2026)
+with sync_playwright() as pw:
+    br = pw.chromium.launch()
+    ctx, p, err = P.nuova_pagina(br, P.finto_db(semina))
+    t = lambda n: P.t(p, n)
+    t("btn-lezioni").click()
+    t("riprendi-" + APERTA).click()
+    expect(t("btn-rivedi")).to_have_count(0)           # primo passo: niente da rivedere
+    p.goto(P.URL); t("btn-lezioni").click(); t("riprendi-" + APERTA2).click()
+    expect(t("btn-rivedi")).to_be_visible()
+    t("btn-rivedi").click()
+    expect(t("rivedi")).to_contain_text("Passo 1 di %d" % len(blocchi))
+    expect(t("rivedi-risposta")).to_contain_text("ok")
+    expect(t("btn-avanti")).to_be_hidden()
+    p.screenshot(path="/tmp/rivedi390.png")
+    t("rivedi-chiudi").click()
+    expect(t("blocco")).to_be_visible()
+    expect(t("btn-avanti")).to_be_visible()
+    P.passo("rivedi i passi già fatti in sola lettura e torna al passo in corso")
+    assert not err, err
+    br.close()
+print("RIVEDI OK")

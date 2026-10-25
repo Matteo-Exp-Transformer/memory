@@ -948,7 +948,43 @@ function mostraBloccoCorrente() {
     correzioneUI(ctx)
   ]);
   RENDER[b.tipo](ctx, corpo);
-  mostra([nodoAvanzamento(s), nodo, ctx.avanti]);
+  var fatti = [];
+  c.blocchi.forEach(function (x, k) { if (k !== s.i && s.doc.blocchi[x.id]) fatti.push(k); });
+  var parti = [nodoAvanzamento(s), nodo, ctx.avanti];
+  if (fatti.length) {
+    var rivedi = pannelloRivedi(s, fatti);
+    var apri = btn("Rivedi i passi già fatti (" + fatti.length + ")", { class: "btn", testid: "btn-rivedi" }, function () {
+      rivedi.mostra(function (aperto) { nodo.hidden = aperto; ctx.avanti.hidden = aperto; apri.hidden = aperto; });
+    });
+    parti = [nodoAvanzamento(s), apri, rivedi.nodo, nodo, ctx.avanti];
+  }
+  mostra(parti);
+}
+
+/* Sola lettura: il passo in corso resta nascosto ma intatto (niente si perde di ciò che hai scritto). */
+function pannelloRivedi(s, fatti) {
+  var pos = fatti.length - 1, nascondi = null;
+  var corpo = el("div", { class: "stack" });
+  var nodo = el("section", { class: "card", testid: "rivedi", hidden: true }, corpo);
+  function disegna() {
+    var k = fatti[pos], b = s.c.blocchi[k], r = s.doc.blocchi[b.id] || {};
+    corpo.replaceChildren(
+      el("div", { class: "riga" }, [el("span", { class: "tag", text: "Passo " + (k + 1) + " di " + s.c.blocchi.length }), el("span", { class: "muted", text: "sola lettura" })]),
+      b.titolo ? el("h2", { text: b.titolo }) : null,
+      par(b.testo),
+      el("div", { class: "opz scelta-mia", testid: "rivedi-risposta" }, [
+        el("span", { class: "etichetta", text: "La tua risposta" }),
+        par(r.risposta === null || r.risposta === undefined ? "—" : testoRisposta(b, r.risposta)),
+        r.fiducia ? par("Fiducia " + r.fiducia + (s.c.zona === "banco" && r.esito ? " · esito " + (PAROLE_ESITO[r.esito] || "—") : ""), "muted") : null
+      ]),
+      el("div", { class: "riga" }, [
+        btn("Passo prima", { class: "btn", testid: "rivedi-indietro", props: { disabled: pos === 0 } }, function () { pos--; disegna(); }),
+        btn("Passo dopo", { class: "btn", testid: "rivedi-avanti", props: { disabled: pos === fatti.length - 1 } }, function () { pos++; disegna(); })
+      ]),
+      btn("Torna al passo in corso", { class: "btn primario", testid: "rivedi-chiudi" }, function () { nodo.hidden = true; nascondi(false); })
+    );
+  }
+  return { nodo: nodo, mostra: function (fn) { nascondi = fn; pos = fatti.length - 1; disegna(); nodo.hidden = false; fn(true); window.scrollTo(0, 0); } };
 }
 
 async function finisciBlocco(ctx) {
