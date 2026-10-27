@@ -34,6 +34,7 @@ il suo metodo con l'IA, cosa è già fallito. Lingua: italiano, dando del tu a M
   Il comando è sempre `python`: su questo PC `python3` è l'alias vuoto del Microsoft Store.
   Nel cloud Linux, o dove `python` manca: `sh strumenti/controlli.sh` (prova `python`, poi `python3`).
 - Matteo rivede ogni modifica: commit con messaggio chiaro, **push solo con il suo OK in chat**.
+  Eccezione: la nota di «chiudi» si committa e si pusha da sola, con i criteri della skill `chiudi` (Matteo, 27/10).
 - Repo privata: nessun contenuto di qui va copiato in repo pubbliche.
 
 ## Note di fine chat

@@ -1,0 +1,16 @@
+# Nota di fine chat — premortem del sistema agenti ed esperimento della catena
+> Source: Claude Code desktop, sessione 843da915-8e8f-45b7-bfe6-22ef2c5e24ae, repo CalendarBackup-v2
+> Collected: 2026-10-27
+> Published: 2026-10-27
+- **Dove:** Claude Code desktop, Claude Opus 5.5, avvio manuale; nessun sotto-agente; esperimento con Claude haiku e Codex lanciati da script.
+- **Obiettivo di Matteo:** «Immagina che possa rompersi e causare problemi e ragiona ritroso per creare un sistema più efficiente possibile»; «l'importante è che manteniamo un sistema che pianifica bene prima e agisce in modo leggero».
+- **Decisioni di Matteo:** «anche le revisioni partiamo con poche E aumentiamole se riscontriamo errori»; push: «non mi chiedono autorizzazione ma agiscano autonomamente»; «Va bene, procedi pure con l'esperimento».
+- **Risultato:** in CalendarBackup-v2 schede/2026-10-27-sistema-agenti-premortem-e-costi.md, esperimenti/catena-minima/catena.mjs, team/{costruttore,revisore,manager,senior-sistema-agenti}.md, AGENTS.md, STATO.md; in memory .claude/skills/chiudi/SKILL.md e AGENTS.md (push autonomo della nota).
+- **Ha funzionato:** catena Claude → Codex → Codex ripreso → Claude ripreso con un solo avvio, 52 s; ripresa per ID 2/2; doppio avvio rifiutato; quota assente → stop; falso «fatto» riconosciuto. La riga rate_limit arriva anche nelle chiamate di lavoro Claude.
+- **Attenzione:** sandbox Codex «elevated» fallisce da processo figlio (helper_unknown_error), va con «unelevated». Ogni chiamata ha un costo fisso di 50–120 k token anche per compiti banali. Con le regole attuali oggi nessun conto partirebbe da programmato. Bozza duplicata non committata di un'altra sessione bloccava l'hook: spostata in GitHub/memory-parcheggio/, non cancellata.
+- **Quota:** Claude prima 17:36Z 5h 8% / settimana 95%, dopo 17:42Z 10% / 95% (azzeramento 18:00Z); Codex 37% / 17% → 38% / 17%. Include altre chat; nessuno stop per avvio manuale.
+- **Costo:** costo_sessione.py: chat principale claude-opus-5-5 5.883.703 token (input 78, cache scritta 249.593, cache letta 5.585.817, output 48.215), letto prima della nota; esperimento: Claude ~0,04 $ in 4 chiamate haiku più sonde, Codex ~115 k + 66 k token in ingresso (quasi tutto cache) più 4 prove di diagnosi del sandbox.
+- **Letti:** serviti, progetto: STATO.md, AGENTS.md, team/{senior-sistema-agenti,costruttore,manager,revisore}.md, richieste/2026-10-27-autonomia-tecnica-e-ciclo-agenti.md, schede/2026-10-27-sistema-agenti-{autonomia-tecnica,allineamento-decisioni-e-prove}.md, .github/workflows/ci.yml, scripts/controlla-contesto.mjs, scripts/{quota,quota-codex}.mjs dalla PR #17, ~/.codex/config.toml.
+- **Letti:** serviti, memory: .claude/skills/chiudi/SKILL.md, AGENTS.md (push e Note di fine chat), .githooks/pre-commit, raw/sessioni/2026-10-27-reasoning-sistema-agenti.md, righe Costo delle note 2026-10-2*, la bozza duplicata 2026-10-26-manager-prossima-sessione.md; non servito: niente.
+- **Aperto:** regola per i giorni in cui l'uso di Matteo occupa la soglia → reasoning con Matteo; sandbox Codex, avvio pianificato, permessi git/gh senza schermo → scheda del pilota del senior.
+- **Sessione:** Claude Code 843da915-8e8f-45b7-bfe6-22ef2c5e24ae

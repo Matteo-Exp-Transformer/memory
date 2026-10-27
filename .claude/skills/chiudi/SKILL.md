@@ -63,10 +63,14 @@ Regole:
 5. Lancia il controllo: `python C:\Users\matte.MIO\Documents\GitHub\memory\strumenti\controlla.py <radice repo progetto>`
    e `python strumenti/controlla.py .` nella memoria; correggi gli errori.
    Nel cloud Linux, o dove `python` manca: `sh <memory>/strumenti/controlli.sh <radice repo progetto>`.
-6. Commit locale: nella memoria solo la nota (messaggio `sessione: AAAA-MM-GG <argomento>`);
-   nella repo del progetto solo `STATO.md`, salvo regole proprie di quella repo.
-   Push mai senza l'OK di Matteo in chat.
-7. Riferisci a Matteo in 3 righe cosa hai scritto e dove, e chiedi l'OK per il push.
+6. Commit e push, senza chiedere l'OK a Matteo (Matteo, 27/10: «non mi chiedono autorizzazione ma agiscano autonomamente»):
+   - memoria: commit della sola nota con `git commit -- <nota>` (mai lo staging di altre sessioni),
+     messaggio `sessione: AAAA-MM-GG <argomento>`, poi `git push`; se il push è rifiutato, `git pull --rebase` e riprova;
+   - progetto: commit di `STATO.md` sul branch della chat e push secondo i criteri di push della repo
+     (in CalendarBackup-v2: `team/costruttore.md`, sezione Push). Un progetto senza criteri scritti: chiedi l'OK come prima.
+   Niente push, e lo dici nel riepilogo, se: hook o controlli falliscono (mai `--no-verify`), il branch è main
+   o di un altro agente, servirebbe un force push, o il diff contiene credenziali o dati personali.
+7. Riferisci a Matteo in 3 righe cosa hai scritto, dove, e cosa è stato pushato o perché no.
 
 «chiudi» non aggiorna la wiki: portare la nota nella wiki è l'operazione «aggiungi» della skill
 `karpathy-llm-wiki`, da fare a parte.
