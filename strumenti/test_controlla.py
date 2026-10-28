@@ -1,4 +1,4 @@
-"""Regressioni reali dell'hook: python -m unittest discover -s strumenti -p test_controlla.py."""
+"""Regressioni reali dell'hook: python -B -m unittest discover -s strumenti -p test_controlla.py."""
 import os
 from pathlib import Path
 import shlex

@@ -24,4 +24,4 @@ fi
 # il controllo delle schede riconosce una scheda giusta e le tre sbagliate (esce 1 se no)
 "$PY" "$M/strumenti/prova_scheda.py" || exit 1
 # Commit veri in repository sintetici: vecchie note, nuove note e worktree collegati.
-"$PY" -m unittest discover -s "$M/strumenti" -p test_controlla.py || exit 1
+"$PY" -B -m unittest discover -s "$M/strumenti" -p test_controlla.py || exit 1
