@@ -5,6 +5,7 @@ Uso: python strumenti/controlla.py [radice ...]   (default: .)
      nel cloud Linux: sh strumenti/controlli.sh
 Esce con 1 se c'è almeno un errore, altrimenti 0.
 """
+import os
 import re
 import subprocess
 import sys
@@ -100,8 +101,18 @@ def controlla_nota(file, righe):
 def gia_in_git(file):
     """True se il file è già nell'ultimo commit (allora è una nota vecchia, che non si tocca)."""
     try:
+        # In un hook di un worktree collegato Git esporta metadati locali. Ereditandoli,
+        # `git -C raw/sessioni` può considerare quella sottocartella il worktree intero.
+        # Questa lettura di HEAD riscopre il repository dalla directory del file;
+        # la guardia dell'hook sulle modifiche raw continua a usare l'indice originale.
+        env = os.environ.copy()
+        for nome in ("GIT_DIR", "GIT_WORK_TREE", "GIT_COMMON_DIR", "GIT_INDEX_FILE", "GIT_PREFIX",
+                     "GIT_OBJECT_DIRECTORY", "GIT_ALTERNATE_OBJECT_DIRECTORIES", "GIT_GRAFT_FILE",
+                     "GIT_SHALLOW_FILE", "GIT_IMPLICIT_WORK_TREE"):
+            env.pop(nome, None)
+        file = file.resolve()
         r = subprocess.run(["git", "-C", str(file.parent), "cat-file", "-e", f"HEAD:./{file.name}"],
-                           capture_output=True)
+                           capture_output=True, env=env)
         return r.returncode == 0
     except OSError:
         return True  # senza git non si distingue: non bloccare le note vecchie

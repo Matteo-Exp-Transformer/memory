@@ -1,0 +1,14 @@
+# Chiusura Memory e passaggio al prossimo senior
+Data: 2026-10-29. Dove: Codex app, gpt-6.1-sol, avvio manuale di Matteo.
+Richiesta: «Sistema le sei note storiche e permetti il push in Memory. Sistema il bug.»; «Fai poi chiusura di sessione e lascia tutto aggiornato per prossimo senior».
+Risultato: fix in strumenti/controlla.py, test_controlla.py e controlli.sh; nota del pilota del 28/10 recuperata e pushata sul ramo codex/chiudi-catena-c7-c8 con hook attivi. Le cinque note storiche che generavano sei errori non sono state riscritte.
+Causa misurata: nell'hook di un worktree collegato i metadati Git ereditati fanno riconoscere raw/sessioni come worktree intero; la lettura di HEAD scambia i raw già archiviati per note nuove. La lettura ora riscopre il repository senza quelle variabili locali; la guardia sull'indice resta attiva.
+Prove: prima del fix il commit sintetico valido fallisce nel worktree collegato; dopo il fix 3 test, 6 scenari verdi (repository normale/collegato × nota valida, nota nuova incompleta, raw storico modificato). Due commit reali del fix e della nota prima bloccata riusciti con tutti gli hook; zero modifiche ai raw storici.
+Controlli: controlla 0 errori/0 avvisi; evidence 0 errori (4 sospetti già presenti); prova_scheda 4/4. Le regressioni ora girano in controlli.sh e non lasciano bytecode nel repository.
+Imparato: correggere la distinzione vecchio/nuovo prima di aggiungere costi o letture mai registrati a una fonte storica; rifiuto della nota incompleta e immutabilità provati separatamente. I tentativi di commit con percorsi Git espliciti non risolvevano la causa.
+- **Costo:** snapshot delle 00:28 locali: 18.906.246 token cumulativi della chat (input 18.826.255, cache inclusa 18.546.816, output 79.991), letto con costo_sessione.py dalla cartella della chat; non è il solo costo di questo fix. Successivi atti di pubblicazione esclusi.
+Quota Codex: ingresso senza record valido; primo campione valido 2%/22% (5h/settimana, 23:24:55Z, età 32s), chiusura misure 4%/23% (23:27:43,970Z, età 18,589s). Avvio manuale, nessuna soglia applicata; conto condiviso.
+- **Letti:** serviti: memory/AGENTS.md, wiki/index.md, .claude/skills/chiudi/SKILL.md, .githooks/pre-commit, strumenti/controlla.py e controlli.sh, nota 2026-10-28-pilota-codex-esecutore.md; CalendarBackup-v2 STATO.md locale e origin/env/test, team/manager.md. Letto non decisivo: .claude/skills/karpathy-llm-wiki/SKILL.md, nessuna compilazione wiki richiesta.
+Passaggio: STATO, LAVORI e rapporto del 29/10 di CalendarBackup-v2 riportano la chiusura; prossimo passo resta osservare M1. Catena solo Claude, ingresso Codex da decidere con Matteo e una scheda; task, dati e worktree M1 intatti.
+Aperto: nessun nuovo blocco tecnico del fix; restano le scelte già elencate nel rapporto del pilota. Le vecchie note e lo staging di altre sessioni vanno preservati.
+Sessione: codex://threads/01a18484-131a-78d3-9825-63e01956873c
