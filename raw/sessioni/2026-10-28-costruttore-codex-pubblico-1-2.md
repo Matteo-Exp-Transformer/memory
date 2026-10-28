@@ -1,0 +1,15 @@
+# Nota di fine chat — costruttore Codex, pubblico separato
+> Source: codex://threads/01a183b7-13d5-7490-a364-42b91fb209c7
+> Collected: 2026-10-28
+> Published: 2026-10-28
+- **Dove:** Codex app locale Windows, modello GPT-6, nessun sottoagente; CalendarBackup-v2, worktree dedicato.
+- **Obiettivo di Matteo:** «Lavora in un worktree e branch tuoi da origin/env/test, solo sui file esclusivi della voce»; «Alla fine «chiudi» con quota prima/dopo».
+- **Decisioni di Matteo:** «PR verso env/test con ci, Vercel ed e2e verdi sullo stesso SHA; non unire tu»; «Niente supabase/, DB, main, PROD, package.json, vite.config.ts, nessun secret».
+- **Risultato:** PR https://github.com/Matteo-Exp-Transformer/CALENDARIO-V2/pull/38 aperta, tre check verdi su a93c0d4; verbale schede/2026-10-28-lavoro-1-esito-fetta-1-2.md e descrizione PR con prove finali. STATO.md non modificato per rispettare i file esclusivi espliciti; chiusura nel verbale. Nessun merge della PR.
+- **Ha funzionato:** misurare la base prima di src/ e distinguere ingresso HTML da precache PWA; smoke dell’anteprima verificando il TEST nel bundle, file env temporaneo rimosso; quota manuale registrata senza soglie.
+- **Non ha funzionato / attenzione:** smoke locale avviato mentre partiva E2E CI sul TEST condiviso: interrotto e ripetuto dopo CI (17/17 in 54,4 s). Aggiornamento verbale e avanzamento remoto hanno richiesto altri check; corse intermedie annullate prima dello smoke. Integrare env/test aggiornato ripristina il diff esclusivo anche a due punti. CI finale 6m34s, passo build 33 s (prima corsa 45 s).
+- **Quota Codex prima/dopo:** 5h 3% → 18%; settimanale 12% → 15% (lettura finale 18:35 UTC).
+- **Costo:** 7.340.702 token alla lettura di chiusura: input 7.316.548 (7.218.816 cache), output 24.154; costo_sessione.py codex dalla cartella iniziale della chat; nessun sottoagente.
+- **Letti:** Serviti: progetto AGENTS.md, STATO.md, team/costruttore.md, sola voce 1.2 LAVORI.md, schede/2026-10-28-lavoro-1-fetta-1-2-revisione-codex.md, schede/2026-10-28-lavoro-1-pagine-pubbliche-piu-leggere.md; src/router.tsx, src/components/layout/AdminShell.tsx, relativo __tests__/adminShellTabFlash.test.tsx, src/contexts/UnsavedChangesContext.tsx, package.json, playwright.config.ts, .github/workflows/ci.yml ed e2e.yml, .eslintrc.cjs, .husky/pre-commit, scripts/controlla-peso-asset.mjs, scripts/guardia-e2e-ci.mjs, scripts/e2e-smoke.txt; nuovi file assegnati e log temporanei di build, validate, smoke e CI. Diff upstream LAVORI.md letto solo per integrare l’avanzamento documentale del manager.
+- **Altre letture:** Serviti: skill Vercel react-best-practices e deployments-cicd; memory AGENTS.md, .claude/skills/chiudi/SKILL.md, raw/sessioni/2026-10-21-avvio-memoria.md. **Letti (non serviti):** memory wiki/index.md (nessuna ricerca personale necessaria), strumenti/costo_sessione.py (bastava eseguirlo).
+- **Aperto:** revisione e unione spettano al manager; costo del passo sui push di integrazione disponibile solo dopo unione. Nessun fatto mancante blocca la consegna del costruttore.
