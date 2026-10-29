@@ -11,7 +11,7 @@ controllo non passa, il brief non si scrive.
 
 `<memory>` = `C:\Users\matte.MIO\Documents\GitHub\memory` (nel cloud: dove è clonata la repo `memory`).
 
-## Le quattro regole del ragionamento
+## Le cinque regole del ragionamento
 
 1. **Manca sempre qualcosa.** Cercalo attivamente e classifica ogni mancanza o incognita nella sezione
    «Mancanze e incognite»:
@@ -30,6 +30,12 @@ controllo non passa, il brief non si scrive.
    un'incognita impedisce di scrivere il «finito», diventa `[blocca]`.
 4. **Le soluzioni hanno una stima.** Proponi la soluzione con `Stima: alta | media | bassa`, `Perché:` e
    `Cambia se:` (il fatto che la cambierebbe). Le alternative scartate stanno in una riga ciascuna.
+5. **Premortem: immagina che sia già andata male e ragiona a ritroso.** Prima di chiudere la scheda
+   scrivi almeno tre esiti sbagliati concreti (consegna sbagliata, falso «finito», quota o soldi spesi
+   per niente, dati o PROD toccati, agenti che si pestano i piedi). Per ognuno risali alla causa e al
+   controllo che manca, poi scegli: un controllo nel «finito» o nelle prove, oppure una voce in
+   «Mancanze e incognite» con il suo segno. Separa fatti, deduzioni e incognite. Per R1 bastano
+   tre righe; da R2 ogni esito ha anche come lo si scopre e come si torna indietro.
 
 Le scelte tecniche le fai tu (decisione `0012`): a Matteo chiedi solo ciò che può giudicare lui (valore,
 utenti, soldi, produzione: criteri 1, 2, 4, 5, 17). Una domanda rimandata «per sicurezza» è lavoro non fatto.
@@ -41,7 +47,7 @@ utenti, soldi, produzione: criteri 1, 2, 4, 5, 17). Una domanda rimandata «per 
 2. Copia `scheda-modello.md` (stessa cartella di questa skill) in
    `<repo progetto>/schede/AAAA-MM-GG-<argomento>.md`. Una scheda per lavoro.
 3. Decidi il livello R1/R2/R3 e scrivilo con il motivo; nel dubbio si sale.
-4. Ragiona con Matteo con le quattro regole, aggiornando la scheda mentre procedi. Lancia le ricerche
+4. Ragiona con Matteo con le cinque regole, aggiornando la scheda mentre procedi. Lancia le ricerche
    quando servono, senza aspettare la fine.
 5. Compila i criteri del livello. I numeri e i nomi delle sezioni sono quelli della pagina dei criteri:
    - R1: 1, 6, 7, 8, 9, 11, 15;
