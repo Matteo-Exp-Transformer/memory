@@ -71,6 +71,8 @@ Regole:
    Niente push, e lo dici nel riepilogo, se: hook o controlli falliscono (mai `--no-verify`), il branch è main
    o di un altro agente, servirebbe un force push, o il diff contiene credenziali o dati personali.
 7. Riferisci a Matteo in 3 righe cosa hai scritto, dove, e cosa è stato pushato o perché no.
+   Se c'è un agente senior o manager da far ripartire, il prompt di avvio va per intero in chat, in un blocco
+   da copiare; il file in repo è solo la copia (Matteo, 29/10: «deve darmi prompt in chat da copiare e incollare no file linkato»).
 
 «chiudi» non aggiorna la wiki: portare la nota nella wiki è l'operazione «aggiungi» della skill
 `karpathy-llm-wiki`, da fare a parte.
