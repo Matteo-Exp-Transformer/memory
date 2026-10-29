@@ -1,0 +1,16 @@
+# Nota di fine chat — reasoning con Matteo: corsa M3 e priorità delle prossime 2 settimane
+
+> Source: sessione Claude desktop 5687e4b6-91ba-4dc8-a884-ac21c0c7a37c
+> Collected: 2026-10-29
+> Published: 2026-10-29
+
+- **Dove:** Claude desktop (Code), senior di servizio clienti Opus 5.5 avviato a mano da Matteo (da mobile, Remote Control), worktree wt-reasoning-29-10 da origin/env/test; prompt richieste/2026-10-29-prompt-manager-reasoning.md.
+- **Obiettivo di Matteo:** «lancia tu il comando da terminale per avviare la macchina. poi esegui il prompt ragionando con me».
+- **Decisioni di Matteo (alla lettera in CalendarBackup-v2/richieste/2026-10-29-priorita-due-settimane.md):** D1 «Completiamo l'operatività della macchina, che si possa alternare tra Codex e Claude, e assicuriamoci che abbia un buon livello di partenza. Poi raccoglieremo dati mentre lavora sul prodotto.» e «Potremo intanto portare su main tutte le cose che non riguardano la pagina servizio»; D2 «Definisci un gate provvisorio prima del gate delle revisioni»; D3 «raccogliamo i bug per priorità sulla macchina e definiamo il budget da assegnare ai lavori settimanali alla macchina in base alla priorità del bug»; D4 «Confermo partiamo così. E autorizzo manager servizio clienti a scrivere schede lavoro. Proviamo a misurare la macchina prima così tenendo il riferimento dei dati si uso passati.»
+- **Risultato:** corsa M3 completa (PR #65 c444aae, rapporto PR #66 59b96b7), nessun intervento a mano; scheda schede/2026-10-29-priorita-due-settimane.md (R3, 0 errori), richiesta e prompt del manager in richieste/; STATO.md riscritto.
+- **Ha funzionato:** misurare prima di rispondere sulla domanda «chi prepara i lavori»: le note di sessione del 28-29/10 danno 3,7-27 milioni di token per chat manuale del manager contro 0,4-0,7 milioni per corsa della macchina; il dato ha deciso la D4. Controllo dei file in comune TEST/PROD prima della domanda sull'ordine: ha cambiato il rilascio da «pescare» a «da decidere col manager».
+- **Non ha funzionato / attenzione:** l'analista Opus (217.749 token, 34% della corsa M3) finisce sotto «altro» nel rapporto; manager-apertura 63% dei 5 passi per 3 righe di diff. Due temi del prompt (stash, «finito» da ristoratore) non chiesti: Matteo ha chiuso prima, restano aperti.
+- **Quota:** Claude inizio 21% 5h / 38% settimana, fine 29% / 39% (compresa la corsa M3); Codex inizio 9% / 40%, fine 11% / 40%.
+- **Costo:** chat principale claude-opus-5-5 4.771.616 token (input 76, cache scritta 134.238, cache letta 4.604.288, output 33.014), costo_sessione.py; nessun sotto-agente; corsa M3 a parte 632.121 token.
+- **Letti:** AGENTS.md, STATO.md, team/servizio-clienti.md, LAVORI.md (M3, C10, Ordine), scheda regole e cancelli, scheda salute repo, stato.json e rapporto della corsa, note di sessione del 28-29/10, progetta e criteri (serviti); RICHIESTA.md e REQUISITI.md (serviti: «cosa manca per un cliente vero»); wiki/index.md e articolo PrenotaZen (non serviti); PR #56/#59 (servite poco); controlla_scheda.py (servito per il formato R3).
+- **Aperto:** regola D4 nei ruoli e voci di C10 (prossimo manager); separazione delle novità non-Servizio; stash, «finito» della pagina Servizio e persona della prova d'uso (Matteo).
