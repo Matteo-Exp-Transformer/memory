@@ -1,0 +1,10 @@
+# Manager: chiusura della mattina e quota elastica chiesta da Matteo
+Data: 2026-10-29. Dove: Claude Code desktop, claude-opus-5-5, avvio manuale di Matteo, ruolo manager in CalendarBackup-v2. Segue la nota 2026-10-29-manager-mattina-due-piattaforme.md (stessa chat).
+Richiesta: «Lancia anche Claude: la quota settimanale la possiamo usare ( ottimo che la macchina si sia fermata, tuttavia vorrei più elasticità, piuttosto fermiamo la macchina quando arriva al consumo massimo di token disponibili in una settimana. Ma come oggi che ho espressamente chiesto di farla partire, vorrei che partisse se lo chiedo.» «Dammi prompt per lanciare macchina con Claude. Prima fai chiusura di sessione ottimo lavoro.»
+Risultato: STATO.md riscritto, decisione di Matteo nel rapporto del 29/10, prompt per la corsa manuale di M1 dato in chat. Nessun codice cambiato.
+Decisione di Matteo: se lo chiede lui la catena parte sempre; per le corse programmate al posto della soglia del giorno vale il tetto della settimana (70%, il 30% resta suo). È l'«opzione 3» già calcolata in scripts/catena/soglie.mjs; adottarla è una fetta da scrivere.
+Imparato: `coordinatore.mjs corsa` senza `--programmato` salta già le soglie (motivo avvio_manuale), ma non si ferma nemmeno al 70% tra i passi: la seconda metà della richiesta (fermarsi al massimo settimanale) manca anche per gli avvii manuali.
+Imparato: una corsa manuale non è legata al programma; se M1 si unisce a mano, il task delle 07:08 va tolto o la fetta segnata, sennò l'apertura del giorno dopo può ripartire su M1.
+- **Costo:** 19.100.879 token della chat principale a fine sessione (input 228, cache scritta 282.685, cache letta 18.763.416, output 54.550), costo_sessione.py; nessun sotto-agente. Quota Claude 3%/27% → 14%/29% (5h/settimana, get_usage).
+- **Letti:** serviti: coordinatore.mjs (comandoCorsa), soglie.mjs (valuta, opzione 3), corsa.mjs (gate per passo), ruoli/manager-apertura.md, skill chiudi. Non decisivi: STATO.md precedente, rapporto 29/10 (già noto).
+Aperto: fetta «quota elastica» (soglie.mjs, test, riga AGENTS.md) e scheda «esecutore Codex nel coordinatore», da scrivere con Matteo.
