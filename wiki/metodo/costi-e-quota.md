@@ -1,8 +1,8 @@
 # Costi e quota: come si misura il lavoro degli agenti
 
 > Sources: Io-Claude, 2026-10-12; Io-Claude, 2026-10-10; Io-Claude, 2026-10-21; Io-Claude, 2026-10-09
-> Raw: [2026-10-21-avvio-memoria](../../raw/sessioni/2026-10-21-avvio-memoria.md); [2026-10-22-stato-chiudi-controlli](../../raw/sessioni/2026-10-22-stato-chiudi-controlli.md); [2026-10-22-skill-progetta](../../raw/sessioni/2026-10-22-skill-progetta.md); [2026-10-22-criteri-di-progetto](../../raw/sessioni/2026-10-22-criteri-di-progetto.md); [12-10-2026-nuovo-ritmo-lotti](../../raw/mss/12-10-2026-nuovo-ritmo-lotti.md); [12-10-2026-audit-motore-lotto14](../../raw/mss/12-10-2026-audit-motore-lotto14.md); [mappa-esplorazioni](../../raw/esplorazione/mappa-esplorazioni.md); [2026-10-21-ricerca-iniziale](../../raw/metodo-ia/2026-10-21-ricerca-iniziale.md); [09-10-2026-controllo-sistema](../../raw/mss/09-10-2026-controllo-sistema.md)
-> Updated: 2026-10-22
+> Raw: [2026-10-21-avvio-memoria](../../raw/sessioni/2026-10-21-avvio-memoria.md); [2026-10-22-stato-chiudi-controlli](../../raw/sessioni/2026-10-22-stato-chiudi-controlli.md); [2026-10-22-skill-progetta](../../raw/sessioni/2026-10-22-skill-progetta.md); [2026-10-22-criteri-di-progetto](../../raw/sessioni/2026-10-22-criteri-di-progetto.md); [12-10-2026-nuovo-ritmo-lotti](../../raw/mss/12-10-2026-nuovo-ritmo-lotti.md); [12-10-2026-audit-motore-lotto14](../../raw/mss/12-10-2026-audit-motore-lotto14.md); [mappa-esplorazioni](../../raw/esplorazione/mappa-esplorazioni.md); [2026-10-21-ricerca-iniziale](../../raw/metodo-ia/2026-10-21-ricerca-iniziale.md); [09-10-2026-controllo-sistema](../../raw/mss/09-10-2026-controllo-sistema.md); [2026-10-28-manager-fette-audit](../../raw/sessioni/2026-10-28-manager-fette-audit.md); [2026-11-05-app-parquet-t02-quota-locale](../../raw/sessioni/2026-11-05-app-parquet-t02-quota-locale.md)
+> Updated: 2026-11-05
 
 ## Overview
 
@@ -24,6 +24,12 @@ Lotto del 14/10/2026: 9 lavori, 1,97 milioni stimati; gli esecutori hanno consum
 ## Strumenti per misurare
 
 L'audit del motore ha trovato che la misura dei costi del sistema conta le verifiche, non i token; si adotta `ccusage` per i costi. Per i lotti si usa un metodo di stima con taglie S, M e L e un registro dei costi, documentato nella repo MSS.
+
+## Leggere la quota
+
+Da una chat **locale** nell'app desktop la quota si legge con lo strumento `get_usage`: finestra di 5 ore e settimana in percentuale, con l'ora di azzeramento. È in uso almeno dal 28/10 (5 ore 19% → 20%; settimana 9% → 9%) ed è stato confermato il 5/11 su app-parquet (5 ore 12% → 14%, settimana 35% → 36%). Dalla chat **cloud** del 4/11 non si leggeva: lì il registro dice «nessuno strumento la legge». Quindi per misurare prima→dopo conviene partire da locale. Resta da provare se un'attività programmata la legge.
+
+In locale la chat carica circa 20.000 token di strumenti MCP a ogni turno anche se non servono: spegnere i connettori inutili riduce il costo di ogni turno.
 
 ## Quando finisce la quota
 

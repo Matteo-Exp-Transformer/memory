@@ -197,3 +197,8 @@
 - Disposition: Update
 - Raw: raw/sessioni/2026-10-25-ripasso-operazione-0845.md
 - Updated: Formazione Operations Food & AI (ripasso apprezzato; risposte non ancora restituite; nessuna nuova valutazione)
+
+## [2026-11-05] ingest | Quota leggibile da locale
+- Disposition: Updated
+- Raw: raw/sessioni/2026-11-05-app-parquet-t02-quota-locale.md
+- Updated: Costi e quota
