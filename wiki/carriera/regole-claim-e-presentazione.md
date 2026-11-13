@@ -1,12 +1,18 @@
 # Cosa Matteo può dire di sé (e cosa no)
 
-> Sources: Io-Claude, 2026-07-30; Io-Claude, 2026-09-25; Io-Claude, 2026-10-12; Io-Claude, 2026-08-07
-> Raw: [02-vocabolario](../../raw/crescita-professionale/02-vocabolario.md); [01-come-mi-presento](../../raw/crescita-professionale/01-come-mi-presento.md); [12-handoff-interrogazione](../../raw/crescita-professionale/12-handoff-interrogazione.md); [04-handoff-prossimo-agente](../../raw/crescita-professionale/04-handoff-prossimo-agente.md); [08-candidature-e-profilo](../../raw/crescita-professionale/08-candidature-e-profilo.md)
-> Updated: 2026-10-21
+> Sources: Io-Claude, 2026-07-30; Io-Claude, 2026-09-25; Io-Claude, 2026-10-12; Io-Claude, 2026-08-07; Matteo, 2026-11-13
+> Raw: [02-vocabolario](../../raw/crescita-professionale/02-vocabolario.md); [01-come-mi-presento](../../raw/crescita-professionale/01-come-mi-presento.md); [12-handoff-interrogazione](../../raw/crescita-professionale/12-handoff-interrogazione.md); [04-handoff-prossimo-agente](../../raw/crescita-professionale/04-handoff-prossimo-agente.md); [08-candidature-e-profilo](../../raw/crescita-professionale/08-candidature-e-profilo.md); [competenze AI-assisted e candidature](../../raw/conversazioni/2026-11-13-competenze-ai-assisted-candidature.md)
+> Updated: 2026-11-13
 
 ## Overview
 
 Ogni parola che Matteo usa per presentarsi deve reggere il «ma cosa vuol dire?». Dal vocabolario che si è costruito (versione al 30/07/2026) emergono le parole-mina: termini che suonano bene, che lui è tentato di usare e che non può difendere alla domanda dopo. Questa pagina elenca i confini, perché sono vincoli che un agente non può dedurre dai suoi progetti.
+
+## Candidature: competenze operative AI-assisted (13/11/2026)
+
+Matteo vuole valutare gli annunci **mappando prima quali task tecniche può effettivamente completare con OpenAI e Claude**, combinando competenze trasversali, conoscenza del problema, dati disponibili, proprie decisioni di progetto e criteri per controllare il risultato. Considera una task completata in questo modo una sua **competenza operativa AI-assisted**, non una competenza di esecuzione manuale autonoma.
+
+Per renderla dichiarabile nel CV, distinguere: **decisione e criteri di Matteo · esecuzione delegata al modello · verifica del risultato · limiti e dipendenze**. Testare la capacità sul tipo di task richiesto prima di attribuirla al profilo: una capacità ipotizzata non è ancora una prova. Resta valida la regola sui livelli in [Skill e livelli](skill-e-livelli.md): nessuna promozione sulla sola base di un esercizio guidato.
 
 ## I confini, parola per parola
 
