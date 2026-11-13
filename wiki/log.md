@@ -202,3 +202,8 @@
 - Disposition: Updated
 - Raw: raw/sessioni/2026-11-05-app-parquet-t02-quota-locale.md
 - Updated: Costi e quota
+
+## [2026-11-13] ingest | Competenze AI-assisted dichiarabili nelle candidature
+- Disposition: Update
+- Raw: raw/conversazioni/2026-11-13-competenze-ai-assisted-candidature.md
+- Updated: Regole di claim e presentazione (criterio per mappare decisioni, esecuzione IA, verifiche e limiti)
