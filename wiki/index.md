@@ -22,7 +22,7 @@ Prima versione della wiki personale di Matteo Cavallaro, compilata il 21/10/2026
 | [Studio, corsi e budget](carriera/corsi-e-formazione.md) | Cosa studiare e perché, criteri di scelta, decisioni superate | 2026-10-21 |
 | [Direzione professionale](carriera/direzione-professionale.md) | Bussola, cambi di rotta, figure candidate | 2026-10-21 |
 | [Profilo LinkedIn](carriera/profilo-linkedin.md) | Profilo pubblicato e decisioni collegate | 2026-10-21 |
-| [Regole di claim e presentazione](carriera/regole-claim-e-presentazione.md) | Cosa può dire di sé e cosa no, pitch, domande a freddo | 2026-10-21 |
+| [Regole di claim e presentazione](carriera/regole-claim-e-presentazione.md) | Claim verificabili, competenze AI-assisted, pitch e domande a freddo | 2026-11-13 |
 | [Skill e livelli](carriera/skill-e-livelli.md) | Cosa sa fare, cosa non sa, cosa è provato | 2026-10-21 |
 | [Formazione Operations Food & AI](carriera/formazione-operations-food-ai.md) | Obiettivo, voti provvisori 1–5, ripasso investigativo apprezzato e verifiche ancora da fare | 2026-10-25 |
 
